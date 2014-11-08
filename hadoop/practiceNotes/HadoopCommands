@@ -1,0 +1,45 @@
+sudo su -
+halt
+
+scp ./wordcount.jar cloudera@192.168.1.75:/home/cloudera/sonal/hadoop/myHadoopArtifacts/ 
+
+scp ./alphabets.txt cloudera@192.168.1.75:/home/cloudera/sonal/hadoop/myHadoopArtifacts/ 
+
+hadoop dfs -mkdir myHadoopDir
+
+hadoop dfs -mkdir /user/root/outputDir
+hadoop dfs -mkdir /user/root/outputDir
+//hadoop dfs -mv myHadoopDir myHadoopArtifacts
+
+hadoop dfs -copyFromLocal /home/cloudera/sonal/hadoop/myHadoopArtifacts/wordcount.jar hdfs:/user/root/myHadoopDir
+hadoop dfs -copyFromLocal /home/cloudera/sonal/hadoop/myHadoopArtifacts/alphabets.txt hdfs:/user/root/inputDir
+
+
+
+hadoop jar wordcount.jar  hdfs:/user/root/inputDir hdfs:/user/root/outputDir
+
+hadoop dfs -rmr ./outputDir
+
+hadoop jar wordcount.jar hdfs:/user/root/inputDir hdfs:/user/root/outputDir
+
+
+
+----
+
+sudo scp ./mysql-connector-java-5.1.33.tar.gz root@192.168.1.75:/home/cloudera/sonal/hadoop/sqoop/mySqlConnector
+
+
+GRANT [type of permission] ON [database name].[table name] TO ‘[username]’@'localhost’;
+
+
+grant all privileges on *.* to root@192.168.1.75 IDENTIFIED BY 'root' WITH GRANT OPTION;
+
+sqoop import --connect jdbc:mysql://192.168.1.72:3306/hadoop_test --username root --password root --table student --target-dir /user/root/outputDirSqoop -m 1
+
+
+sqoop import --connect jdbc:mysql://192.168.1.72:3306/hadoop_test --username root --table student --target-dir /user/root/outputDirSqoop -m 1 -P
+
+For Debug —
+conf.set("fs.default.name","file:///")
+
+
