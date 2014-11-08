@@ -1,0 +1,15 @@
+package com.sonal.designtest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class FactoryLocator implements IFactoryLocator{
+	
+	@Autowired
+	private IFactory factory;
+
+	public IFactory getFactory() {
+		return factory;
+	}
+}
