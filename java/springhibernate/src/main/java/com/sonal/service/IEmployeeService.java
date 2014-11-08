@@ -8,4 +8,6 @@ public interface IEmployeeService {
 
 	List<Employee> getAllEmloyee();
 
+	void saveEmployeesInBulk(List<Employee> employees);
+
 }
