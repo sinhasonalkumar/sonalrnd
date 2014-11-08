@@ -59,7 +59,7 @@ public class AppConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.format_sql", "true");
         hibernateProperties.put("hibernate.show_sql", "true");
-        hibernateProperties.put("hibernate.hbm2ddl.auto", "create");
+        hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
         return hibernateProperties;
     }
 
