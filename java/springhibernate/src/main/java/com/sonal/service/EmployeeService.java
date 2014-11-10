@@ -7,7 +7,7 @@ import java.util.concurrent.Future;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sonal.components.IComponentLocator;
+import com.sonal.components.IResourceManager;
 import com.sonal.persistence.bo.Employee;
 import com.sonal.persistence.dao.IEmployeeDAO;
 import com.sonal.service.async.IAsyncService;
@@ -16,7 +16,7 @@ import com.sonal.service.async.IAsyncService;
 public class EmployeeService implements IEmployeeService {
 
 	@Autowired
-	private IComponentLocator componentLocator;
+	private IResourceManager componentLocator;
 
 	@Override
 	public List<Employee> getAllEmloyee() {

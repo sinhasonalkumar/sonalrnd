@@ -1,6 +1,6 @@
 package com.sonal.components;
 
-public interface IComponentLocator {
+public interface IResourceManager {
 
 	IDAOLocator getDaoLocator();
 

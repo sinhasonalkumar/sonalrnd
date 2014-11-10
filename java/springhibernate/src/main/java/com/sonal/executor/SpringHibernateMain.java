@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.sonal.components.IComponentLocator;
+import com.sonal.components.IResourceManager;
 import com.sonal.config.AppConfig;
 import com.sonal.persistence.bo.Employee;
 import com.sonal.service.IEmployeeService;
@@ -16,8 +16,8 @@ public class SpringHibernateMain {
 		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 		ctx.register(AppConfig.class);
 		ctx.refresh();
-		IComponentLocator componentLocator = ctx.getBean(IComponentLocator.class);
-		IEmployeeService employeeService = componentLocator.getServiceLocator().getEmployeeService();
+		IResourceManager resourceManager = ctx.getBean(IResourceManager.class);
+		IEmployeeService employeeService = resourceManager.getServiceLocator().getEmployeeService();
 		
 		employeeService.saveEmployeesInBulk(buildEmployees());
 		

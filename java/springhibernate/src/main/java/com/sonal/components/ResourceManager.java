@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ComponentLocator implements IComponentLocator{
+public class ResourceManager implements IResourceManager{
 
 	@Autowired
 	private IServiceLocator serviceLocator;

@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
-import com.sonal.components.IComponentLocator;
+import com.sonal.components.IResourceManager;
 import com.sonal.persistence.bo.Employee;
 import com.sonal.persistence.dao.IEmployeeDAO;
 
@@ -19,7 +19,7 @@ import com.sonal.persistence.dao.IEmployeeDAO;
 public class AsyncService implements IAsyncService {
 
 	@Autowired
-	private IComponentLocator componentLocator;
+	private IResourceManager componentLocator;
 
 	@Async
 	@Override
