@@ -4,7 +4,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -51,6 +51,11 @@ public class AppConfig {
 		dataSource.setUrl("jdbc:mysql://localhost:3306/mylocaldb");
 		dataSource.setUsername("root");
 		dataSource.setPassword("");
+		dataSource.setMinIdle(10);
+		dataSource.setMaxActive(100);
+		dataSource.setInitialSize(10);
+		dataSource.setMaxWait(10000);
+		
 
 		return dataSource;
 	}
@@ -59,7 +64,7 @@ public class AppConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.format_sql", "true");
         hibernateProperties.put("hibernate.show_sql", "true");
-        hibernateProperties.put("hibernate.hbm2ddl.auto", "create");
+        hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
         return hibernateProperties;
     }
 
