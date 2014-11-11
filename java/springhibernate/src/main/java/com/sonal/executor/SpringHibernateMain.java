@@ -8,6 +8,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import com.sonal.components.IResourceManager;
 import com.sonal.config.AppConfig;
 import com.sonal.persistence.bo.Employee;
+import com.sonal.persistence.routingds.RoutingDataSourceContext;
+import com.sonal.persistence.routingds.enums.OperationType;
 import com.sonal.service.IEmployeeService;
 
 public class SpringHibernateMain {
@@ -18,13 +20,17 @@ public class SpringHibernateMain {
 		ctx.refresh();
 		IResourceManager resourceManager = ctx.getBean(IResourceManager.class);
 		IEmployeeService employeeService = resourceManager.getServiceLocator().getEmployeeService();
-		
+		RoutingDataSourceContext.setOperationType(OperationType.WRITE);
 		employeeService.saveEmployeesInBulk(buildEmployees());
 		
+		RoutingDataSourceContext.setOperationType(OperationType.READ);
 		List<Employee> allEmloyee = employeeService.getAllEmloyee();
+		int count =0;
 		for (Employee employee : allEmloyee) {
 			System.out.println(employee.getEmployeeName());
+			count ++;
 		}
+		System.out.println("Count :: " + count);
 		System.out.println("Done");
 	}
 	

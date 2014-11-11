@@ -1,10 +1,9 @@
 package com.sonal.config;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
-import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +12,10 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.sonal.persistence.routingds.RoutingDataSource;
+import com.sonal.persistence.routingds.datasource.DataSourceHolder;
+import com.sonal.persistence.routingds.enums.OperationType;
 
 @Configuration
 @ComponentScan(basePackages={"com.sonal"})
@@ -35,7 +38,8 @@ public class AppConfig {
 	@Bean
 	public SessionFactory sessionFactory() {
 		
-		LocalSessionFactoryBuilder localSessionFactoryBuilder = new LocalSessionFactoryBuilder(getDataSource());
+		//LocalSessionFactoryBuilder localSessionFactoryBuilder = new LocalSessionFactoryBuilder(getDataSource());
+		LocalSessionFactoryBuilder localSessionFactoryBuilder = new LocalSessionFactoryBuilder(getRoutingDataSource());
 		
 		localSessionFactoryBuilder.addProperties(hibernateProperties());
 		localSessionFactoryBuilder.scanPackages("com.sonal.persistence.bo");
@@ -44,7 +48,7 @@ public class AppConfig {
 		return sessionFactory;
 	}
 
-	@Bean
+/*	@Bean
 	public DataSource getDataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
@@ -58,6 +62,22 @@ public class AppConfig {
 		
 
 		return dataSource;
+	}*/
+	
+	@Bean
+	public RoutingDataSource getRoutingDataSource(){
+		RoutingDataSource dataSource = new RoutingDataSource();
+		
+		Map<Object, Object> targetDataSources = new HashMap<Object, Object>();
+		targetDataSources.put(OperationType.READ, DataSourceHolder.getReadDataSource());
+		targetDataSources.put(OperationType.WRITE, DataSourceHolder.getWriteDataSource());
+		targetDataSources.put(OperationType.DEFAULT, DataSourceHolder.getWriteDataSource());
+		
+		dataSource.setTargetDataSources(targetDataSources);
+		
+		dataSource.setDefaultTargetDataSource(DataSourceHolder.getReadDataSource());
+		
+		return dataSource;
 	}
 	
 	private Properties hibernateProperties() {
@@ -65,6 +85,7 @@ public class AppConfig {
         hibernateProperties.put("hibernate.format_sql", "true");
         hibernateProperties.put("hibernate.show_sql", "true");
         hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
+       // hibernateProperties.put("hibernate.hbm2ddl.auto", "create");
         return hibernateProperties;
     }
 

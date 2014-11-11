@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class EmployeeService implements IEmployeeService {
 	private IResourceManager componentLocator;
 
 	@Override
+	@Transactional
 	public List<Employee> getAllEmloyee() {
 
 		List<Employee> employees = null;

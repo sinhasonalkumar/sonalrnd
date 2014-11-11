@@ -4,7 +4,7 @@ import com.sonal.persistence.routingds.enums.OperationType;
 
 public class RoutingDataSourceContext {
 
-	private static final ThreadLocal<OperationType> contextHolder = new ThreadLocal<OperationType>();
+	private static final InheritableThreadLocal<OperationType> contextHolder = new InheritableThreadLocal<OperationType>();
 
 	public static void setOperationType(OperationType operationType) {
 		contextHolder.set(operationType);
