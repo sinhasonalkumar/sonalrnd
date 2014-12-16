@@ -1,23 +1,15 @@
 package com.sonal.executor;
 
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
-import com.sonal.config.RabbitMQConfiguration;
-
+@Component
 public class DemoConsumer {
-
-	public static void main(String[] args) throws InterruptedException {
-		ApplicationContext context = new AnnotationConfigApplicationContext(RabbitMQConfiguration.class);
-		AmqpTemplate template = context.getBean(AmqpTemplate.class);
-
+	
+	@RabbitListener(queues = "myqueue")
+	public void receieveMessage(String message){
 		System.out.println("Receving Message...");
-		while (true) {
-			String message = (String) template.receiveAndConvert("myqueue");
-			System.out.println("Received  Message :: " + message);
-			Thread.sleep(1000l);
-		}
+		System.out.println("Received  Message :: " + message);
 	}
 
 }
