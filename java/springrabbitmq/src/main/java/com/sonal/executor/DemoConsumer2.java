@@ -10,13 +10,13 @@ public class DemoConsumer2 {
 	public void receieveMessage(String message){
 		System.out.println("DemoConsumer2 :: Receiving Message...");
 		System.out.println("DemoConsumer2 :: Received  Message :: " + message);
-		try {
+		/*try {
 			System.out.println("DemoConsumer2 :: Started Processing Message ....");
 			Thread.sleep(3000000l);
 			System.out.println("DemoConsumer2 :: Message Processing Completed Successfully ....");
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 }
