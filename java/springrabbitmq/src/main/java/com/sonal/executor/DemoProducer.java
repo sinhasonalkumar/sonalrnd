@@ -8,8 +8,12 @@ import com.sonal.config.RabbitMQConfiguration;
 
 public class DemoProducer {
 
-	public static void main(String[] args) {
-		sendMessage();
+	public static void main(String[] args) throws Throwable{
+		while(true){
+			sendMessage();
+			Thread.sleep(3000l);
+		}
+		
 	}
 
 	private static void sendMessage() {
