@@ -9,15 +9,16 @@ import com.sonal.config.RabbitMQConfiguration;
 public class DemoProducer {
 
 	public static void main(String[] args) throws Throwable{
+		ApplicationContext context = new AnnotationConfigApplicationContext(RabbitMQConfiguration.class);
+		
 		while(true){
-			sendMessage();
+			sendMessage(context);
 			Thread.sleep(3000l);
 		}
 		
 	}
 
-	private static void sendMessage() {
-		ApplicationContext context = new AnnotationConfigApplicationContext(RabbitMQConfiguration.class);
+	private static void sendMessage(ApplicationContext context) {
 		AmqpTemplate template = context.getBean(AmqpTemplate.class);
 		String message = "Hello World !!";
 		System.out.println("Sending Message...");
