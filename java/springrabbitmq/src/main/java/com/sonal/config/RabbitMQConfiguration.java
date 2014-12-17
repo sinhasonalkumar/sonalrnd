@@ -65,7 +65,7 @@ public class RabbitMQConfiguration {
 		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("x-dead-letter-exchange", "myqueue.deadlettered");
 		args.put("x-max-length", 6);
-		Queue queue = new Queue("myqueue",false, false, false, args);
+		Queue queue = new Queue("myqueue",true, false, false, args);
 		return queue;
 	}
 
