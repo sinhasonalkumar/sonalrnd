@@ -12,7 +12,7 @@ public class DemoProducer {
 		ApplicationContext context = new AnnotationConfigApplicationContext(RabbitMQConfiguration.class);
 		
 		while(true){
-			sendMessage(context);
+			//sendMessage(context);
 			Thread.sleep(3000l);
 		}
 		
