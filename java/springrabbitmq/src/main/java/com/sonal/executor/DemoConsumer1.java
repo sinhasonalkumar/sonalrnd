@@ -10,6 +10,7 @@ public class DemoConsumer1 {
 	public void receieveMessage(String message){
 		System.out.println("DemoConsumer1 :: Receiving Message...");
 		System.out.println("DemoConsumer1 :: Received  Message :: " + message);
+		
 	}
 
 }
