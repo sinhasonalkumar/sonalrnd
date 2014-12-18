@@ -7,6 +7,7 @@ import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
@@ -69,9 +70,16 @@ public class RabbitMQConfiguration {
 	@Bean
 	public Queue createMyQueue() {
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("x-dead-letter-exchange", "myQueue.deadLettered");
-		args.put("x-max-length", 6);
+		args.put("x-dead-letter-exchange", "myDirectExchange.myDeadLetterExchange");
+		args.put("x-max-length", 2);
 		Queue queue = new Queue("myQueue",true, false, false, args);
+		return queue;
+	}
+	
+	@Bean
+	public Queue createMyQueueDeadLettered() {
+		Map<String, Object> args = new HashMap<String, Object>();
+		Queue queue = new Queue("myQueue.deadLettered",true, false, false, args);
 		return queue;
 	}
 	
@@ -83,13 +91,34 @@ public class RabbitMQConfiguration {
 	}
 	
 	@Bean
-	public Binding createMyBinding(){
+	public FanoutExchange createMyDeadLetterExchange(){
+		Map<String, Object> args = new HashMap<String, Object>();
+		FanoutExchange fanoutExchange = new FanoutExchange("myDirectExchange.myDeadLetterExchange",true,false,args);
+		return fanoutExchange;
+	}
+	
+	@Bean
+	public Binding createMyBinding1(){
 		String myRoutingKey1 = "myRoutingKey1";
 		Map<String, Object> args = new HashMap<String, Object>();
 		Binding binding = BindingBuilder.bind(createMyQueue()).to(createMyDirectExchange()).with(myRoutingKey1);
 		return binding;
 	}
 	
+	@Bean
+	public Binding createMyBinding2(){
+		String myRoutingKey2 = "myRoutingKey2";
+		Map<String, Object> args = new HashMap<String, Object>();
+		Binding binding = BindingBuilder.bind(createMyQueue()).to(createMyDirectExchange()).with(myRoutingKey2);
+		return binding;
+	}
+	
+	@Bean
+	public Binding createMyDeadletterBinding(){
+		Map<String, Object> args = new HashMap<String, Object>();
+		Binding binding = BindingBuilder.bind(createMyQueueDeadLettered()).to(createMyDeadLetterExchange());
+		return binding;
+	}
 	
 	
 	/*@Bean

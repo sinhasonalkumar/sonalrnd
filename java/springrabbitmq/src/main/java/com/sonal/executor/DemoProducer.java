@@ -24,7 +24,8 @@ public class DemoProducer {
 		//RabbitTemplate rabbitTemplate = context.getBean(RabbitTemplate.class);
 		String message = "Hello World !!";
 		System.out.println("Sending Message...");
-		template.convertAndSend("myDirectExchange","myRoutingKey1",message);
+		template.convertAndSend("myDirectExchange","myRoutingKey1",message + "by Routing Key1");
+		template.convertAndSend("myDirectExchange","myRoutingKey2",message + "by Routing Key2");
 		//rabbitTemplate.convertAndSend("myDirectExchange","myRoutingKey1",message);
 		
 		System.out.println("Sending sent");
