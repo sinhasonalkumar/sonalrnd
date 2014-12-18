@@ -1,6 +1,7 @@
 package com.sonal.executor;
 
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -20,9 +21,12 @@ public class DemoProducer {
 
 	private static void sendMessage(ApplicationContext context) {
 		AmqpTemplate template = context.getBean(AmqpTemplate.class);
+		//RabbitTemplate rabbitTemplate = context.getBean(RabbitTemplate.class);
 		String message = "Hello World !!";
 		System.out.println("Sending Message...");
-		template.convertAndSend("myqueue", message);
+		template.convertAndSend("myDirectExchange","myRoutingKey1",message);
+		//rabbitTemplate.convertAndSend("myDirectExchange","myRoutingKey1",message);
+		
 		System.out.println("Sending sent");
 	}
 }

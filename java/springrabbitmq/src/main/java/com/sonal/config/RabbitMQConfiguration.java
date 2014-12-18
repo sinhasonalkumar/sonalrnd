@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
@@ -52,21 +55,46 @@ public class RabbitMQConfiguration {
 
 	@Bean
 	public AmqpAdmin amqpAdmin() {
-		return new RabbitAdmin(connectionFactory());
+		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
+		return rabbitAdmin;
 	}
 
 	@Bean
 	public RabbitTemplate rabbitTemplate() {
-		return new RabbitTemplate(connectionFactory());
+		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+		//rabbitTemplate.setMessageConverter(jsonMessageConverter());
+		return rabbitTemplate;
 	}
 
 	@Bean
-	public Queue createQueue() {
+	public Queue createMyQueue() {
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("x-dead-letter-exchange", "myqueue.deadlettered");
+		args.put("x-dead-letter-exchange", "myQueue.deadLettered");
 		args.put("x-max-length", 6);
-		Queue queue = new Queue("myqueue",true, false, false, args);
+		Queue queue = new Queue("myQueue",true, false, false, args);
 		return queue;
 	}
+	
+	@Bean
+	public DirectExchange createMyDirectExchange(){
+		Map<String, Object> args = new HashMap<String, Object>();
+		DirectExchange directExchange = new DirectExchange("myDirectExchange",true,false,args);
+		return directExchange;
+	}
+	
+	@Bean
+	public Binding createMyBinding(){
+		String myRoutingKey1 = "myRoutingKey1";
+		Map<String, Object> args = new HashMap<String, Object>();
+		Binding binding = BindingBuilder.bind(createMyQueue()).to(createMyDirectExchange()).with(myRoutingKey1);
+		return binding;
+	}
+	
+	
+	
+	/*@Bean
+    public MessageConverter jsonMessageConverter() {
+        return new JsonMessageConverter();
+    }*/
 
 }
