@@ -43,7 +43,7 @@ public class MemcachedCacheConfig {
 		}
 		
 		SSMCache defaultSSMCache = new SSMCache(defaultCache, 300,false);
-		SSMCache nameSSMCache = new SSMCache(nameCache, 300,false);
+		SSMCache nameSSMCache = new SSMCache(nameCache, 30,false);
 		
 		caches.add(defaultSSMCache);
 		caches.add(nameSSMCache);

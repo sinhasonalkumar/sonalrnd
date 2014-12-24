@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 @EnableCaching
 public class CachedService {
 
-	@Cacheable(value = "default",key = "#userId")
+	//@Cacheable(value = "default",key = "#userId")
+	@Cacheable(value = "nameCache",key = "#userId")
 	public String computeFullName(String userId,String fname, String lname , String middleName){
 		System.out.println("Computing Full Name : ");
 		String fullName = fname + " " + middleName + " " + lname;
