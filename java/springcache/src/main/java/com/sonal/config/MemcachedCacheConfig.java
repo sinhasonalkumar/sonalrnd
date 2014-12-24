@@ -30,7 +30,7 @@ public class MemcachedCacheConfig {
 		
 		Cache cache = null;
 		try {
-			cache = (Cache)defaultCache().getObject();
+			cache = defaultCache().getObject();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
