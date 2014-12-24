@@ -28,17 +28,25 @@ public class MemcachedCacheConfig {
 		
 		Set<SSMCache> caches = new HashSet<SSMCache>();
 		
-		Cache cache = null;
+		Cache defaultCache = null;
+		Cache nameCache = null;
 		try {
-			cache = defaultCache().getObject();
+			
+			defaultCache = defaultCacheFactory().getObject();
+			nameCache = nameCacheFactory().getObject();
+			System.out.println(defaultCache.getName());
+			System.out.println(nameCache.getName());
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		SSMCache defaultCache = new SSMCache(cache, 300,false);
+		SSMCache defaultSSMCache = new SSMCache(defaultCache, 300,false);
+		SSMCache nameSSMCache = new SSMCache(nameCache, 300,false);
 		
-		caches.add(defaultCache);
+		caches.add(defaultSSMCache);
+		caches.add(nameSSMCache);
 		
 		cacheManager.setCaches(caches);
 		
@@ -46,9 +54,19 @@ public class MemcachedCacheConfig {
 	}
 	
 	@Bean
-	public CacheFactory defaultCache(){
+	public CacheFactory defaultCacheFactory(){
 		CacheFactory cacheFactory = new CacheFactory();
 		cacheFactory.setCacheName("default");
+		cacheFactory.setCacheClientFactory(cacheClientFactory());
+		cacheFactory.setAddressProvider(addressProvider());
+		cacheFactory.setConfiguration(cacheConfiguration());
+		return cacheFactory;
+	}
+	
+	@Bean
+	public CacheFactory nameCacheFactory(){
+		CacheFactory cacheFactory = new CacheFactory();
+		cacheFactory.setCacheName("nameCache");
 		cacheFactory.setCacheClientFactory(cacheClientFactory());
 		cacheFactory.setAddressProvider(addressProvider());
 		cacheFactory.setConfiguration(cacheConfiguration());
