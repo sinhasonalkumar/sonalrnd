@@ -9,7 +9,6 @@
 				}
 			});
 		} finally {
-			
 			session = entityManager.unwrap(Session.class);
 			session.doWork(new Work() {
 				@Override
