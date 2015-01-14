@@ -1,0 +1,21 @@
+
+		Session session = null;
+		try {
+			session = entityManager.unwrap(Session.class);
+			session.doWork(new Work() {
+				@Override
+				public void execute(Connection connection) throws SQLException {
+					connection.setReadOnly(true);
+				}
+			});
+		} finally {
+			
+			session = entityManager.unwrap(Session.class);
+			session.doWork(new Work() {
+				@Override
+				public void execute(Connection connection) throws SQLException {
+					connection.setReadOnly(false);
+				}
+			});
+		}
+	
