@@ -11,6 +11,17 @@ public class LinkedListMain {
 		
 		linkedList.printAllElements();
 		
+		Node findNode = linkedList.findNode("kumar");
+		System.out.println(findNode != null ? "Found !!" : "Not Found !!");
+		
+		findNode = linkedList.findNode("abc");
+		System.out.println(findNode != null ? "Found !!" : "Not Found !!");
+		
+		//System.out.println(linkedList.removeNode("sonal"));
+		System.out.println(linkedList.removeNode("kumar"));
+		//System.out.println(linkedList.removeNode("sinha"));
+		
+		linkedList.printAllElements();
 		
 	}
 }
