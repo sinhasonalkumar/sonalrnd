@@ -1,6 +1,6 @@
 package com.sonal.basic;
 
-public class PalindromeTest {
+public class PalindromeMain {
 
 	public static void main(String[] args) {
 		String inputString = "121";
