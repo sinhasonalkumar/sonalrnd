@@ -36,7 +36,7 @@ public class MyLinkedList {
 		Node currentNode = head.getNode();
 		Node foundedNode = null;
 		if (currentNode != null) {
-			while (currentNode.getNextNode() != null) {
+			while (currentNode != null) {
 				if (currentNode.getData().equals(data)) {
 					foundedNode = currentNode;
 					break;
