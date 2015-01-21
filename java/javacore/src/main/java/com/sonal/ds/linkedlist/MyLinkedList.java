@@ -61,7 +61,7 @@ public class MyLinkedList {
 					} else {
 						previousNode.setNextNode(currentNode.getNextNode());
 					}
-					result = "Rmoved";
+					result = "Removed";
 					break;
 				}
 				previousNode = currentNode;
