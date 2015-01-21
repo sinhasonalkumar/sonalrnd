@@ -1,0 +1,12 @@
+Why do we need hashCode method ?  what is the return type of hashCode ? can two objects have same hashcode ?
+which collection api is more efficient for searches arraylist, linked list or hashset and why?
+difference between HashTable, HashMap, ConcurrentHashMap
+What is immutable class
+How are pointers represented in java?
+What is transient variable?
+How to create thread-safe singleton in Java using double checked locking?
+Why wait and notify  called from synchronized method in Java?
+Can you override static method in Java? if I create same method in subclass is it compile time error?
+What does a "checked exception" mean?
+What is difference between String, StringBuffer and StringBuilder?
+Describe Singleton design pattern.. how many ways can you implement it ?
