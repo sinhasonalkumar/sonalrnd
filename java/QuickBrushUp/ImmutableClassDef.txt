@@ -1,0 +1,1 @@
+Java Practices -> Immutable objects. Immutable objects are simply objects whose state (the object's data) cannot change after construction. Examples of immutable objects from the JDK include String and Integer
