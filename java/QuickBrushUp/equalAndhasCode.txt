@@ -1,0 +1,128 @@
+hashCode() method is used to get a unique integer for given object. This integer is used for determining the bucket location, when this object needs to be stored in some HashTable, HashMap like data structure. By default, Object’s hashCode() method returns and integer representation of memory address where object is stored.
+
+The hashCode() method of objects is used when we insert them into a HashTable, HashMap or HashSet. More about hastables on Wikipedia.org for reference.
+
+To insert any entry in map data structure, we need both key and value. If both key and values are user define data types, the hashCode() of the key will be determine where to store the object internally. When require to lookup the object from the map also, the hash code of the key will be determine where to search for the object.
+
+The hash code only points to a certain "area" (or list, bucket etc) internally. Since different key objects could potentially have the same hash code, the hash code itself is no guarantee that the right key is found. The HashTable then iterates this area (all keys with the same hash code) and uses the key's equals() method to find the right key. Once the right key is found, the object stored for that key is returned.
+
+So, as we can see, a combination of the hashCode() and equals() methods are used when storing and when looking up objects in a HashTable.
+
+NOTES:
+
+Always use same attributes of an object to generate hashCode() and equals() both. As in our case, we have used employee id.
+
+equals() must be consistent (if the objects are not modified, then it must keep returning the same value).
+
+Whenever a.equals(b), then a.hashCode() must be same as b.hashCode().
+
+If you override one, then you should override the other.
+
+
+——
+
+
+Override only hashCode
+
+Imagine you have this
+
+MyClass first = new MyClass("a","first");
+MyClass second = new MyClass("a","second");
+If you only override hashCode then when you call myMap.put(first,someValue) it takes first, calculates its hashCode and stores it in a given bucket. Then when you call myMap.put(second,someOtherValue) it should replace first with second as per the Map Documentation because they are equal (according to our definition).
+
+But the problem is that equals was not redefined, so when the map hashes second and iterates through the bucket looking if there is an object k such that second.equals(k) is true it won't find any as second.equals(first) will be false.
+
+Override only equals
+
+If only equals is overriden, then when you call myMap.put(first,someValue) first will hash to some bucket and when you call myMap.put(second,someOtherValue) it will hash to some other bucket (as they have a different hashCode). So, although they are equal, as they don't hash to the same bucket, the map can't realize it and both of them stay in the map.
+
+—
+
+Example
+
+Collections such as HashMap and HashSet use the hashcode value of an object to determine how the object should be stored in the collection, and the hashcode is used again to help locate the object in the collection.
+
+Hashing retrieval is a two-step process.
+
+Find the right bucket (using hashCode())
+Search the bucket for the right element (using equals() )
+here is a small example why we should overrride equals() and hashcode().Cosider a Employee class which have two fields age and name.
+
+public class Employee {
+
+        String name;
+        int age;
+
+        public Employee(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this)
+                return true;
+            if (!(obj instanceof Employee))
+                return false;
+            Employee employee = (Employee) obj;
+            return employee.getAge() == this.getAge()
+                    && employee.getName() == this.getName();
+        }
+
+     // commented   
+    /*  @Override
+        public int hashCode() {
+            int result=17;
+            result=31*result+age;
+            result=31*result+(name!=null ? name.hashCode():0);
+            return result;
+        }
+    */
+    }
+
+
+
+Now create a class, insert Employee object to a HashSet and test whether that object is present or not.
+
+public class ClientTest {
+        public static void main(String[] args) {
+            Employee employee = new Employee("rajeev", 24);
+            Employee employee1 = new Employee("rajeev", 25);
+            Employee employee2 = new Employee("rajeev", 24);
+
+            HashSet employees = new HashSet();
+            employees.add(employee);
+            System.out.println(employees.contains(employee2));
+            System.out.println("employee.hashCode():  " + employee.hashCode()
+                    + "  employee2.hashCode():" + employee2.hashCode());
+        }
+    }
+    you will find result like this
+    false
+    employee.hashCode():  321755204  employee2.hashCode():375890482
+
+
+
+
+
+Now remove the comment from hashcode() and execute the same you will find result like this
+
+true
+employee.hashCode():  -938387308  employee2.hashCode():-938387308
+Now can you see why if two objects are considered equal, their hashcodes must also be equal? Otherwise, you'd never be able to find the object since the default hashcode method in class Object virtually always comes up with a unique number for each object, even if the equals() method is overridden in such a way that two or more objects are considered equal. It doesn't matter how equal the objects are if their hashcodes don't reflect that. So one more time: If two objects are equal, their hashcodes must be equal as well.
