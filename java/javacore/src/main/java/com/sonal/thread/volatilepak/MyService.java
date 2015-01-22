@@ -11,7 +11,7 @@ public class MyService {
 		System.out.println("Return key Pressed !! ");
 	}
 
-	public void hitReturnKeyPressed() {
+	public void returnKeyPressed() {
 		hasReturnKeyPressed = true;
 	}
 

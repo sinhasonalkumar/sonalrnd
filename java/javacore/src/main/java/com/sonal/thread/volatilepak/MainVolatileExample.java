@@ -23,7 +23,7 @@ public class MainVolatileExample {
 		Scanner scanner = new Scanner(System.in);
 		scanner.nextLine();
 		
-		myService.hitReturnKeyPressed();
+		myService.returnKeyPressed();
 		
 		
 	}
