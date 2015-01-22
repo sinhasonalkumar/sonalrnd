@@ -5,7 +5,9 @@ public class SingletonLazyLoadingDoubleLock {
 	private static volatile SingletonLazyLoadingDoubleLock singletonLazyLoadingDoubleLockInstance;
 
 	private SingletonLazyLoadingDoubleLock() {
+		System.out.println("-------------------------------------------");
 		System.out.println("SingletonLazyLoadingDoubleLock Created !!");
+		System.out.println("-------------------------------------------");
 	}
 
 	public static SingletonLazyLoadingDoubleLock getInstance() {

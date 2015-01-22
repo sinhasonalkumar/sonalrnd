@@ -5,7 +5,9 @@ public class SingletonLazyLoading {
 	private static SingletonLazyLoading singletonLazyLoadingInstance;
 
 	private SingletonLazyLoading() {
+		System.out.println("----------------------------------");
 		System.out.println("SingletonLazyLoading Created !!");
+		System.out.println("----------------------------------");
 	}
 
 	public static synchronized SingletonLazyLoading getIntsance() {
