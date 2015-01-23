@@ -11,6 +11,8 @@ public class SingletonMain {
 
 			SingletonEagerLoading.getInstance().show();
 			
+			SingletonEnum.INSTANCE.doSomeTask();
+			
 			System.out.println("-----------------Next---------------");
 
 		}
