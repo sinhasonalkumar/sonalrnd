@@ -1,0 +1,21 @@
+Typically setting bean dependencies explicitly is a good practice to follow, but Spring can also automatically resolve dependencies. This automatic resolution of bean dependencies is also called autowiring. These bean dependencies can also be referred to as collaborating beans or just as collaborators. The 5 different types of autowiring are 'no', 'byName', 'byType', 'constructor', and 'autodetect'. Autowiring is turned off by default, so the default autowiring mode for a bean is 'no'. Also, any constructor argument or property explicitly set will not be eligible for autowiring.
+
+Table 3.2. Autowiring Types
+
+Autowiring Mode	Description
+no	No autowiring is performed. All references to other beans must be explicitly injected. This is the default mode.
+byName	Based on the name of a property, a matching bean name in the IoC container will be injected into this property if it exists.
+byType	Based on the type of class on a setter, if only one instance of the class exists in the IoC container it will be injected into this property. If there is more than one instance of the class a fatal exception is thrown.
+constructor	Based on a constructor argument's class types, if only one instance of the class exists in the IoC container it will be used in the constructor.
+autodetect	If there is a valid constructor, the constructor autowiring mode will be chosen. Otherwise if there is a default zero argument constructor the byType autowiring mode will be chosen.
+
+The autowiring 'byName' mode matches a property name to a bean name in the IoC container. For example a property of setHibernateTemplate(HibernateTemplate template) has a property name of 'hibernateTemplate'. So if a hibernateTemplate bean is found it will automatically be injected during the autowiring process.
+
+When using the 'byType' autowiring mode the class of a setter will be used to find a bean. If there is more than one class found, a fatal exception is thrown. If there isn't a matching class in the IoC container, nothing will be set and there won't be an exception during processing. If this is undesirable behavior, the bean element's dependency-check attribute can be set to 'object'. Then an error will occur if there isn't a matching class for the property during the autowire process.
+
+The 'constructor' autowiring mode is similar to the 'byType' autowiring mode, but it's for constructors. The constructor with the most parameters that can successfully be autowired will be chosen. There can only be one bean definition for a type to be autowired successfully. If one constructor takes a Person class and the other takes an Address class, then if there are two Address bean definitions and only one bean definition for a Person the constructor that takes the Person class will be used to instantiate the bean. If there is a no parameter constructor, this will be used rather than throw an exception. If there isn't an eligible constructor, a fatal exception will be thrown.
+
+The root beans element has a default-autowire attribute. This can be used to override the default autowiring mode for all beans in the configuration file. This can be used if you want all beans to participate in autowiring. Each bean also has an autowire-candidate attribute that defaults to true. To have it excluded from the container's autowiring default it can be set to false.
+
+Spring recommends not using autowiring for large configurations since it can become confusing what is being set on a bean. Bean inheritance is a good alternative to autowiring since it reduces repetitive injections, but it's still very clear in the configuration what's happening. Autowiring is very powerful, but should be used with caution since it's possible for a property to be set that wasn't intended to be set as development continues.
+
