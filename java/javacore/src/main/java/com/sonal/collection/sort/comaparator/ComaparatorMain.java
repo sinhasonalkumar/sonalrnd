@@ -7,6 +7,7 @@ import java.util.List;
 public class ComaparatorMain {
 
 	public static void main(String[] args) {
+		
 		StudentVO StudentVO1 = new StudentVO();
 		StudentVO1.setAge(29);
 		StudentVO1.setStuName("ABC");
