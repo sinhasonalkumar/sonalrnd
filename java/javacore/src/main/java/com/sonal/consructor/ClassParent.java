@@ -8,7 +8,7 @@ public class ClassParent {
 		//super();
 		//this(3);
 		
-		//super and this can not be used together and they both should be first line of statement in constructor.
+	 //super and this can not be used together and they both should be first line of statement in constructor.
 	}
 	
 	public ClassParent(int x){
