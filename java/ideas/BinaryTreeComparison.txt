@@ -1,0 +1,109 @@
+class Tree{
+    private Node tree; 
+}
+
+@Setter
+@Getter
+Class Node{
+
+   private Node leftNode;
+   
+   private Node RightNode;
+
+}
+
+
+Top != null --> top.left != null { CurrentLeftNode = top.left
+class TreeUtil{
+public static int findHightOfTree(Tree tree){
+    int hieght = 0;
+    if(top != null){
+    
+        
+        Node currentLeftNode = tree.getLeftNode();
+        Node currentRightNode = tree.getRigtNode();
+        
+        while(currentLeftNode != null){
+        
+           hieght ++;
+           currentLeftNode = currentLeftNode.getgetLeftNode();
+        }
+    
+    }
+
+    return hieght;
+    
+    
+    public boolean compareTrees(Tree tree1, Tree tree2){
+    
+        boolean isEqual;
+        int heightOfTree1 = TreeUtil.findHightOfTree(tree1);
+
+        int heightOfTree2 = TreeUtil.findHightOfTree(tree2);
+        
+        if(heightOfTree1 != heightOfTree1){
+        
+          isEqual = false;    
+        }else{
+            if(!tree1.equal(tree2)){
+             isEqual = false;
+            }else{
+                for(int i=0; i<= heightOfTree1 ; i++){
+                        currentLeftNodeTree1 = findCurrentLeftNode(tree1,i);
+                        currentRightNodeTree1 = findCurrentRightNode(tree1,i);
+                        
+                        currentLeftNodeTree2 = findCurrentLeftNode(tree1,i);
+                        currentRightNodeTree2 = findCurrentRightNode(tree1,i);
+                        
+                          if(currentLeftNode1.equals(currentLeftNode2)){
+                          
+                              if(currentRightNode1.equals(currentRightNode2)){
+                                  
+                              }else{
+                                  isEqual = false;
+                                  break;
+                              }
+                        
+                        }else{
+                            isEqual = false;
+                            break;
+                        }
+
+                
+            }
+          }    
+            
+                
+        }
+        
+       return isEqual;
+    }
+}
+
+   public static findCurrentLeftNode(Tree tree, int indexOfHight){
+       Node node = null;
+       if(tree != null){
+       
+           for(int i= 0;i <=indexOfHight; i++ ){
+              node =  tree.getLeftNode();
+           }
+       }
+       
+       return node;
+   }
+   
+   public static findCurrentRightNode(Tree tree, int indexOfHight){
+       Node node = null;
+       if(tree != null){
+       
+           for(int i= 0;i <=indexOfHight; i++ ){
+              node =  tree.getRightNode();
+           }
+       }
+       
+       return node;
+   }
+   
+   
+}
+Tree tree1 ;
