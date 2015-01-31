@@ -1,3 +1,24 @@
+public static boolean treeEquals(Node a, Node b) {
+    // check for reference equality and nulls
+    if (a==b) return true; // note this picks up case of two nulls
+    if (a==null) return false;
+    if (b==null) return false;
+
+    // check for data inequality
+    if (a.data!=b.data) {
+        if ((a.data==null)||(b.data==null)) return false;
+        if (!(a.data.equals(b.data))) return false;
+    }
+
+    // recursively check branches
+    if (!treeEquals(a.left,b.left)) return false;
+    if (!treeEquals(a.right,b.right)) return false;
+
+    // we've eliminated all possibilities for non-equality, so trees must be equal
+    return true;
+}
+
+
 class Tree{
     private Node tree; 
 }
