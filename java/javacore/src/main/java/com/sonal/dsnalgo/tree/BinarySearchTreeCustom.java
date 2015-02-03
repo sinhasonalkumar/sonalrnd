@@ -1,5 +1,8 @@
 package com.sonal.dsnalgo.tree;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class BinarySearchTreeCustom {
 
 	private TreeNode rootNode;
@@ -56,6 +59,15 @@ public class BinarySearchTreeCustom {
 		System.out.println("\n");
 	}
 
+	private void traverseRootLeftRight(TreeNode currentRootNode) {
+		if (currentRootNode == null) {
+			return;
+		}
+		System.out.print(currentRootNode.getData() + "\t");
+		traverseRootLeftRight(currentRootNode.getLeftNode());
+		traverseRootLeftRight(currentRootNode.getRightNode());
+	}
+
 	public void inOrderTraverse(BinarySearchTreeCustom bst) {
 		TreeNode bstRootNode = bst.getRootNode();
 		TreeNode currentRootNode = bstRootNode;
@@ -65,6 +77,15 @@ public class BinarySearchTreeCustom {
 			traverseLeftRootRight(currentRootNode);
 		}
 		System.out.println("\n");
+	}
+
+	private void traverseLeftRootRight(TreeNode currentRootNode) {
+		if (currentRootNode == null) {
+			return;
+		}
+		traverseLeftRootRight(currentRootNode.getLeftNode());
+		System.out.print(currentRootNode.getData() + "\t");
+		traverseLeftRootRight(currentRootNode.getRightNode());
 	}
 
 	public void postOrderTraverse(BinarySearchTreeCustom bst) {
@@ -78,24 +99,6 @@ public class BinarySearchTreeCustom {
 		System.out.println("\n");
 	}
 
-	private void traverseRootLeftRight(TreeNode currentRootNode) {
-		if (currentRootNode == null) {
-			return;
-		}
-		System.out.print(currentRootNode.getData() + "\t");
-		traverseRootLeftRight(currentRootNode.getLeftNode());
-		traverseRootLeftRight(currentRootNode.getRightNode());
-	}
-
-	private void traverseLeftRootRight(TreeNode currentRootNode) {
-		if (currentRootNode == null) {
-			return;
-		}
-		traverseLeftRootRight(currentRootNode.getLeftNode());
-		System.out.print(currentRootNode.getData() + "\t");
-		traverseLeftRootRight(currentRootNode.getRightNode());
-	}
-
 	private void traverseLeftRightRoot(TreeNode currentRootNode) {
 		if (currentRootNode == null) {
 			return;
@@ -103,6 +106,42 @@ public class BinarySearchTreeCustom {
 		traverseLeftRightRoot(currentRootNode.getLeftNode());
 		traverseLeftRightRoot(currentRootNode.getRightNode());
 		System.out.print(currentRootNode.getData() + "\t");
+	}
+
+	public List<Integer> traverseAndCollectElements(BinarySearchTreeCustom bst) {
+		List<Integer> allElementsOfBST = null;
+		TreeNode bstRootNode = bst.getRootNode();
+		TreeNode currentRootNode = bstRootNode;
+		if (bstRootNode == null) {
+			System.out.println("Provided Binary Search Tree Is Empty");
+		} else {
+			allElementsOfBST = new LinkedList<Integer>();
+			traverseRootLeftRightAndCollectRootElement(currentRootNode, allElementsOfBST);
+		}
+		System.out.println("\n");
+
+		return allElementsOfBST;
+	}
+
+	private void traverseRootLeftRightAndCollectRootElement(TreeNode currentRootNode, List<Integer> allElementsOfBST) {
+		if (currentRootNode == null) {
+			return;
+		}
+		System.out.print(currentRootNode.getData() + "\t");
+		allElementsOfBST.add(currentRootNode.getData());
+		traverseRootLeftRightAndCollectRootElement(currentRootNode.getLeftNode(), allElementsOfBST);
+		traverseRootLeftRightAndCollectRootElement(currentRootNode.getRightNode(), allElementsOfBST);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		BinarySearchTreeCustom bst1 = this;
+		BinarySearchTreeCustom bst2 = ((BinarySearchTreeCustom) obj);
+
+		List<Integer> bst1Elements = traverseAndCollectElements(bst1);
+		List<Integer> bst2Elements = traverseAndCollectElements(bst2);
+
+		return bst1Elements.equals(bst2Elements);
 	}
 
 }
