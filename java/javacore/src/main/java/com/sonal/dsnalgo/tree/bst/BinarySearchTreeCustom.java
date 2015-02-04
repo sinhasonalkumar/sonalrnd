@@ -1,4 +1,4 @@
-package com.sonal.dsnalgo.tree;
+package com.sonal.dsnalgo.tree.bst;
 
 import java.util.LinkedList;
 import java.util.List;

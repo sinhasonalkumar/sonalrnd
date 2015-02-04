@@ -1,4 +1,4 @@
-package com.sonal.dsnalgo.tree;
+package com.sonal.dsnalgo.tree.bst;
 
 public class BSTExecutor {
 
