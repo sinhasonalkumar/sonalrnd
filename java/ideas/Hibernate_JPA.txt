@@ -18,3 +18,8 @@
 			});
 		}
 	
+
+—
+
+ReAttach detached entity to current active session when some entity is passed to another service in detached state.
+detachedEntity  = em.marge(detachedEntity)
