@@ -7,7 +7,10 @@ import org.springframework.data.mongodb.core.MongoFactoryBean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.WriteConcern;
 
 @Configuration
 @ComponentScan(basePackages = { "com.sonal" })
@@ -23,11 +26,12 @@ public class AppConfig {
 		return mongoFactoryBean;
 	}
 
-	/*
-	 * @Bean public MongoClient mongo() throws Exception { MongoClient client =
-	 * new MongoClient("127.0.0.1"); client.setWriteConcern(WriteConcern.SAFE);
-	 * return client; }
-	 */
+//	@Bean
+//	public MongoClient mongo() throws Exception {
+//		MongoClient client = new MongoClient("127.0.0.1");
+//		client.setWriteConcern(WriteConcern.SAFE);
+//		return client;
+//	}
 
 	@Bean
 	public MongoTemplate mongoTemplate() {
