@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.mongodb.WriteConcern;
+//import com.mongodb.MongoClient;
+//import com.mongodb.WriteConcern;
 
 @Configuration
 @ComponentScan(basePackages = { "com.sonal" })

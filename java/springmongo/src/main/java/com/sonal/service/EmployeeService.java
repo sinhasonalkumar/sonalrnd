@@ -9,8 +9,8 @@ import com.sonal.persistence.bo.Employee;
 import com.sonal.persistence.dao.IEmployeeDAO;
 
 @Service
-public class EmployeeService implements IEmployeeService{
-	
+public class EmployeeService implements IEmployeeService {
+
 	@Autowired
 	private IEmployeeDAO employeeDAO;
 
@@ -25,5 +25,4 @@ public class EmployeeService implements IEmployeeService{
 		employeeDAO.save(employees);
 	}
 
-	
 }
