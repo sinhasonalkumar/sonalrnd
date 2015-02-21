@@ -19,7 +19,7 @@ import com.mongodb.Mongo;
 public class AppConfig {
 
 	@Bean
-	public MongoFactoryBean mongoFactoryBean() {
+	public MongoFactoryBean mongoFactoryBean()  {
 		MongoFactoryBean mongoFactoryBean = new MongoFactoryBean();
 		mongoFactoryBean.setHost("127.0.0.1");
 		mongoFactoryBean.setPort(27017);
