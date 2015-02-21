@@ -1,0 +1,21 @@
+Install and Start MongoDB
+
+
+1) Download mongodb binary
+2) extract to mongodb2.6.7
+3) set class path in .bash_profile/.bash_rc
+	export MONGO_HOME=/Users/sonal/sonal/javaworkspace/mongodb2.6.7
+	export PATH=$PATH:${JAVA_HOME}/bin:${MONGO_HOME}/bin
+
+4) mongod --dbpath /Users/sonal/sonal/javaworkspace/mongoData (For custom dbPath)
+
+	For Default DB path :-
+	  One time Activity	
+		a)sudo  mkdir -p /data/db
+		b)sudo chmod 777 /data/db
+	 After that :-
+		a) mongod
+
+Note: mongod by defaults looks /data/db dir for database path.
+
+5) mongo

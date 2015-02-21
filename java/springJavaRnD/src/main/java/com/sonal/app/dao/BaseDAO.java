@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class BaseDAO extends HibernateDaoSupport{
+public class BaseDAO extends HibernateDaoSupport {
 
 	@Autowired
 	private void attachSessionFactoryToHibernateDaoSupport(SessionFactory sessionFactory){
