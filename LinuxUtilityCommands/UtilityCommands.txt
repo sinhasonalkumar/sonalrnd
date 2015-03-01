@@ -1,0 +1,17 @@
+CHMOD
+
+The man page of chmod covers that.
+
+u stands for user.
+g stands for group.
+o stands for others.
+a stands for all.
+That means that chmod u+x somefile will grant only the owner of that file execution permissions whereas chmod +x somefile is the same as chmod a+x somefile.
+
+The chmod man page says:
+
+The format of a symbolic mode is  [ugoa...][[+-=][rwxXstugo...]...][,...]. Multiple symbolic operations can be given, separated by commas.
+
+A combination of the letters 'ugoa' controls which users' access to the file will be changed: the user who owns it (u), other users in the file's group (g), other users not in the file's group (o), or all users (a). If none of these are given, the effect is as if 'a' were given, but bits that are set in the umask are not affected.
+
+Just doing +x will apply it to all flags: [u]ser, [g]roup, [o]thers.
