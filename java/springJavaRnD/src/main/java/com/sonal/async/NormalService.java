@@ -2,20 +2,18 @@ package com.sonal.async;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sonal.service.ServiceClient;
+import com.sonal.service.ClientService;
 import com.sonal.vo.StateVO;
 
 @Service
 public class NormalService {
 
     @Autowired
-    private ServiceClient serviceClient;
+    private ClientService clientService;
 
     public List<StateVO> pullAllRecords(int noOfRecords) throws Throwable {
 	List<StateVO> allRecords = new ArrayList<StateVO>();
@@ -24,9 +22,9 @@ public class NormalService {
 	int noOfChunks = (noOfRecords / chunkSize);
 
 	for (int i = 0; i < noOfChunks; i++) {
-	    allRecords.add(serviceClient.invokeClient(10));
+	    allRecords.add(clientService.invokeClient(10));
 	}
-	allRecords.add(serviceClient.invokeClient(10));
+	allRecords.add(clientService.invokeClient(10));
 	return allRecords;
     }
 }

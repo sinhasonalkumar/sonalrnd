@@ -11,7 +11,7 @@ import com.sonal.vo.StateVO;
 
 @Service
 @EnableAsync
-public class ServiceClient {
+public class ClientService {
 
     @Async
     public Future<StateVO> invokeClientByAsync(int noOfRecords) throws Throwable {
@@ -19,13 +19,13 @@ public class ServiceClient {
 	StateVO stateVO = new StateVO();
 	if (noOfRecords <= 50) {
 	    Thread.sleep(3000);
-	    System.out.println("Recored Fetched By invokeClientByAsync.....");
+	    System.out.println("Record Fetched By invokeClientByAsync.....");
 	    stateVO.setAbc("completedByAsync");
 	    stateVO.setXyz("completedByAsync");
 	}
 	if (noOfRecords > 50) {
 	    Thread.sleep(7000);
-	    System.out.println("Recored Fetched By invokeClientByAsync.....");
+	    System.out.println("Record Fetched By invokeClientByAsync.....");
 	    stateVO.setAbc("completedByAsync");
 	    stateVO.setXyz("completedByAsync");
 	}
@@ -39,13 +39,13 @@ public class ServiceClient {
 	StateVO stateVO = new StateVO();
 	if (noOfRecords <= 50) {
 	    Thread.sleep(3000);
-	    System.out.println("Recored Fetched By invokeClient.....");
+	    System.out.println("Record Fetched By invokeClient.....");
 	    stateVO.setAbc("completedNormally");
 	    stateVO.setXyz("completedNormally");
 	}
 	if (noOfRecords > 50) {
 	    Thread.sleep(7000);
-	    System.out.println("Recored Fetched By invokeClient.....");
+	    System.out.println("Record Fetched By invokeClient.....");
 	    stateVO.setAbc("completedNormally");
 	    stateVO.setXyz("completedNormally");
 	}

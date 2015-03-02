@@ -8,18 +8,18 @@ import java.util.concurrent.Future;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sonal.service.ServiceClient;
+import com.sonal.service.ClientService;
 import com.sonal.vo.StateVO;
 
 @Service
 public class AsyncService {
 
     @Autowired
-    private ServiceClient serviceClient;
+    private ClientService clientService;
 
     public Future<StateVO> pullRecords(int noOfRecords) throws Throwable {
 	System.out.println("pullRecords Request Start");
-	Future<StateVO> futureRecords = serviceClient.invokeClientByAsync(noOfRecords);
+	Future<StateVO> futureRecords = clientService.invokeClientByAsync(noOfRecords);
 	System.out.println("pullRecords Request End");
 	return futureRecords;
     }

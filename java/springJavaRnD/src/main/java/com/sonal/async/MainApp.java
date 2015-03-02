@@ -12,7 +12,9 @@ public class MainApp {
     public static void main(String[] args) throws Throwable {
 	ApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 	BulkRecordPullerService bulkRecordPullerService = appContext.getBean(BulkRecordPullerService.class);
-	bulkRecordPullerService.pullBulkRecordsByAsyncService();
 	bulkRecordPullerService.pullBulkRecordsByNormalService();
+	System.out.println("------Now Watch Sync aka MutiThreaded Call......");
+	Thread.sleep(3000);
+	bulkRecordPullerService.pullBulkRecordsByAsyncService();
     }
 }
