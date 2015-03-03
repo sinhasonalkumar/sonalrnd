@@ -6,6 +6,7 @@ public class InefficientService {
 
     private int messageBCount;
 
+   // This way it takes current object lock
     public synchronized void sendMessageA() throws InterruptedException {
 	System.out.println("Sending MessageA");
 	Thread.sleep(3000);
@@ -13,6 +14,7 @@ public class InefficientService {
 	messageACount++;
     }
 
+ // This way it takes current object lock
     public synchronized void sendMessageB() throws InterruptedException {
 	System.out.println("Sending MessageB");
 	Thread.sleep(3000);

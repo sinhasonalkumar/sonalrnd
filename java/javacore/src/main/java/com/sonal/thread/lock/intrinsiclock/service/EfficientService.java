@@ -13,6 +13,7 @@ public class EfficientService {
 	System.out.println("Sending MessageA");
 	Thread.sleep(3000);
 	System.out.println("MessageA Sent");
+	
 	synchronized (messageALock) {
 	    messageACount++;
 	}
@@ -23,6 +24,7 @@ public class EfficientService {
 	System.out.println("Sending MessageB");
 	Thread.sleep(3000);
 	System.out.println("MessageB Sent");
+	
 	synchronized (messageBLock) {
 	    messageBCount++;
 	}
