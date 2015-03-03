@@ -1,4 +1,4 @@
-package com.sonal.thread;
+package com.sonal.thread.runnablepak;
 
 public class ThreadByThreadClass extends Thread {
 

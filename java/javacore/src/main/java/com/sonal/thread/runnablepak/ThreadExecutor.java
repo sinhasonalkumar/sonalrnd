@@ -1,7 +1,5 @@
-package com.sonal.thread.executor;
+package com.sonal.thread.runnablepak;
 
-import com.sonal.thread.ThreadByRunnbale;
-import com.sonal.thread.ThreadByThreadClass;
 
 public class ThreadExecutor {
 
