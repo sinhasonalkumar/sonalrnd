@@ -22,6 +22,14 @@ public class SecurePasswordToStoreInDBMemo {
 	passwordVerified = BCrypt.checkpw(password_plaintext, stored_hash);
 	return (passwordVerified);
     }
+    
+    /*
+     * In the Bcrypt Source Code 
+     * 
+     *  public static boolean checkpw(String plaintext, String hashed) {
+        return (hashed.compareTo(hashpw(plaintext, hashed)) == 0);
+    }
+     */
 
     public static void main(String[] args) {
 	
