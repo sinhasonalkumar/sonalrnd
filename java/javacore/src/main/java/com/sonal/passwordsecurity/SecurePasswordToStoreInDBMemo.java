@@ -28,6 +28,8 @@ public class SecurePasswordToStoreInDBMemo {
      * 
      *  public static boolean checkpw(String plaintext, String hashed) {
         return (hashed.compareTo(hashpw(plaintext, hashed)) == 0);
+        
+        hashpw(plaintext, hashed)) --> extracts original salt --> Go the throgh the source of Bcrypt For Best Understanding
     }
      */
 
