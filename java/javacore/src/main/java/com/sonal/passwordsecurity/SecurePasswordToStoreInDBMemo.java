@@ -30,7 +30,7 @@ public class SecurePasswordToStoreInDBMemo {
 	
 	String storedPassword = pullStoredPassword();
 	
-	doPasswordMatch(passwordClearText, storedPassword);
+	doPasswordVerification(passwordClearText, storedPassword);
 	
 
     }
@@ -48,9 +48,9 @@ public class SecurePasswordToStoreInDBMemo {
 	return storedSaltedHashePassword;
     }
 
-    public static void doPasswordMatch(String passwordClearText, String storedSaltedHashePassword) {
-	boolean passwordMatched = checkPassword(passwordClearText, storedSaltedHashePassword);
-	if (passwordMatched) {
+    public static void doPasswordVerification(String passwordClearText, String storedSaltedHashePassword) {
+	boolean passwordVerified = checkPassword(passwordClearText, storedSaltedHashePassword);
+	if (passwordVerified) {
 	    System.out.println("Password Matched Success !!");
 	} else {
 	    System.err.println("Password Matched Failed !!");
