@@ -1,4 +1,4 @@
-package com.sonal.basic;
+package com.sonal.basic.string;
 
 public class PalindromeMain {
 
