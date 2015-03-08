@@ -2,39 +2,40 @@ package com.sonal.randomtest;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class RandomTest {
 
-	public static void main(String[] args) {
-		Calendar currentDate = Calendar.getInstance();
-		System.out.println(currentDate.getTime());
-		currentDate.add(Calendar.MINUTE, -20 * 60);
-		System.out.println(currentDate.getTime());
-		
-		char a = 'a';
-		char b = 'b';
-		char c = 'a';
-		System.out.println(a == b);
-		System.out.println(a == c);
-		 
-	}
+    public static void main(String[] args) {
+	Calendar currentDate = Calendar.getInstance();
+	System.out.println(currentDate.getTime());
+	currentDate.add(Calendar.MINUTE, -20 * 60);
+	System.out.println(currentDate.getTime());
+
+	char a = 'a';
+	char b = 'b';
+	char c = 'a';
+	System.out.println(a == b);
+	System.out.println(a == c);
+
+    }
 
 }
 
-class Student implements Comparable<Student>{
+class Student implements Comparable<Student> {
     private String id;
 
     public String getId() {
-        return id;
+	return id;
     }
 
     public void setId(String id) {
-        this.id = id;
+	this.id = id;
     }
-    
+
     @Override
     public int hashCode() {
 	final int prime = 31;
@@ -59,19 +60,19 @@ class Student implements Comparable<Student>{
 	    return false;
 	return true;
     }
-    
+
     @Override
-    public int compareTo(Student studentToCompare){
+    public int compareTo(Student studentToCompare) {
 	int compareTo = this.getId().compareTo(studentToCompare.getId());
 	return compareTo;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
 	String objAsString = this.getId();
 	return objAsString;
     }
-    
+
     public static void main(String[] args) {
 	Student student1  = new Student();
 	student1.setId("4");
@@ -97,24 +98,29 @@ class Student implements Comparable<Student>{
 	Collections.sort(studentsList, StudentComparator.getInstance());
 	
 	System.out.println(studentsList);
+	
+	studentsList.forEach(s -> System.out.println(s.getId()));
+	studentsList.sort(Comparator.comparing(Student :: getId).reversed());
+	studentsList.forEach(s -> System.out.println(s.getId()));
+	
+	studentsList.sort(Comparator.comparing(s -> s.getId()));
+	studentsList.forEach(s -> System.out.println(s.getId()));
+	
     }
-    
-    
-    
-    
+
 }
 
-class StudentComparator implements Comparator<Student>{
-    
+class StudentComparator implements Comparator<Student> {
+
     @Override
-    public int compare(Student s1 , Student s2){
-	
+    public int compare(Student s1, Student s2) {
+
 	int compareTo = s1.getId().compareTo(s2.getId());
-	
+
 	return compareTo;
     }
-    
-    public static StudentComparator getInstance(){
+
+    public static StudentComparator getInstance() {
 	return new StudentComparator();
     }
 }
