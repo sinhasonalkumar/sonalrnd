@@ -7,6 +7,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.engine.transaction.internal.jta.JtaTransactionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 
 import com.atomikos.icatch.jta.UserTransactionImp;
 import com.atomikos.icatch.jta.UserTransactionManager;
+import com.atomikos.icatch.jta.hibernate4.AtomikosPlatform;
 import com.atomikos.jdbc.AtomikosDataSourceBean;
 import com.mongodb.Mongo;
 import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
@@ -102,7 +104,9 @@ public class AppConfig {
 	hibernateProperties.put("hibernate.dialect", "org.hibernate.dialect.MySQLInnoDBDialect");
 	hibernateProperties.put("hibernate.current_session_context_class", "jta");
 	
-	//hibernateProperties.put("hibernate.transaction.manager_lookup_class", TransactionManagerLookup.class.getName());
+	//hibernateProperties.put("hibernate.transaction.factory_class", JtaTransactionFactory.class.getName());
+	//TODO :: // Since Hibernate4 took TransactionManager lookup and says JTA provider to implement. So need to figure out the way hibernate can pick Atomikos JTA transaction and Spring
+	//hibernateProperties.put("hibernate.transaction.manager_lookup_class", PlatformTransactionManager.class.getName());
 	hibernateProperties.put("hibernate.format_sql", "true");
 	hibernateProperties.put("hibernate.show_sql", "true");
 	hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
