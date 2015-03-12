@@ -11,6 +11,8 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean;
+import org.springframework.batch.core.step.builder.SimpleStepBuilder;
+import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
@@ -33,11 +35,11 @@ import com.sonal.batch.vo.BooksFeed;
 public class BatchAppConfig {
 
     @Autowired
-    private StepBuilderFactory stepBuilderFactory;
-    
+    private JobBuilderFactory jobBuilderFactory;
+
     @Autowired
-    private JobBuilderFactory jobs;
-    
+    private StepBuilderFactory stepBuilderFactory;
+
     @Bean
     public ItemReader<List<BooksFeed>> bookFeedReader() {
 	return new BookFeedItemReader();
@@ -55,21 +57,24 @@ public class BatchAppConfig {
 
     @Bean
     public Job bookFeederJob() {
-	Job job = jobs.get("Job :: BookFeederJob")
-		      .start(bookFeedJobStep1())
-		      .build();
+	Job job = jobBuilderFactory.get("Job :: BookFeederJob").start(bookFeedJobStep1()).build();
 	return job;
     }
 
     @Bean
     public Step bookFeedJobStep1() {
-	TaskletStep taskletofStep1 = stepBuilderFactory.get(" Step :: BookFeedJob_Step1")
-						       .<List<BooksFeed>, List<BooksForSale>> chunk(2)
-						       .reader(bookFeedReader())
-						       .processor(bookFeedProcessor())
-						       .writer(bookFeedWriter())
-						       .build();
-	return taskletofStep1;
+
+	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: BookFeedJob_Step1");
+
+	TaskletStep step1 = stepBuilder.<List<BooksFeed>, List<BooksForSale>> chunk(2)
+						.reader(bookFeedReader())
+						.processor(bookFeedProcessor())
+						.writer(bookFeedWriter())
+						.build();
+
+	
+
+	return step1;
     }
 
     @Bean
