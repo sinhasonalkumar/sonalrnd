@@ -7,11 +7,9 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean;
-import org.springframework.batch.core.step.builder.SimpleStepBuilder;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.batch.item.ItemProcessor;
@@ -66,7 +64,7 @@ public class BatchAppConfig {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: BookFeedJob_Step1");
 
-	TaskletStep step1 = stepBuilder.<List<BooksFeed>, List<BooksForSale>> chunk(2)
+	TaskletStep taskletofStep1 = stepBuilder.<List<BooksFeed>, List<BooksForSale>> chunk(2)
 						.reader(bookFeedReader())
 						.processor(bookFeedProcessor())
 						.writer(bookFeedWriter())
@@ -74,7 +72,7 @@ public class BatchAppConfig {
 
 	
 
-	return step1;
+	return taskletofStep1;
     }
 
     @Bean
