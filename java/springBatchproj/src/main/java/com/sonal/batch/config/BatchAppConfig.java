@@ -36,7 +36,7 @@ public class BatchAppConfig {
     private StepBuilderFactory stepBuilderFactory;
     
     @Autowired
-    private JobBuilderFactory jobs;
+    private JobBuilderFactory jobBuilderFactory;
     
     @Bean
     public ItemReader<List<BooksFeed>> bookFeedReader() {
@@ -55,9 +55,9 @@ public class BatchAppConfig {
 
     @Bean
     public Job bookFeederJob() {
-	Job job = jobs.get("Job :: BookFeederJob")
-		      .start(bookFeedJobStep1())
-		      .build();
+	Job job = jobBuilderFactory.get("Job :: BookFeederJob")
+		      		   .start(bookFeedJobStep1())
+		      		   .build();
 	return job;
     }
 
