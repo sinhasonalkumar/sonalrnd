@@ -16,6 +16,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -31,30 +32,43 @@ import com.sonal.batch.vo.BooksFeed;
 @EnableBatchProcessing
 public class BatchAppConfig {
 
+    @Autowired
+    private StepBuilderFactory stepBuilderFactory;
+    
+    @Autowired
+    private JobBuilderFactory jobs;
+    
     @Bean
-    public ItemReader<List<BooksFeed>> reader() {
+    public ItemReader<List<BooksFeed>> bookFeedReader() {
 	return new BookFeedItemReader();
     }
 
     @Bean
-    public ItemProcessor<List<BooksFeed>, List<BooksForSale>> processor() {
+    public ItemProcessor<List<BooksFeed>, List<BooksForSale>> bookFeedProcessor() {
 	return new BookFeedItemProcessor();
     }
 
     @Bean
-    public ItemWriter<List<BooksForSale>> writer() {
+    public ItemWriter<List<BooksForSale>> bookFeedWriter() {
 	return new BookFeedItemWriter();
     }
 
     @Bean
-    public Job bookFeedJob(JobBuilderFactory jobs, Step s1) {
-	Job job = jobs.get("bookFeedJob").start(s1).build();
+    public Job bookFeederJob() {
+	Job job = jobs.get("Job :: BookFeederJob")
+		      .start(bookFeedJobStep1())
+		      .build();
 	return job;
     }
 
     @Bean
-    public Step step1(StepBuilderFactory stepBuilderFactory, ItemReader<List<BooksFeed>> reader, ItemWriter<List<BooksForSale>> writer, ItemProcessor<List<BooksFeed>, List<BooksForSale>> processor) {
-	TaskletStep taskletofStep1 = stepBuilderFactory.get("step1").<List<BooksFeed>, List<BooksForSale>> chunk(2).reader(reader).processor(processor).writer(writer).build();
+    public Step bookFeedJobStep1() {
+	TaskletStep taskletofStep1 = stepBuilderFactory.get(" Step :: BookFeedJob_Step1")
+						       .<List<BooksFeed>, List<BooksForSale>> chunk(2)
+						       .reader(bookFeedReader())
+						       .processor(bookFeedProcessor())
+						       .writer(bookFeedWriter())
+						       .build();
 	return taskletofStep1;
     }
 
