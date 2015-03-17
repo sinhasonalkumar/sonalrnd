@@ -32,6 +32,8 @@ public class JavaAkkaMain {
 	OperationInput subInput = OperationInput.getInstance(10, 2, OperationType.SUBSTRACT);
 
 	calculatorActor.tell(subInput, ActorRef.noSender());
+	
+	javaAkkaActorSystem.shutdown();
 
     }
 }
