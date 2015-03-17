@@ -1,12 +1,20 @@
 package com.sonal.executor;
 
-import com.sonal.actor.Calculator;
-import com.sonal.vo.OperationInput;
-import com.sonal.vo.OperationType;
-
+import scala.concurrent.Await;
+import scala.concurrent.Future;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.pattern.Patterns;
+import akka.util.Timeout;
+
+import com.sonal.actor.Calculator;
+import com.sonal.actor.ResourcePathBuilder;
+import com.sonal.actor.ResourcePathprinter;
+import com.sonal.vo.OperationInput;
+import com.sonal.vo.OperationType;
+import com.sonal.vo.Resource;
+import com.sonal.vo.ResourcePath;
 
 public class JavaAkkaMain {
 
@@ -14,26 +22,82 @@ public class JavaAkkaMain {
 
 	ActorSystem javaAkkaActorSystem = ActorSystem.create("javaAkkaActorSystem");
 
+	// calculatorActorDemo(javaAkkaActorSystem);
+
+	// getResponseFromActorBlockingWayDemo(javaAkkaActorSystem);
+
+	getResponseFromActorNonBlockingWayDemo_Way1(javaAkkaActorSystem);
+
+	// getResponseFromActorNonBlockingWayDemo_Way2(javaAkkaActorSystem);
+
+	javaAkkaActorSystem.shutdown();
+
+    }
+
+    private static void getResponseFromActorNonBlockingWayDemo_Way1(ActorSystem javaAkkaActorSystem) {
+
+	Props resourcePathBuilderProp = Props.create(ResourcePathBuilder.class);
+	ActorRef resourcePathBuilderActorRef = javaAkkaActorSystem.actorOf(resourcePathBuilderProp, "resourcePathBuilderProp");
+
+	// resourcePathprinterActorRef is responsible for taking action on the response of resourcePathBuilderActorRef
+	Props resourcePathprinterProp = Props.create(ResourcePathprinter.class);
+	ActorRef resourcePathprinterActorRef = javaAkkaActorSystem.actorOf(resourcePathprinterProp, "resourcePathprinterProp");
+
+	Resource resource = Resource.getInstance("1", "SomeResource");
+
+	resourcePathBuilderActorRef.tell(resource, resourcePathprinterActorRef);
+
+    }
+
+    private static void getResponseFromActorNonBlockingWayDemo_Way2(ActorSystem javaAkkaActorSystem) {
+
+	Props resourcePathBuilderProp = Props.create(ResourcePathBuilder.class);
+
+	ActorRef resourcePathBuilderActorRef = javaAkkaActorSystem.actorOf(resourcePathBuilderProp, "resourcePathBuilderProp");
+
+	Resource resource = Resource.getInstance("1", "SomeResource");
+
+	resourcePathBuilderActorRef.tell(resource, resourcePathBuilderActorRef);
+
+    }
+
+    private static void getResponseFromActorBlockingWayDemo(ActorSystem javaAkkaActorSystem) {
+
+	Props resourcePathBuilderProp = Props.create(ResourcePathBuilder.class);
+
+	ActorRef resourcePathBuilderActorRef = javaAkkaActorSystem.actorOf(resourcePathBuilderProp, "resourcePathBuilderProp");
+
+	Resource resource = Resource.getInstance("1", "SomeResource");
+
+	Timeout timeout = Timeout.intToTimeout(5);
+	// This Blocking Code.
+	Future<Object> future = Patterns.ask(resourcePathBuilderActorRef, resource, timeout);
+	try {
+	    ResourcePath result = (ResourcePath) Await.result(future, timeout.duration());
+	    System.out.println(result.getPath());
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+    }
+
+    private static void calculatorActorDemo(ActorSystem javaAkkaActorSystem) {
 	Props calculatorPrope = Props.create(Calculator.class);
-	ActorRef calculatorActor = javaAkkaActorSystem.actorOf(calculatorPrope, "calculatorPrope");
+	ActorRef calculatorActorRef = javaAkkaActorSystem.actorOf(calculatorPrope, "calculatorPrope");
 
 	OperationInput divideInput = OperationInput.getInstance(10, 2, OperationType.DIVIDE);
 
-	calculatorActor.tell(divideInput, ActorRef.noSender());
+	calculatorActorRef.tell(divideInput, ActorRef.noSender());
 
 	OperationInput multiplyInput = OperationInput.getInstance(10, 2, OperationType.MULTIPLY);
 
-	calculatorActor.tell(multiplyInput, ActorRef.noSender());
+	calculatorActorRef.tell(multiplyInput, ActorRef.noSender());
 
 	OperationInput addInput = OperationInput.getInstance(10, 2, OperationType.SUM);
 
-	calculatorActor.tell(addInput, ActorRef.noSender());
+	calculatorActorRef.tell(addInput, ActorRef.noSender());
 
 	OperationInput subInput = OperationInput.getInstance(10, 2, OperationType.SUBSTRACT);
 
-	calculatorActor.tell(subInput, ActorRef.noSender());
-	
-	javaAkkaActorSystem.shutdown();
-
+	calculatorActorRef.tell(subInput, ActorRef.noSender());
     }
 }
