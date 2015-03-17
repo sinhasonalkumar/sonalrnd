@@ -34,6 +34,8 @@ public class JavaAkkaMain {
 
     }
 
+    
+    // Way to Get Response from Request in Non Blocking Way.
     private static void getResponseFromActorNonBlockingWayDemo_Way1(ActorSystem javaAkkaActorSystem) {
 
 	Props resourcePathBuilderProp = Props.create(ResourcePathBuilder.class);
@@ -49,6 +51,7 @@ public class JavaAkkaMain {
 
     }
 
+    // Way to Get Response from Request in non Blocking Way.
     private static void getResponseFromActorNonBlockingWayDemo_Way2(ActorSystem javaAkkaActorSystem) {
 
 	Props resourcePathBuilderProp = Props.create(ResourcePathBuilder.class);
@@ -61,6 +64,7 @@ public class JavaAkkaMain {
 
     }
 
+    // Way to Get Response from Request in Blocking Way
     private static void getResponseFromActorBlockingWayDemo(ActorSystem javaAkkaActorSystem) {
 
 	Props resourcePathBuilderProp = Props.create(ResourcePathBuilder.class);
