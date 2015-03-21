@@ -1,0 +1,72 @@
+
+scala> def method1(userName: String) : String ={
+     | var message = "Hello !! " + userName
+     | return message
+     | }
+method1: (userName: String)String
+
+scala> def method2(f:(String) => String) : Unit = {
+     | printf(f("Sonal"))
+     | }
+method2: (f: String => String)Unit
+
+scala> method2(method1("abc"));
+<console>:10: error: type mismatch;
+ found   : String
+ required: String => String
+              method2(method1("abc"));
+                             ^
+
+scala> method2(method1);
+Hello !! Sonal
+scala> def method3(f:(String) => String) = Unit {
+     | printf(f))
+<console>:2: error: ';' expected but ')' found.
+       printf(f))
+                ^
+
+scala> def method3(f:(String) => String) = Unit {
+     | prinf(f)}
+<console>:7: error: Unit.type does not take parameters
+       def method3(f:(String) => String) = Unit {
+                                                ^
+
+scala> def method3(f:(String) => String) = Unit {
+     | 
+     | 
+You typed two blank lines.  Starting a new command.
+
+scala> 
+
+scala> def method3(f:(String) => String) :Unit ={
+     | printf(f)
+     | }
+<console>:8: error: type mismatch;
+ found   : String => String
+ required: String
+       printf(f)
+              ^
+
+scala> def method3(f:(String,Int) => String) :Unit ={
+     | printf(f("sonal",3))
+     | }
+method3: (f: (String, Int) => String)Unit
+
+scala> def method4(name:String, age: Int) : String = {
+     | var msg :String = "Age Of " + name  + " Is " + age + " years"
+     | }
+<console>:9: error: type mismatch;
+ found   : Unit
+ required: String
+       }
+       ^
+
+scala> def method4(name:String, age: Int) : String = {
+     | var msg :String = "Age Of " + name  + " Is " + age + " years"
+     | return msg
+     | }
+method4: (name: String, age: Int)String
+
+scala> method3(method4)
+Age Of sonal Is 3 years
+scala> 
