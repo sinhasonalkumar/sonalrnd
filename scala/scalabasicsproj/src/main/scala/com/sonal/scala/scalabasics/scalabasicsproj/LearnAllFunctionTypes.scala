@@ -51,4 +51,11 @@ class LearnAllFunctionTypes {
 
   }
   
+    def AnnonymousFunctionway3() = (a: Int, b: Int) => {
+        if( a % 2 ==0) 
+          a + b 
+        else 
+          a-b
+      }
+  
 }
