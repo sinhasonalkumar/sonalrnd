@@ -40,9 +40,15 @@ object HelloScalaMain {
   def underStandAnnonymousApplyOnVarible(learnFunctionClass: LearnAllFunctionTypes) {
     var someValue1 = (a: Int) => a + 1;
 
-    var someValue2 = (a: Int, b: Int) => a + b;
+    var someValue2 = (a: Int, b: Int) => {
+        if( a % 2 ==0) 
+          a + b 
+        else 
+          a-b
+      }
 
     random(someValue1(10))
+    random(someValue2(21, 20))
     random(someValue2(10, 20))
   }
 
