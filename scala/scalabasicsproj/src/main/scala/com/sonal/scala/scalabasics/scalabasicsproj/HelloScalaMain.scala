@@ -34,6 +34,11 @@ object HelloScalaMain {
 
     learnFunctionClass.callGreetPeople()
     learnFunctionClass.callSumAnnonymousWay1()
+    var result1 = AnnonymousFunction()(2, 4)
+    println(result1)
+
+    var result2 = AnnonymousFunction()(21, 4)
+    println(result2)
 
   }
 
@@ -45,24 +50,19 @@ object HelloScalaMain {
         a + b
       else
         a - b
-    }   
+    }
 
     random(someValue1(10))
     random(someValue2(21, 20))
     random(someValue2(10, 20))
-    
-   var result1 =  AnnonymousFunction()(2,4)
-   println(result1)
-   
-   var result2 =  AnnonymousFunction()(21,4)
-   println(result2)
+
   }
-  
-   def AnnonymousFunction() = (a: Int, b: Int) => {
-      if (a % 2 == 0)
-        a + b
-      else
-        a - b
-    }
+
+  def AnnonymousFunction() = (a: Int, b: Int) => {
+    if (a % 2 == 0)
+      a + b
+    else
+      a - b
+  }
 
 }
