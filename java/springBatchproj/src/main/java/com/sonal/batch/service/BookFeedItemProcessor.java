@@ -4,39 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.stereotype.Component;
 
 import com.sonal.batch.persistence.bo.BookType;
 import com.sonal.batch.persistence.bo.BooksForSale;
 import com.sonal.batch.vo.BooksFeed;
 
-@Component
 public class BookFeedItemProcessor implements ItemProcessor<List<BooksFeed>, List<BooksForSale>> {
 
-    
     @Override
     public List<BooksForSale> process(List<BooksFeed> item) throws Exception {
 	System.out.println("---------------------------------------");
 	System.out.println("BookFeed Processor Started");
 	List<BooksForSale> booksForSaleList = new ArrayList<BooksForSale>();
 	BooksForSale booksForSale = null;
-	//Thread.sleep(3000);
+	// Thread.sleep(3000);
 	Thread.sleep(30);
 	for (BooksFeed booksFeed : item) {
 	    booksForSale = convertToBooksForSale(booksFeed);
 	    System.out.println("BooksForSale Processed !!");
 	    booksForSaleList.add(booksForSale);
-	    
+
 	}
 	System.out.println("BookFeed Processor Ended SuccessFully");
 	System.out.println("---------------------------------------");
 	return booksForSaleList;
-    
+
     }
-    
-    
-    
-    private BooksForSale convertToBooksForSale(BooksFeed booksFeed){
+
+    private BooksForSale convertToBooksForSale(BooksFeed booksFeed) {
 	BooksForSale booksForSale = new BooksForSale();
 
 	booksForSale.setBookName(booksFeed.getBookName());
@@ -49,12 +44,12 @@ public class BookFeedItemProcessor implements ItemProcessor<List<BooksFeed>, Lis
 	    booksForSale.setBookType(BookType.SCALA);
 	}
 	try {
-	    //Thread.sleep(1000);
+	    // Thread.sleep(1000);
 	    Thread.sleep(10);
 	} catch (InterruptedException e) {
 	    e.printStackTrace();
 	}
-	
+
 	return booksForSale;
     }
 

@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.sonal.batch.dao.IBookInventoryDAO;
 import com.sonal.batch.persistence.bo.BooksForSale;
 
-@Component
 public class BookFeedItemWriter implements ItemWriter<List<BooksForSale>> {
-    
+
     @Autowired
     private IBookInventoryDAO bookInventoryDAO;
 
@@ -20,18 +18,13 @@ public class BookFeedItemWriter implements ItemWriter<List<BooksForSale>> {
 	System.out.println("---------------------------------------");
 	System.out.println("BookFeed Writer Started ");
 	System.out.println("Books To Save Count :: " + items.size());
-	//System.out.println(0/0);
+	// System.out.println(0/0);
 	for (List<BooksForSale> booksToSave : items) {
 	    bookInventoryDAO.saveBooks(booksToSave);
 	}
 	System.out.println("BookFeed Writer Ended Successfully ");
 	System.out.println("---------------------------------------");
-	
+
     }
 
-   
-
-   
-
-    
 }

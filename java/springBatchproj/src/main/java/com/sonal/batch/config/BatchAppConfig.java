@@ -50,7 +50,7 @@ public class BatchAppConfig {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
-    @Bean
+    @Bean()
     public ItemReader<List<BooksFeed>> bookFeedReader() {
 	return new BookFeedItemReader();
     }
