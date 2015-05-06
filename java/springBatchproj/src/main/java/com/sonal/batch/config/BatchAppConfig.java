@@ -67,6 +67,7 @@ public class BatchAppConfig {
 
     @Bean
     public Job bookFeederJob() {
+	//Job job = jobBuilderFactory.get("Job :: BookFeederJob").flow(bookFeedJobStep1()).next(bookFeedJobStep2()).end().build();
 	//Job job = jobBuilderFactory.get("Job :: BookFeederJob").start(bookFeedJobStep1()).next(bookFeedJobStep2()).build();
 	Job job = jobBuilderFactory.get("Job :: BookFeederJob").incrementer(new RunIdIncrementer()).flow(bookFeedJobStep1()).end().build();
 	return job;
