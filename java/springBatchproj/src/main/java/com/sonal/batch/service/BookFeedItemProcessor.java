@@ -20,7 +20,8 @@ public class BookFeedItemProcessor implements ItemProcessor<List<BooksFeed>, Lis
 	System.out.println("BookFeed Processor Started");
 	List<BooksForSale> booksForSaleList = new ArrayList<BooksForSale>();
 	BooksForSale booksForSale = null;
-	Thread.sleep(3000);
+	//Thread.sleep(3000);
+	Thread.sleep(30);
 	for (BooksFeed booksFeed : item) {
 	    booksForSale = convertToBooksForSale(booksFeed);
 	    System.out.println("BooksForSale Processed !!");
@@ -48,7 +49,8 @@ public class BookFeedItemProcessor implements ItemProcessor<List<BooksFeed>, Lis
 	    booksForSale.setBookType(BookType.SCALA);
 	}
 	try {
-	    Thread.sleep(1000);
+	    //Thread.sleep(1000);
+	    Thread.sleep(10);
 	} catch (InterruptedException e) {
 	    e.printStackTrace();
 	}

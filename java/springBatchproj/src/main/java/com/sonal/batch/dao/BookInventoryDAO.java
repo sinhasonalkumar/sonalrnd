@@ -13,7 +13,8 @@ public class BookInventoryDAO implements IBookInventoryDAO {
     public void saveBooks(List<BooksForSale> booksToSave) {
 	System.out.println("Going to Save Books");
 	try {
-	    Thread.sleep(5000);
+	    //Thread.sleep(5000);
+	    Thread.sleep(50);
 	    System.out.println(booksToSave.size() + " :: BooksForSale Saved In Inventory");
 	} catch (InterruptedException e) {
 	    e.printStackTrace();

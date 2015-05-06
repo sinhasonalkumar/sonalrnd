@@ -20,6 +20,7 @@ public class BookFeedItemWriter implements ItemWriter<List<BooksForSale>> {
 	System.out.println("---------------------------------------");
 	System.out.println("BookFeed Writer Started ");
 	System.out.println("Books To Save Count :: " + items.size());
+	//System.out.println(0/0);
 	for (List<BooksForSale> booksToSave : items) {
 	    bookInventoryDAO.saveBooks(booksToSave);
 	}
