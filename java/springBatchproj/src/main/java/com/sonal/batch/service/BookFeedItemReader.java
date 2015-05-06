@@ -1,6 +1,7 @@
 package com.sonal.batch.service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
@@ -16,11 +17,19 @@ public class BookFeedItemReader implements ItemReader<List<BooksFeed>>{
     @Autowired
     private IBookFeedClient feedreader;
     
+    private AtomicInteger readcount = new AtomicInteger(1);
+    
     @Override
     public List<BooksFeed> read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 	System.out.println("---------------------------------------");
 	System.out.println("BookFeed Reader Started ");
-	List<BooksFeed> bookFeed = feedreader.getBookFeed();
+	List<BooksFeed> bookFeed = null;
+	if(readcount.intValue() <= 5){
+	    bookFeed = feedreader.getBookFeed();
+	    System.out.println(readcount.intValue());
+	    readcount.addAndGet(1);
+	}
+	
 	System.out.println("BookFeed Reader Ended Successfully ");
 	System.out.println("---------------------------------------");
 	

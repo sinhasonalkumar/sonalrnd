@@ -17,7 +17,7 @@ public class BookFeedClient implements IBookFeedClient {
 	List<BooksFeed> bookFeedList = new ArrayList<BooksFeed>();
 	try {
 	    System.out.println("Going To Get BookFeed ");
-	    Thread.sleep(3000);
+	    Thread.sleep(900);
 	    //Thread.sleep(30);
 	    bookFeedList = dummyBookFeed();
 	} catch (InterruptedException e) {

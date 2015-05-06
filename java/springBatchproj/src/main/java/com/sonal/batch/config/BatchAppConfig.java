@@ -8,6 +8,7 @@ import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean;
@@ -60,8 +61,8 @@ public class BatchAppConfig {
     @Bean
     public Job bookFeederJob() {
 	//Job job = jobBuilderFactory.get("Job :: BookFeederJob").flow(bookFeedJobStep1()).next(bookFeedJobStep2()).end().build();
-	Job job = jobBuilderFactory.get("Job :: BookFeederJob").start(bookFeedJobStep1()).next(bookFeedJobStep2()).build();
-	//Job job = jobBuilderFactory.get("Job :: BookFeederJob").incrementer(new RunIdIncrementer()).flow(bookFeedJobStep1()).end().build();
+	//Job job = jobBuilderFactory.get("Job :: BookFeederJob").start(bookFeedJobStep1()).next(bookFeedJobStep2()).build();
+	Job job = jobBuilderFactory.get("Job :: BookFeederJob").incrementer(new RunIdIncrementer()).flow(bookFeedJobStep1()).end().build();
 	return job;
     }
     
