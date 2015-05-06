@@ -2,17 +2,12 @@ package com.sonal.batch.config;
 
 import java.util.List;
 
-import org.springframework.batch.core.ChunkListener;
-import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.StepExecution;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean;
@@ -23,9 +18,6 @@ import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.repeat.RepeatCallback;
-import org.springframework.batch.repeat.RepeatException;
-import org.springframework.batch.repeat.RepeatOperations;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +60,8 @@ public class BatchAppConfig {
     @Bean
     public Job bookFeederJob() {
 	//Job job = jobBuilderFactory.get("Job :: BookFeederJob").flow(bookFeedJobStep1()).next(bookFeedJobStep2()).end().build();
-	//Job job = jobBuilderFactory.get("Job :: BookFeederJob").start(bookFeedJobStep1()).next(bookFeedJobStep2()).build();
-	Job job = jobBuilderFactory.get("Job :: BookFeederJob").incrementer(new RunIdIncrementer()).flow(bookFeedJobStep1()).end().build();
+	Job job = jobBuilderFactory.get("Job :: BookFeederJob").start(bookFeedJobStep1()).next(bookFeedJobStep2()).build();
+	//Job job = jobBuilderFactory.get("Job :: BookFeederJob").incrementer(new RunIdIncrementer()).flow(bookFeedJobStep1()).end().build();
 	return job;
     }
     
