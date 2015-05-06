@@ -1,6 +1,7 @@
 package com.sonal.batch.schedular;
 
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
@@ -19,11 +20,14 @@ public class BookFeedRunner {
     @Autowired
     private SimpleJobLauncher jobLauncher;
 
-    public void startBookFeedJob() {
+    public JobExecution startBookFeedJob() {
+	JobExecution jobExecution = null;
 	try {
-	    jobLauncher.run(bookFeedJob, new JobParameters());
+	    jobExecution = jobLauncher.run(bookFeedJob, new JobParameters());
+	    System.out.println(jobExecution.isRunning());
 	} catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
 	    e.printStackTrace();
 	}
+	return jobExecution;
     }
 }
