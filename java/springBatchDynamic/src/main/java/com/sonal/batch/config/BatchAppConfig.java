@@ -69,7 +69,6 @@ public class BatchAppConfig {
 				   .next(Step4())
 				   .next(JobWrapupStep())
 				   .build();
-
 	return job;
     }
 
