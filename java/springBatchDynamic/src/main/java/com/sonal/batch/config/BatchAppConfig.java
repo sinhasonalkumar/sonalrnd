@@ -12,15 +12,14 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.batch.support.transaction.ResourcelessTransactionManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
+import com.sonal.batch.tasklets.IAppTasklet;
 import com.sonal.batch.tasklets.JobWrapupTasklet;
-import com.sonal.batch.tasklets.Tasklet1;
-import com.sonal.batch.tasklets.Tasklet2;
-import com.sonal.batch.tasklets.Tasklet3;
-import com.sonal.batch.tasklets.Tasklet4;
 
 @Configuration
 @ComponentScan(basePackages = { "com.sonal" })
@@ -32,6 +31,22 @@ public class BatchAppConfig {
 
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
+
+    @Autowired
+    @Qualifier("taskletA")
+    private IAppTasklet tasklet1;
+
+    @Autowired
+    @Qualifier("taskletD")
+    private IAppTasklet tasklet2;
+
+    @Autowired
+    @Qualifier("taskletB")
+    private IAppTasklet tasklet3;
+
+    @Autowired
+    @Qualifier("taskletC")
+    private IAppTasklet tasklet4;
 
     @Bean
     public SimpleJobLauncher jobLauncher() {
@@ -62,22 +77,15 @@ public class BatchAppConfig {
     @Bean
     public Job taskletOrientedJob() {
 
-	Job job = jobBuilderFactory.get("Job :: Tasklet_Oriented_Job")
-				   .start(Step1())
-				   .next(Step2())
-				   .next(Step3())
-				   .next(Step4())
-				   .next(JobWrapupStep())
-				   .build();
+	Job job = jobBuilderFactory.get("Job :: Tasklet_Oriented_Job").start(Step1()).next(Step2()).next(Step3()).next(Step4()).next(JobWrapupStep()).build();
 	return job;
     }
 
-    @Bean
     public Step Step1() {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: Step1");
 
-	TaskletStep taskletofStep1 = stepBuilder.tasklet(new Tasklet1()).build();
+	TaskletStep taskletofStep1 = stepBuilder.tasklet(tasklet1).build();
 
 	return taskletofStep1;
     }
@@ -87,7 +95,7 @@ public class BatchAppConfig {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: Step2");
 
-	TaskletStep taskletofStep2 = stepBuilder.tasklet(new Tasklet2()).build();
+	TaskletStep taskletofStep2 = stepBuilder.tasklet(tasklet2).build();
 
 	return taskletofStep2;
     }
@@ -97,7 +105,7 @@ public class BatchAppConfig {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: Step3");
 
-	TaskletStep taskletofStep3 = stepBuilder.tasklet(new Tasklet3()).build();
+	TaskletStep taskletofStep3 = stepBuilder.tasklet(tasklet3).build();
 
 	return taskletofStep3;
     }
@@ -107,7 +115,7 @@ public class BatchAppConfig {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: Step4");
 
-	TaskletStep taskletofStep4 = stepBuilder.tasklet(new Tasklet4()).build();
+	TaskletStep taskletofStep4 = stepBuilder.tasklet(tasklet4).build();
 
 	return taskletofStep4;
     }
