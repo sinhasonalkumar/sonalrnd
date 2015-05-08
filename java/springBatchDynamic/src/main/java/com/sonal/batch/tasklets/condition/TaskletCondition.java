@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskletCondition {
 
-    public Map<String, String> getStepToTaskletMap(){
-	Map<String, String> stepToTaskletMap = new HashMap<String, String>();
+    public Map<String, Boolean> getExecutableTaskletMap(){
+	Map<String, Boolean> executableTaskletMap = new HashMap<String, Boolean>();
 	
-	stepToTaskletMap.put("Step1", "taskletA");
-	stepToTaskletMap.put("Step2", "taskletC");
-	stepToTaskletMap.put("Step3", "taskletD");
-	stepToTaskletMap.put("Step4", "taskletB");
+	executableTaskletMap.put("taskletA", true);
+	executableTaskletMap.put("taskletC", false);
+	executableTaskletMap.put("taskletD", false);
+	executableTaskletMap.put("taskletB", true);
 	
-	return stepToTaskletMap;
+	return executableTaskletMap;
     }
     
 }
