@@ -6,8 +6,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-@Component
-@Qualifier("taskletB")
+@Component("taskletB")
 public class TaskletB implements IAppTasklet {
 
     @Override
