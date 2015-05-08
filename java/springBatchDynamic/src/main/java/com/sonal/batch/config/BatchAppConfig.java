@@ -34,19 +34,19 @@ public class BatchAppConfig {
 
     @Autowired
     @Qualifier("taskletA")
-    private IAppTasklet tasklet1;
+    private IAppTasklet step1Tasklet;
 
     @Autowired
     @Qualifier("taskletD")
-    private IAppTasklet tasklet2;
+    private IAppTasklet step2Tasklet;
 
     @Autowired
     @Qualifier("taskletB")
-    private IAppTasklet tasklet3;
+    private IAppTasklet step3Tasklet;
 
     @Autowired
     @Qualifier("taskletC")
-    private IAppTasklet tasklet4;
+    private IAppTasklet step4tasklet;
 
     @Bean
     public SimpleJobLauncher jobLauncher() {
@@ -85,7 +85,7 @@ public class BatchAppConfig {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: Step1");
 
-	TaskletStep taskletofStep1 = stepBuilder.tasklet(tasklet1).build();
+	TaskletStep taskletofStep1 = stepBuilder.tasklet(step1Tasklet).build();
 
 	return taskletofStep1;
     }
@@ -95,7 +95,7 @@ public class BatchAppConfig {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: Step2");
 
-	TaskletStep taskletofStep2 = stepBuilder.tasklet(tasklet2).build();
+	TaskletStep taskletofStep2 = stepBuilder.tasklet(step2Tasklet).build();
 
 	return taskletofStep2;
     }
@@ -105,7 +105,7 @@ public class BatchAppConfig {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: Step3");
 
-	TaskletStep taskletofStep3 = stepBuilder.tasklet(tasklet3).build();
+	TaskletStep taskletofStep3 = stepBuilder.tasklet(step3Tasklet).build();
 
 	return taskletofStep3;
     }
@@ -115,7 +115,7 @@ public class BatchAppConfig {
 
 	StepBuilder stepBuilder = stepBuilderFactory.get(" Step :: Step4");
 
-	TaskletStep taskletofStep4 = stepBuilder.tasklet(tasklet4).build();
+	TaskletStep taskletofStep4 = stepBuilder.tasklet(step4tasklet).build();
 
 	return taskletofStep4;
     }
