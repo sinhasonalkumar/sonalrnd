@@ -3,7 +3,7 @@
 {"error":"unauthorized","error_description":"Full authentication is required to access this resource"}
 
 
-2) curl -X POST -vu trustedAppClient:123 http://localhost:8080/oauth/token -H "Accept: application/json" -d "password=password&username=sonal&grant_type=password&scope=read%20write&client_secret=123456&client_id=trustedAppClient"
+2) curl -X POST -vu trustedAppClient:123 http://localhost:8080/oauth/token -H "Accept: application/json" -d "password=password&username=sonal&grant_type=password&scope=read%20write&client_secret=123&client_id=trustedAppClient"
 
 {"access_token":"72e1c833-4473-4b20-8f4e-605b1e3dae4f","token_type":"bearer","refresh_token":"4a0e70f9-a4fe-4816-80bd-ff62bbcc6f32","expires_in":119,"scope":"read write"}
 
