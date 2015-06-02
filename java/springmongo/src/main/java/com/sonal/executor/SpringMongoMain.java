@@ -19,11 +19,12 @@ public class SpringMongoMain {
 		
 		Employee employeeToSave = new Employee();
 		
+		employeeToSave.setUserName("testuser");
 		employeeToSave.setEmployeeName("test");
 		employeeToSave.setAge(20);
 		
 		List<Employee> employees = new ArrayList<Employee>();
-		//employees.add(employeeToSave);
+		employees.add(employeeToSave);
 		
 		employeeService.saveEmployeesInBulk(employees);
 		
