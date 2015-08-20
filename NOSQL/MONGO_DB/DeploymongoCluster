@@ -1,0 +1,50 @@
+mongod --config D:\mongoCluster\shards\replSet1\primary\mongod.conf
+mongod --config D:\mongoCluster\shards\replSet1\secondary\node1\mongod.conf
+mongod --config D:\mongoCluster\shards\replSet1\secondary\node2\mongod.conf
+mongod --configsvr --dbpath D:\mongoCluster\configServer\configdb1 --port 27020
+
+
+mongos --configdb 172.18.128.79:27020 --port 27030 
+
+
+-- One time Job
+
+mongo 172.18.128.79:27017
+rs.initiate()
+rs.add('172.18.128.79:27018');
+rs.add('172.18.128.79:27019');
+
+mongo 172.18.128.79:27030
+sh.addShard("replSet1/172.18.128.79:27017");  
+
+
+D:\mongoCluster\shards\replSet1\primary\mongod.conf
+
+dbpath=D:\mongoData
+logpath=D:\mongoData\log\mongodb.log
+logappend=true
+nojournal = false
+port = 27017
+bind_ip = 172.18.128.79
+replSet =  replSet1
+
+D:\mongoCluster\shards\replSet1\secondary\node1\mongod.conf 
+
+dbpath=D:\mongoData
+logpath=D:\mongoData\log\mongodb.log
+logappend=true
+nojournal = false
+port = 27018
+bind_ip = 172.18.128.79
+replSet =  replSet1
+
+
+D:\mongoCluster\shards\replSet1\secondary\node2\mongod.conf
+
+dbpath=D:\mongoData
+logpath=D:\mongoData\log\mongodb.log
+logappend=true
+nojournal = false
+port = 27019
+bind_ip = 172.18.128.79
+replSet =  replSet1
