@@ -1,3 +1,5 @@
+On Windows
+
 mongod --config D:\mongoCluster\shards\replSet1\primary\mongod.conf
 mongod --config D:\mongoCluster\shards\replSet1\secondary\node1\mongod.conf
 mongod --config D:\mongoCluster\shards\replSet1\secondary\node2\mongod.conf
