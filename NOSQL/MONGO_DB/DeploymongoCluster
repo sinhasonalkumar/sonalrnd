@@ -1,5 +1,459 @@
 On Windows
 
+
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\primary\config\mongod.conf
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node2\config\mongod.conf
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node1\config\mongod.conf
+
+
+
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\primary\config\mongod.conf
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node2\config\mongod.conf
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node1\config\mongod.conf
+
+
+
+mongod --config D:\mongoCluster\configServer\configdb1\config\mongod.conf
+mongod --config D:\mongoCluster\configServer\configdb2\config\mongod.conf
+mongod --config D:\mongoCluster\configServer\configdb3\config\mongod.conf
+
+mongos --config D:\mongoCluster\mongoSServer_Routers\QueryRouter1\config\mongos.conf
+mongos --config D:\mongoCluster\mongoSServer_Routers\QueryRouter2\config\mongos.conf
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Backup and Restore :--
+
+mongodump -d MyAppDB -o D:\mongoDataBackup  --host=172.18.128.79 --port=27000
+
+
+mongorestore --host=172.18.128.79 --port=27000 --drop -d MyAppDB D:\mongoDataBackup\MyAppDB 
+
+Note:-- Make sure to disable cluster config from the mongod isntance in which we want to restore the Data from mongodump
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--> One time Job
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--> Configure ReplicaSet
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\primary\config\mongod.conf
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node2\config\mongod.conf
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node1\config\mongod.conf
+mongod --config D:\mongoCluster\shards\shard1\replSet_Shard1\arbiter\config\mongod.conf 
+
+
+
+mongo 172.18.128.79:27000
+rs.initiate(); // To Make it primary
+
+// Add all secondary and arbiter
+rs.add('172.18.128.79:27001');
+rs.add('172.18.128.79:27002');
+rs.addArb('172.18.128.79:27003');
+
+{
+        "info2" : "no configuration explicitly specified -- making one",
+        "me" : "172.18.128.79:27000",
+        "ok" : 1
+}
+
+{ "ok" : 1 }
+
+{ "ok" : 1 }
+
+{ "ok" : 1 }
+
+
+replSet_Shard1:PRIMARY> rs.conf();
+{
+        "_id" : "replSet_Shard1",
+        "version" : 6,
+        "members" : [
+                {
+                        "_id" : 0,
+                        "host" : "172.18.128.79:27000",
+                        "arbiterOnly" : false,
+                        "buildIndexes" : true,
+                        "hidden" : false,
+                        "priority" : 1,
+                        "tags" : {
+
+                        },
+                        "slaveDelay" : 0,
+                        "votes" : 1
+                },
+                {
+                        "_id" : 1,
+                        "host" : "172.18.128.79:27001",
+                        "arbiterOnly" : false,
+                        "buildIndexes" : true,
+                        "hidden" : false,
+                        "priority" : 1,
+                        "tags" : {
+
+                        },
+                        "slaveDelay" : 0,
+                        "votes" : 1
+                },
+                {
+                        "_id" : 2,
+                        "host" : "172.18.128.79:27002",
+                        "arbiterOnly" : false,
+                        "buildIndexes" : true,
+                        "hidden" : false,
+                        "priority" : 1,
+                        "tags" : {
+
+                        },
+                        "slaveDelay" : 0,
+                        "votes" : 1
+                },
+                {
+                        "_id" : 3,
+                        "host" : "172.18.128.79:27003",
+                        "arbiterOnly" : true,
+                        "buildIndexes" : true,
+                        "hidden" : false,
+                        "priority" : 1,
+                        "tags" : {
+
+                        },
+                        "slaveDelay" : 0,
+                        "votes" : 1
+                }
+        ],
+        "settings" : {
+                "chainingAllowed" : true,
+                "heartbeatTimeoutSecs" : 10,
+                "getLastErrorModes" : {
+
+                },
+                "getLastErrorDefaults" : {
+                        "w" : 1,
+                        "wtimeout" : 0
+                }
+        }
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--> Configure Query Router :-
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+mongod --config D:\mongoCluster\configServer\configdb1\config\mongod.conf
+mongod --config D:\mongoCluster\configServer\configdb2\config\mongod.conf
+mongod --config D:\mongoCluster\configServer\configdb3\config\mongod.conf
+
+mongos --config D:\mongoCluster\mongoSServer_Routers\QueryRouter1\config\mongos.conf
+
+mongo 172.18.128.79:27041
+
+mongos> sh.addShard("replSet_Shard1/172.18.128.79:27000");
+
+{ "shardAdded" : "replSet_Shard1", "ok" : 1 }
+
+sh.enableSharding("MyAppDB");
+{ "ok" : 1 }		
+
+
+mongos> sh.status();
+--- Sharding Status ---
+  sharding version: {
+        "_id" : 1,
+        "minCompatibleVersion" : 5,
+        "currentVersion" : 6,
+        "clusterId" : ObjectId("55dbb4c7e2c8ace111860c90")
+}
+  shards:
+        {  "_id" : "replSet_Shard1",  "host" : "replSet_Shard1/172.18.128.79:27000,172.18.128.79:27001,172.18.128.79:27002" }
+  balancer:
+        Currently enabled:  yes
+        Currently running:  no
+        Failed balancer rounds in last 5 attempts:  0
+        Migration Results for the last 24 hours:
+                No recent migrations
+  databases:
+        {  "_id" : "admin",  "partitioned" : false,  "primary" : "config" }
+        {  "_id" : "MyAppDB",  "partitioned" : true,  "primary" : "replSet_Shard1" }
+        {  "_id" : "test",  "partitioned" : false,  "primary" : "replSet_Shard1" }
+ 
+
+
+mongos>  db.isMaster() ;
+{
+        "ismaster" : true,
+        "msg" : "isdbgrid",
+        "maxBsonObjectSize" : 16777216,
+        "maxMessageSizeBytes" : 48000000,
+        "maxWriteBatchSize" : 1000,
+        "localTime" : ISODate("2015-08-25T00:27:27.368Z"),
+        "maxWireVersion" : 3,
+        "minWireVersion" : 0,
+        "ok" : 1
+} 
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+mongos --config D:\mongoCluster\mongoSServer_Routers\QueryRouter2\config\mongos.conf
+
+// This mongos will pick all pervious configuration from config servers
+ 
+mongos> sh.status()
+--- Sharding Status ---
+  sharding version: {
+        "_id" : 1,
+        "minCompatibleVersion" : 5,
+        "currentVersion" : 6,
+        "clusterId" : ObjectId("55dbb4c7e2c8ace111860c90")
+}
+  shards:
+        {  "_id" : "replSet_Shard1",  "host" : "replSet_Shard1/172.18.128.79:27000,172.18.128.79:27001,172.18.128.79:27002" }
+  balancer:
+        Currently enabled:  yes
+        Currently running:  no
+        Failed balancer rounds in last 5 attempts:  0
+        Migration Results for the last 24 hours:
+                No recent migrations
+  databases:
+        {  "_id" : "admin",  "partitioned" : false,  "primary" : "config" }
+        {  "_id" : "MyAppDB",  "partitioned" : true,  "primary" : "replSet_Shard1" }
+        {  "_id" : "test",  "partitioned" : false,  "primary" : "replSet_Shard1" }
+		
+		
+mongos> db.isMaster();
+{
+        "ismaster" : true,
+        "msg" : "isdbgrid",
+        "maxBsonObjectSize" : 16777216,
+        "maxMessageSizeBytes" : 48000000,
+        "maxWriteBatchSize" : 1000,
+        "localTime" : ISODate("2015-08-25T00:42:41.802Z"),
+        "maxWireVersion" : 3,
+        "minWireVersion" : 0,
+        "ok" : 1
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Config Server's mongo.conf
+------------------------------------------------------------------------------------
+
+configsvr=true
+dbpath=D:\mongoCluster\configServer\configdb1\mongoData
+logpath=D:\mongoCluster\configServer\configdb1\logs\mongod.log
+logappend=true
+bind_ip = 172.18.128.79
+port=27031
+------------------------------------------------------------------------------------
+
+configsvr=true
+dbpath=D:\mongoCluster\configServer\configdb2\mongoData
+logpath=D:\mongoCluster\configServer\configdb2\logs\mongod.log
+logappend=true
+bind_ip = 172.18.128.79
+port=27032
+
+
+------------------------------------------------------------------------------------
+configsvr=true
+dbpath=D:\mongoCluster\configServer\configdb3\mongoData
+logpath=D:\mongoCluster\configServer\configdb3\logs\mongod.log
+logappend=true
+bind_ip = 172.18.128.79
+port=27033
+------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Shard And Replica Set  mongo.conf
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+dbpath=D:\mongoCluster\shards\shard1\replSet_Shard1\primary\mongoData
+logpath=D:\mongoCluster\shards\shard1\replSet_Shard1\primary\log\mongod.log
+logappend=true
+nojournal = false
+shardsvr=true
+port = 27000
+bind_ip = 172.18.128.79
+replSet =  replSet_Shard1
+rest=true
+------------------------------------------------------------------------------------
+dbpath=D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node1\mongoData
+logpath=D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node1\log\mongod.log
+logappend=true
+nojournal = false
+shardsvr=true
+port = 27001
+bind_ip = 172.18.128.79
+replSet =  replSet_Shard1
+rest=true
+
+------------------------------------------------------------------------------------
+dbpath=D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node2\mongoData
+logpath=D:\mongoCluster\shards\shard1\replSet_Shard1\secondary\node2\log\mongod.log
+logappend=true
+nojournal = false
+shardsvr=true
+port = 27002
+bind_ip = 172.18.128.79
+replSet =  replSet_Shard1
+rest=true
+
+------------------------------------------------------------------------------------
+
+dbpath=D:\mongoCluster\shards\shard1\replSet_Shard1\arbiter\mongoData
+logpath=D:\mongoCluster\shards\shard1\replSet_Shard1\arbiter\log\mongod.log
+logappend=true
+nojournal = false
+shardsvr=true
+port = 27003
+bind_ip = 172.18.128.79
+replSet =  replSet_Shard1
+rest=true
+oplogSize=1
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Query Router  mongos.conf
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------
+
+configdb=172.18.128.79:27031,172.18.128.79:27032,172.18.128.79:27033
+logpath=D:\mongoCluster\mongoSServer_Routers\QueryRouter1\log\mongos.log
+logappend=true
+port=27041
+bind_ip = 172.18.128.79
+
+------------------------------------------------------------------------------------
+
+configdb=172.18.128.79:27031,172.18.128.79:27032,172.18.128.79:27033
+logpath=D:\mongoCluster\mongoSServer_Routers\QueryRouter2\log\mongos.log
+logappend=true
+port=27042
+bind_ip = 172.18.128.79
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Config Servers
+
+Config servers are special mongod instances that store the metadata for a sharded cluster.
+
+A production sharded cluster has exactly three config servers. All config servers must be available to deploy a sharded cluster or to make any changes to cluster metadata. Config servers do not run as replica sets.
+
+For testing purposes you may deploy a cluster with a single config server. But to ensure redundancy and safety in production, you should always use three.
+
+WARNING
+If your cluster has a single config server, then the config server is a single point of failure. If the config server is inaccessible, the cluster is not accessible. If you cannot recover the data on a config server, the cluster will be inoperable.
+
+Always use three config servers for production deployments.
+Each sharded cluster must have its own config servers. Do not use the same config servers for different sharded clusters.
+
+TIP
+Use CNAMEs to identify your config servers to the cluster so that you can rename and renumber your config servers without downtime.
+Read and Write Operations on Config Servers
+
+Config servers store the cluster’s metadata in the config database. The mongos instances cache this data and use it to route reads and writes to shards.
+
+MongoDB only writes data to the config server when the metadata changes, such as
+
+after a chunk migration, or
+after a chunk split.
+When writing to the three config servers, a coordinator dispatches the same write commands to the three config servers and collects the results. Differing results indicate an inconsistent writes to the config servers and may require manual intervention. Once the config servers become inconsistent, the balancer will not perform any chunk migration and mongos will not perform auto-splits of chunks.
+
+MongoDB reads data from the config server in the following cases:
+
+A new mongos starts for the first time, or an existing mongos restarts.
+After change in the cluster metadata, such as after a chunk migration.
+MongoDB also uses the config server to manage distributed locks.
+
+Config Server Availability
+
+If one or two config servers become unavailable, the cluster’s metadata becomes read only. You can still read and write data from the shards, but no chunk migrations or splits will occur until all three servers are available.
+
+If all three config servers are unavailable, you can still use the cluster if you do not restart the mongos instances until after the config servers are accessible again. If you restart the mongos instances before the config servers are available, the mongos will be unable to route reads and writes.
+
+Clusters become inoperable without the cluster metadata. To ensure that the config servers remain available and intact, backups of config servers are critical. The data on the config server is small compared to the data stored in a cluster, and the config server has a relatively low activity load. These properties facilitate finding a window to back up the config servers.
+
+If the name or address that a sharded cluster uses to connect to a config server changes, you must restart every mongod and mongos instance in the sharded cluster. Avoid downtime by using CNAMEs to identify config servers within the MongoDB deployment.
+
+
+-----
+
+Sharded Cluster Query Routing
+
+
+MongoDB mongos instances route queries and write operations to shards in a sharded cluster. mongos provide the only interface to a sharded cluster from the perspective of applications. Applications never connect or communicate directly with the shards.
+
+The mongos tracks what data is on which shard by caching the metadata from the config servers. The mongos uses the metadata to route operations from applications and clients to the mongod instances. A mongos has no persistent state and consumes minimal system resources.
+
+The most common practice is to run mongos instances on the same systems as your application servers, but you can maintain mongos instances on the shards or on other dedicated resources.
+
+
+How mongos Determines which Shards Receive a Query
+A mongos instance routes a query to a cluster by:
+
+Determining the list of shards that must receive the query.
+Establishing a cursor on all targeted shards.
+
+
+In some cases, when the shard key or a prefix of the shard key is a part of the query, the mongos can route the query to a subset of the shards. Otherwise, the mongos must direct the query to all shards that hold documents for that collection.
+
+
+Broadcast Operations and Targeted Operations
+
+In general, operations in a sharded environment are either:
+
+Broadcast to all shards in the cluster that hold documents in a collection
+Targeted at a single shard or a limited group of shards, based on the shard key
+For best performance, use targeted operations whenever possible. While some operations must broadcast to all shards, you can ensure MongoDB uses targeted operations whenever possible by always including the shard key.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 mongod --config D:\mongoCluster\shards\replSet1\primary\mongod.conf
 mongod --config D:\mongoCluster\shards\replSet1\secondary\node1\mongod.conf
 mongod --config D:\mongoCluster\shards\replSet1\secondary\node2\mongod.conf
