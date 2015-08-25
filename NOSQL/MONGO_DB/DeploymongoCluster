@@ -424,7 +424,23 @@ Only add an arbiter to sets with even numbers of members. If you add an arbiter 
 
 
 
+Replica Set High Availability
 
+Replica sets provide high availability using automatic failover. Failover allows a secondary member to become primary if primary is unavailable. Failover, in most situations does not require manual intervention.
+
+Replica set members keep the same data set but are otherwise independent. If the primary becomes unavailable, the replica set holds an election to select a new primary. In some situations, the failover process may require a rollback. [1]
+
+The deployment of a replica set affects the outcome of failover situations. To support effective failover, ensure that one facility can elect a primary if needed. Choose the facility that hosts the core application systems to host the majority of the replica set. Place a majority of voting members and all the members that can become primary in this facility. Otherwise, network partitions could prevent the set from being able to form a majority.
+
+[1]	Replica sets remove “rollback” data when needed without intervention. Administrators must apply or discard rollback data manually.
+Failover Processes
+
+The replica set recovers from the loss of a primary by holding an election. Consider the following:
+
+Replica Set Elections
+Elections occur when the primary becomes unavailable and the replica set members autonomously select a new primary.
+Rollbacks During Replica Set Failover
+A rollback reverts write operations on a former primary when the member rejoins the replica set after a failover.
 
 
 
