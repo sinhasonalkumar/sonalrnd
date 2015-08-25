@@ -451,7 +451,109 @@ A rollback reverts write operations on a former primary when the member rejoins 
 
 
 
+Replica Set Elections
 
+Replica sets use elections to determine which set member will become primary. Elections occur after initiating a replica set, and also any time the primary becomes unavailable. The primary is the only member in the set that can accept write operations. If a primary becomes unavailable, elections allow the set to recover normal operations without manual intervention. Elections are part of the failover process.
+
+In the following three-member replica set, the primary is unavailable. The remaining secondaries hold an election to choose a new primary.
+
+Diagram of an election of a new primary. In a three member replica set with two secondaries, the primary becomes unreachable. The loss of a primary triggers an election where one of the secondaries becomes the new primary
+Behavior
+
+Elections are essential for independent operation of a replica set; however, elections take time to complete. While an election is in process, the replica set has no primary and cannot accept writes and all remaining members become read-only. MongoDB avoids elections unless necessary.
+
+If a majority of the replica set is inaccessible or unavailable, the replica set cannot accept writes and all remaining members become read-only.
+
+Factors and Conditions that Affect Elections
+
+Heartbeats
+Replica set members send heartbeats (pings) to each other every two seconds. If a heartbeat does not return within 10 seconds, the other members mark the delinquent member as inaccessible.
+
+Priority Comparisons
+The priority setting affects elections. Members will prefer to vote for members with the highest priority value.
+
+Members with a priority value of 0 cannot become primary and do not seek election. For details, see Priority 0 Replica Set Members.
+
+A replica set does not hold an election as long as the current primary has the highest priority value or no secondary with higher priority is within 10 seconds of the latest oplog entry in the set.
+
+If a higher-priority member catches up to within 10 seconds of the latest oplog entry of the current primary, the set holds an election in order to provide the higher-priority node a chance to become primary.
+
+Optime
+The optime is the timestamp of the last operation that a member applied from the oplog. A replica set member cannot become primary unless it has the highest (i.e. most recent) optime of any visible member in the set.
+
+Connections
+A replica set member cannot become primary unless it can connect to a majority of the members in the replica set. For the purposes of elections, a majority refers to the total number of votes, rather than the total number of members.
+
+If you have a three-member replica set, where every member has one vote, the set can elect a primary as long as two members can connect to each other. If two members are unavailable, the remaining member remains a secondary because it cannot connect to a majority of the set’s members. If the remaining member is a primary and two members become unavailable, the primary steps down and becomes a secondary.
+
+Network Partitions
+Network partitions affect the formation of a majority for an election. If a primary steps down and neither portion of the replica set has a majority the set will not elect a new primary. The replica set becomes read-only.
+
+To avoid this situation, place a majority of instances in one data center and a minority of instances in any other data centers combined.
+
+Election Mechanics
+
+Election Triggering Events
+Replica sets hold an election any time there is no primary. Specifically, the following:
+
+the initiation of a new replica set.
+a secondary loses contact with a primary. Secondaries call for elections when they cannot see a primary.
+a primary steps down.
+NOTE
+Priority 0 members, do not trigger elections, even when they cannot connect to the primary.
+A primary will step down:
+
+after receiving the replSetStepDown command.
+if one of the current secondaries is eligible for election and has a higher priority.
+if primary cannot contact a majority of the members of the replica set.
+In some cases, modifying a replica set’s configuration will trigger an election by modifying the set so that the primary must step down.
+
+IMPORTANT
+When a primary steps down, it closes all open client connections, so that clients don’t attempt to write data to a secondary. This helps clients maintain an accurate view of the replica set and helps prevent rollbacks.
+Participation in Elections
+Every replica set member has a priority that helps determine its eligibility to become a primary. In an election, the replica set elects an eligible member with the highest priority value as primary. By default, all members have a priority of 1 and have an equal chance of becoming primary. In the default, all members also can trigger an election.
+
+You can set the priority value to weight the election in favor of a particular member or group of members. For example, if you have a geographically distributed replica set, you can adjust priorities so that only members in a specific data center can become primary.
+
+The first member to receive the majority of votes becomes primary. By default, all members have a single vote, unless you modify the votes setting. Non-voting members have votes value of 0. All other members have 1 vote.
+
+Changed in version 3.0.0: Members cannot have votes greater than 1. For details, see Replica Set Configuration Validation.
+
+The state of a member also affects its eligibility to vote. Only members in the following states can vote: PRIMARY, SECONDARY, RECOVERING, ARBITER, and ROLLBACK.
+
+IMPORTANT
+Do not alter the number of votes in a replica set to control the outcome of an election. Instead, modify the priority value.
+Vetoes in Elections
+All members of a replica set can veto an election, including non-voting members. A member will veto an election:
+
+If the member seeking an election is not a member of the voter’s set.
+If the member seeking an election is not up-to-date with the most recent operation accessible in the replica set.
+If the member seeking an election has a lower priority than another member in the set that is also eligible for election.
+If a priority 0 member [1] is the most current member at the time of the election. In this case, another eligible member of the set will catch up to the state of this secondary member and then attempt to become primary.
+If the current primary has more recent operations (i.e. a higher optime) than the member seeking election, from the perspective of the voting member.
+If the current primary has the same or more recent operations (i.e. a higher or equal optime) than the member seeking election.
+[1]	Remember that hidden and delayed imply priority 0 configuration.
+Non-Voting Members
+
+Non-voting members hold copies of the replica set’s data and can accept read operations from client applications. Non-voting members do not vote in elections, but can veto an election and become primary.
+
+Because a replica set can have up to 50 members, but only 7 voting members, non-voting members allow a replica set to have more than seven members.
+
+For instance, the following nine-member replica set has seven voting members and two non-voting members.
+
+Diagram of a 9 member replica set with the maximum of 7 voting members.
+A non-voting member has a votes setting equal to 0 in its member configuration:
+
+{
+  "_id" : <num>
+  "host" : <hostname:port>,
+  "votes" : 0
+}
+IMPORTANT
+Do not alter the number of votes to control which members will become primary. Instead, modify the priority option. Only alter the number of votes in exceptional cases. For example, to permit more than seven members.
+When possible, all members should have one vote. Changing the number of votes can cause the wrong members to become primary.
+
+To configure a non-voting member, see Configure Non-Voting Replica Set Member.
 
 
 
