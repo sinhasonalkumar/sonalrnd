@@ -1,0 +1,6 @@
+1) To Start mosquitto broker 
+	./mosquitto -p 1993
+2) To Start mosquitto subscriber
+		mosquitto_sub -h localhost -p 1993 -t testTopic -v
+3) To start mosquitto publisher 
+	mosquitto_pub -h localhost -p 1993 -t testTopic -m "Hello MQTT world"

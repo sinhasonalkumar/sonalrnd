@@ -38,11 +38,26 @@ public class SecurePasswordToStoreInDBMemo {
 	String passwordClearText = "Passw0rd$$";	
 	//storePasswordToDB(passwordClearText);
 	
-	String storedPassword = pullStoredPassword();
+	//String storedPassword = pullStoredPassword();
 	
-	doPasswordVerification(passwordClearText, storedPassword);
+	//doPasswordVerification(passwordClearText, storedPassword);
+	
+	compareHashedPassword(passwordClearText);
 	
 
+    }
+    
+    public static void compareHashedPassword(String passwordClearText){
+	String saltedHashPassword1 = hashPassword(passwordClearText);
+	System.out.println("saltedHashPassword1 :: " + saltedHashPassword1);
+	String saltedHashPassword2 = hashPassword(passwordClearText);
+	System.out.println("saltedHashPassword2 :: " + saltedHashPassword2);
+	
+	System.out.println("Compared Result ::" + saltedHashPassword1.compareTo(saltedHashPassword2));
+	
+	System.out.println("Check Hash1  Result ::" + BCrypt.checkpw(passwordClearText, saltedHashPassword1));
+		
+	System.out.println("Check Hash2 Result ::"  + BCrypt.checkpw(passwordClearText, saltedHashPassword2));	
     }
 
     public static void storePasswordToDB(String passwordClearText) {
