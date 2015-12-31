@@ -1,0 +1,152 @@
+sudo apt-get -y update
+
+sudo apt-get install openssh-server 
+
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+sudo update-alternatives --config java
+
+
+# Setup
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E56151BF
+DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+CODENAME=$(lsb_release -cs)
+
+# Add the repository
+echo "deb http://repos.mesosphere.com/${DISTRO} ${CODENAME} main" | 
+  sudo tee /etc/apt/sources.list.d/mesosphere.list
+sudo apt-get -y update
+
+
+
+sudo apt-get install mesosphere
+
+
+
+sudo nano /etc/mesos/zk
+
+zk://192.168.0.111:2181,192.168.0.112:2181,192.168.0.113:2181/mesos
+
+sudo nano /etc/zookeeper/conf/myid
+
+#For Master 01
+1
+
+#For Master 02
+2
+
+#For Master 03
+3
+
+
+sudo nano /etc/zookeeper/conf/zoo.cfg
+
+
+# specify all zookeeper servers
+# The fist port is used by followers to connect to the leader
+# The second one is used for leader election
+server.1=192.168.0.111:2888:3888
+server.2=192.168.0.112:2888:3888
+server.3=192.168.0.113:2888:3888
+
+
+sudo nano /etc/mesos-master/quorum
+
+2
+
+#On Master 01
+echo 192.168.0.111 | sudo tee /etc/mesos-master/ip
+
+
+#On Master 03
+echo 192.168.0.112 | sudo tee /etc/mesos-master/ip
+
+
+#On Master 03
+echo 192.168.0.113 | sudo tee /etc/mesos-master/ip
+
+
+sudo cp /etc/mesos-master/ip /etc/mesos-master/hostname
+
+
+sudo mkdir -p /etc/marathon/conf
+sudo cp /etc/mesos-master/hostname /etc/marathon/conf
+
+
+sudo cp /etc/mesos/zk /etc/marathon/conf/master
+
+sudo cp /etc/marathon/conf/master /etc/marathon/conf/zk
+
+
+sudo nano /etc/marathon/conf/zk
+
+zk://192.168.0.111:2181,192.168.0.112:2181,192.168.0.113:2181/marathon
+
+
+
+sudo stop mesos-slave
+
+echo manual | sudo tee /etc/init/mesos-slave.override
+
+
+sudo restart zookeeper
+sudo start mesos-master
+sudo start marathon
+
+http://192.168.0.111:5050/
+
+http://192.168.0.111:8080/
+
+
+
+----
+
+sudo apt-get install mesos
+
+
+sudo nano /etc/mesos/zk
+
+zk://192.168.0.111:2181,192.168.0.112:2181,192.168.0.113:2181/mesos
+
+
+sudo stop zookeeper
+echo manual | sudo tee /etc/init/zookeeper.override
+
+
+echo manual | sudo tee /etc/init/mesos-master.override
+sudo stop mesos-master
+
+
+#On Slave 01
+echo 192.168.0.114 | sudo tee /etc/mesos-slave/ip
+
+#On Slave 02
+echo 192.168.0.116 | sudo tee /etc/mesos-slave/ip
+
+#On Slave 03
+echo 192.168.0.117 | sudo tee /etc/mesos-slave/ip
+
+
+
+
+sudo cp /etc/mesos-slave/ip /etc/mesos-slave/hostname
+
+sudo start mesos-slave
+
+
+------
+
+sudo stop zookeeper
+sudo stop mesos-master
+sudo stop marathon
+
+
+sudo start zookeeper
+sudo start mesos-master
+sudo start marathon
+
+
+
+
