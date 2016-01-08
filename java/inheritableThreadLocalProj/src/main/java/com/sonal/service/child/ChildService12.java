@@ -12,6 +12,6 @@ public class ChildService12 {
     public void doSomeThing() {
 
 	WorkflowContext workflowContext = WorkflowContextHolder.getWorkflowContext();
-	System.out.println( "ChildService12 :: " + workflowContext);
+	System.out.println( "Thread Id :: " + Thread.currentThread().getId() +  " ::  ChildService12 :: " + workflowContext);
     }
 }

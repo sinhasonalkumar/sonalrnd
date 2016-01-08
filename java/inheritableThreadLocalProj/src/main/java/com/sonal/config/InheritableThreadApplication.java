@@ -19,11 +19,19 @@ public class InheritableThreadApplication {
         
         ServiceFacade serviceFacade = appContext.getBean(ServiceFacade.class);
         
+        System.out.println("@@@@@@@@@@@@@@@ Start First  Execution @@@@@@@@@@@@@@@@@@");
+        
         serviceFacade.doComplexFeature();
+        
+        System.out.println("@@@@@@@@@@@@@@@ End First  Execution @@@@@@@@@@@@@@@@@@");
         
         Thread.sleep(500);
         
+        System.out.println("@@@@@@@@@@@@@@@ Start Second Execution @@@@@@@@@@@@@@@@@@");
+        
         serviceFacade.doComplexFeature();
+        
+        System.out.println("@@@@@@@@@@@@@@@ End Second  Execution @@@@@@@@@@@@@@@@@@");
         
     }
 }

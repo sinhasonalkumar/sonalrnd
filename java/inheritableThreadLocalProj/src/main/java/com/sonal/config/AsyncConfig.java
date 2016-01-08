@@ -10,13 +10,13 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @Configuration
 @EnableAsync
-public class AsyncConfig extends AsyncConfigurerSupport{
+public class AsyncConfig extends AsyncConfigurerSupport {
 
     @Override
     public Executor getAsyncExecutor() {
-	ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+	 ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+	//ExecutorService newCachedThreadPool = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	return newCachedThreadPool;
     }
 
-     
 }

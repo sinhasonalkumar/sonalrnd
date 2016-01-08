@@ -22,7 +22,7 @@ public class ServiceFacade {
 	setWorkflowContext();
 
 	WorkflowContext workflowContext = WorkflowContextHolder.getWorkflowContext();
-	System.out.println("ServiceFacade :: " + workflowContext);
+	System.out.println("Thread Id :: " + Thread.currentThread().getId() +  " ::  ServiceFacade :: " + workflowContext);
 
 	ListenableFuture<FeatureResuultVO> triggerComplexFeature = parentService.triggerComplexFeature();
 
@@ -40,7 +40,7 @@ public class ServiceFacade {
 
 	});
 
-	while (triggerComplexFeature.isDone()) {
+	while (!triggerComplexFeature.isDone()) {
 	    // System.out.println("!!!!!!!!!!!!!! Waiting For ServiceFacade To End...   !!!!!!!!!!!!!!");
 	}
 
