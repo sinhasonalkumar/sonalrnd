@@ -17,6 +17,7 @@ public class DynamicBatchJobMain {
    	JobRequestVO jobRequestVO = new JobRequestVO();
    	jobRequestVO.setJobRequestId(jobRequestID);
    	taskletOrientedJobRunner.startTaskletOrientedJob(jobRequestVO);
+   	//taskletOrientedJobRunner.starttaskletOrientedParallelStepsJob(jobRequestVO);
    	
        }
 }

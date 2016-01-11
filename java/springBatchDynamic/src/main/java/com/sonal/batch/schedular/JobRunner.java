@@ -24,6 +24,9 @@ public class JobRunner {
 
     @Autowired
     private Job taskletOrientedJob;
+    
+    @Autowired
+    private Job taskletOrientedParallelStepsJob;
 
     @Autowired
     private SimpleJobLauncher jobLauncher;
@@ -47,4 +50,26 @@ public class JobRunner {
 	}
 	return jobExecution;
     }
+    
+    
+    
+    public JobExecution starttaskletOrientedParallelStepsJob(JobRequestVO jobRequestVO) {
+	Map<String, String> stepToTaskletMapping = stepConfigDao.getStepToTaskletMapping(jobRequestVO.getJobRequestId());
+	jobRequestVO.setStepToTaskLetMap(stepToTaskletMapping);
+	JobExecution jobExecution = null;
+	Map<String, JobParameter> params = new HashMap<String, JobParameter>();
+	    params.put("jobStartTime", new JobParameter(System.currentTimeMillis()));
+	    params.put("jobRequestId", new JobParameter(jobRequestVO.getJobRequestId()));
+	    JobParameters jobParameters = new JobParameters(params);
+	JobRequestContext.setJobRequestVO(jobRequestVO);    
+	try {
+	    jobExecution = jobLauncher.run(taskletOrientedParallelStepsJob, jobParameters);
+	} catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException | JobParametersInvalidException e) {
+	    e.printStackTrace();
+	}
+	return jobExecution;
+    }
+    
+    
+    
 }
