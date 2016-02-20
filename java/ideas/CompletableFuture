@@ -17,9 +17,9 @@ public class CompletableTest {
 	CompletableFuture<String> aggregateCompletableFuture = service1.thenCombineAsync(service2, new BiFunction<String, String, String>() {
 
 	    @Override
-	    public String apply(String t, String u) {
+	    public String apply(String Service1Result, String service2Result) {
 
-		return t + " :: " + u;
+		return Service1Result + " :: " + service2Result;
 	    }
 
 	});
@@ -27,8 +27,8 @@ public class CompletableTest {
 	aggregateCompletableFuture.thenAcceptAsync(new Consumer<String>() {
 
 	    @Override
-	    public void accept(String t) {
-		System.out.println(t);
+	    public void accept(String aggregationOfService1NService2Result) {
+		System.out.println(aggregationOfService1NService2Result);
 	    }
 	   
 	    
