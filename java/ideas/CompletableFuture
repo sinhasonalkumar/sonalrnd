@@ -1,0 +1,110 @@
+package nonblocking;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+public class CompletableTest {
+
+    public static void main(String[] args) throws Exception {
+
+	CompletableTest completableTest = new CompletableTest();
+	CompletableFuture<String> service1 = completableTest.service1();
+	CompletableFuture<String> service2 = completableTest.service2();
+
+	CompletableFuture<String> aggregateCompletableFuture = service1.thenCombineAsync(service2, new BiFunction<String, String, String>() {
+
+	    @Override
+	    public String apply(String t, String u) {
+
+		return t + " :: " + u;
+	    }
+
+	});
+
+	aggregateCompletableFuture.thenAcceptAsync(new Consumer<String>() {
+
+	    @Override
+	    public void accept(String t) {
+		System.out.println(t);
+	    }
+	   
+	    
+	}).join();
+	
+    }
+
+    public CompletableFuture<String> service1() {
+	CompletableFuture<String> service1CompletableFutureResult = CompletableFuture.supplyAsync(new Supplier<String>() {
+
+	    @Override
+	    public String get() {
+		System.out.println("Start Service 1");
+		try {
+		    Thread.sleep(5000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
+		System.out.println("End Service 1");
+
+		return "Service1 Result";
+	    }
+
+	});
+
+	return service1CompletableFutureResult;
+    }
+
+    public CompletableFuture<String> service2() {
+	CompletableFuture<String> service2CompletableFutureResult = CompletableFuture.supplyAsync(new Supplier<String>() {
+
+	    @Override
+	    public String get() {
+		System.out.println("Start Service 2");
+		try {
+		    Thread.sleep(3000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		}
+		System.out.println("End Service 2");
+		return "Service2 Result";
+	    }
+
+	});
+
+	return service2CompletableFutureResult;
+    }
+    
+    
+    public void allOfTest() {
+	CompletableTest completableTest = new CompletableTest();
+	final CompletableFuture<String> service1 = completableTest.service1();
+	final CompletableFuture<String> service2 = completableTest.service2();
+
+	CompletableFuture.allOf(service1, service2).thenRun(new Runnable() {
+
+	    @Override
+	    public void run() {
+		String service1Result = null;
+		String service2Result = null;
+		try {
+		    service1Result = service1.get();
+		} catch (InterruptedException | ExecutionException e) {
+		}
+
+		try {
+
+		    service2Result = service2.get();
+		} catch (InterruptedException | ExecutionException e) {
+		}
+
+		System.out.println("Aggregate Result Of Service1 and Service 2 :: " + service1Result + " :: " + service2Result);
+		System.out.println("Done with Long Runnig Work");
+
+	    }
+	}).join();
+    }
+
+}
