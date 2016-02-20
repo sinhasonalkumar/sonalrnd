@@ -11,31 +11,64 @@ public class CompletableTest {
     public static void main(String[] args) throws Exception {
 
 	CompletableTest completableTest = new CompletableTest();
-	CompletableFuture<String> service1 = completableTest.service1();
-	CompletableFuture<String> service2 = completableTest.service2();
-
-	BiFunction<String, String, String> aggregationOfService1NService2Functuion = new BiFunction<String, String, String>() {
-
+	CompletableFuture<String> service1 = completableTest.service1().handleAsync(new BiFunction<String, Throwable, String>() {
 	    @Override
-	    public String apply(String Service1Result, String service2Result) {
-
-		return Service1Result + " :: " + service2Result;
+	    public String apply(String t, Throwable u) {
+		String result = null;
+		if (u != null) {
+		    result = "Service1 Error :: " + u.getMessage();
+		}else{
+		    result = t;
+		}
+		return result;
 	    }
 
+	});
+	CompletableFuture<String> service2 = completableTest.service2().handleAsync(new BiFunction<String, Throwable, String>() {
+	    @Override
+	    public String apply(String t, Throwable u) {
+
+		String result = null;
+		if (u != null) {
+		    result = "Service2 Error :: " + u.getMessage();
+		}else{
+		    result = t;
+		}
+		return result;
+	    }
+
+	});
+
+	BiFunction<String, String, String> aggregationOfService1NService2Functuion = new BiFunction<String, String, String>() {
+	    @Override
+	    public String apply(String service1Result, String service2Result) {
+		return service1Result + " :: " + service2Result;
+	    }
 	};
-	
-	CompletableFuture<String> aggregateCompletableFuture = service1.thenCombineAsync(service2, aggregationOfService1NService2Functuion);
+
+	CompletableFuture<String> aggregateCompletableFuture = service1.thenCombineAsync(service2, aggregationOfService1NService2Functuion).handleAsync(new BiFunction<String, Throwable, String>() {
+	    @Override
+	    public String apply(String aggregationOfService1NService2Result, Throwable u) {
+		String result = null;
+		
+		if(u != null){
+		    result = aggregationOfService1NService2Result + " :: With aggregation Error";
+		}else{
+		    result = aggregationOfService1NService2Result;
+		}
+
+		return result;
+	    }
+
+	});
 
 	aggregateCompletableFuture.thenAcceptAsync(new Consumer<String>() {
-
 	    @Override
 	    public void accept(String aggregationOfService1NService2Result) {
 		System.out.println(aggregationOfService1NService2Result);
 	    }
-	   
-	    
 	}).join();
-	
+
     }
 
     public CompletableFuture<String> service1() {
@@ -45,7 +78,7 @@ public class CompletableTest {
 	    public String get() {
 		System.out.println("Start Service 1");
 		try {
-		    Thread.sleep(5000);
+		    Thread.sleep(3000);
 		} catch (InterruptedException e) {
 		    e.printStackTrace();
 		}
@@ -66,10 +99,11 @@ public class CompletableTest {
 	    public String get() {
 		System.out.println("Start Service 2");
 		try {
-		    Thread.sleep(3000);
+		    Thread.sleep(1000);
 		} catch (InterruptedException e) {
 		    e.printStackTrace();
 		}
+		System.out.println(0 / 0);
 		System.out.println("End Service 2");
 		return "Service2 Result";
 	    }
@@ -78,8 +112,7 @@ public class CompletableTest {
 
 	return service2CompletableFutureResult;
     }
-    
-    
+
     public void allOfTest() {
 	CompletableTest completableTest = new CompletableTest();
 	final CompletableFuture<String> service1 = completableTest.service1();
