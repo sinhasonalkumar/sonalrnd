@@ -1,0 +1,92 @@
+docker-machine create -d=virtualbox consul-machine
+
+eval $(docker-machine env consul-machine)
+
+sudo nano docker-compose.yml
+
+version: '2'
+services:
+  myconsul:
+    image: progrium/consul
+    restart: always
+    hostname: consul
+    ports:
+      - 8500:8500
+    command: "-server -bootstrap"
+    
+// save and exit    
+
+docker-compose up -d
+
+docker-machine create -d virtualbox --swarm --swarm-master --swarm-discovery="consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-store=consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-advertise=eth1:2376" swarm-master
+
+
+eval "$(docker-machine env swarm-master)"
+docker info
+
+docker-machine create -d virtualbox --swarm --swarm-discovery="consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-store=consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-advertise=eth1:2376" swarm-node-01
+
+docker-machine create -d virtualbox --swarm --swarm-discovery="consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-store=consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-advertise=eth1:2376" swarm-node-02
+
+docker-machine ls 
+
+eval "$(docker-machine env --swarm swarm-master)"
+
+docker info
+
+docker run swarm list consul://$(docker-machine ip consul-machine):8500
+
+docker network ls
+
+docker network create --driver overlay --subnet=10.0.9.0/24 my-net
+
+docker run -itd --name=web --net=my-net --env="constraint:node==swarm-node-01" nginx
+
+docker run -itd --name ubu-01 --net my-net --env="constraint:node==swarm-node-02" ubuntu
+
+docker network ls
+
+docker ps
+
+docker attach [ContainerId of ubu-01]
+# ping web
+# curl http://web
+#ctl pq
+
+docker exec -it web /bin/sh
+#ping ubu-01
+#ctrl pq
+
+
+docker run -itd --name ubu-02 --net my-net --env="constraint:node==swarm-node-01" ubuntu
+
+docker run -itd --name ubu-03 --net my-net ubuntu
+
+docker run -itd --name ubu-04 --net my-net ubuntu
+
+docker run -itd --name ubu-05 --net my-net ubuntu
+
+attach container and ping from each other. U can do that. 
+
+
+
+docker network create --driver overlay --subnet=10.0.8.0/24 my-net-01
+
+docker network create --driver overlay --subnet=10.0.7.0/24 my-net-02
+
+docker run -itd --name ubu-04 --net my-net=01 ubuntu
+
+docker run -itd --name ubu-05 --net my-net=01 ubuntu
+
+
+docker run -itd --name ubu-06 --net my-net=02 ubuntu
+
+docker run -itd --name ubu-07 --net my-net=02 ubuntu
+
+
+Now ping between containers should hppnen within same network.
+
+
+
+
+
