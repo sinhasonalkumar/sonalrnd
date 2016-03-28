@@ -26,7 +26,7 @@ docker-machine create -d virtualbox --swarm --swarm-master --swarm-discovery="co
 
 docker-machine ls 
 
-eval "$(docker-machine env swarm-master)"
+eval "$(docker-machine env --swarm swarm-master)"
 docker info
 
 docker-machine create -d virtualbox --swarm --swarm-discovery="consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-store=consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-advertise=eth1:2376" swarm-node-01
