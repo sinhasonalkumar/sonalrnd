@@ -1,3 +1,9 @@
+docker pull swarm
+
+docker history swarm
+
+
+
 docker-machine create -d=virtualbox consul-machine
 
 eval $(docker-machine env consul-machine)
