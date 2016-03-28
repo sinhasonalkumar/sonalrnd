@@ -2,6 +2,8 @@ docker-machine create -d=virtualbox consul-machine
 
 eval $(docker-machine env consul-machine)
 
+docker-machine ls 
+
 sudo nano docker-compose.yml
 
 version: '2'
@@ -18,6 +20,8 @@ services:
 
 docker-compose up -d
 
+docker-machine ls 
+
 docker-machine create -d virtualbox --swarm --swarm-master --swarm-discovery="consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-store=consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-advertise=eth1:2376" swarm-master
 
 
@@ -25,6 +29,8 @@ eval "$(docker-machine env swarm-master)"
 docker info
 
 docker-machine create -d virtualbox --swarm --swarm-discovery="consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-store=consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-advertise=eth1:2376" swarm-node-01
+
+docker-machine ls 
 
 docker-machine create -d virtualbox --swarm --swarm-discovery="consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-store=consul://$(docker-machine ip consul-machine):8500" --engine-opt="cluster-advertise=eth1:2376" swarm-node-02
 
