@@ -87,6 +87,7 @@ docker run -itd --name ubu-07 --net my-net=02 ubuntu
 Now ping between containers should hppnen within same network.
 
 ------cleanup----
+eval "$(docker-machine env --swarm swarm-master)"
 
 docker stop $(docker ps -q)
 
