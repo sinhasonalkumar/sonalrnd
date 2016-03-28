@@ -41,7 +41,41 @@ eval "$(docker-machine env --swarm swarm-master)"
 
 docker info
 
+docker ps
+
+docker ps -a
+
+docker network ls
+
 docker run swarm list consul://$(docker-machine ip consul-machine):8500
+
+eval $(docker-machine env swarm-master)
+
+docker-machine ls
+
+docker ps
+
+docker network ls
+
+
+eval $(docker-machine env swarm-node-01)
+
+docker-machine ls
+
+docker ps
+
+docker network ls
+
+
+eval $(docker-machine env swarm-node-02)
+
+docker-machine ls
+
+docker ps
+
+docker network ls
+
+eval "$(docker-machine env --swarm swarm-master)"
 
 docker network ls
 
