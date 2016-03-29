@@ -1,0 +1,108 @@
+provision linux hosts :-
+
+1) consul-server-bootstrap (192.0.2.1)
+2) consul-server-1 (192.0.2.2)
+3) consul-server-2 (192.0.2.3)
+3) consul-client-1 (192.0.2.4)
+
+
+ssh and Execute undernoted command on all hosts
+
+adduser consul
+mkdir -p /etc/consul.d/{bootstrap,server,client}
+
+mkdir /var/consul
+chown consul:consul /var/consul
+
+consul keygen
+// example : X4SYOinf2pTAcAHRhpj7dA==
+
+
+ssh to consul-server-bootstrap (192.0.2.1) machine
+
+nano /etc/consul.d/bootstrap/config.json
+
+{
+    "bootstrap": true,
+    "server": true,
+    "datacenter": "dc1",
+    "data_dir": "/var/consul",
+    "encrypt": "X4SYOinf2pTAcAHRhpj7dA==",
+    "log_level": "INFO",
+    "enable_syslog": true,
+    "start_join": ["192.0.2.2", "192.0.2.3"]
+}
+
+// save and exit
+
+ssh to consul-server-1 (192.0.2.2)
+
+nano /etc/consul.d/server/config.json
+
+{
+    "bootstrap": false,
+    "server": true,
+    "datacenter": "dc1",
+    "data_dir": "/var/consul",
+    "encrypt": "X4SYOinf2pTAcAHRhpj7dA==",
+    "log_level": "INFO",
+    "enable_syslog": true,
+    "start_join": ["192.0.2.1", "192.0.2.3"]
+}
+
+// save and exit
+
+nano /etc/init/consul.conf
+
+
+
+
+ssh to consul-server-2 (192.0.2.3)
+
+nano /etc/consul.d/server/config.json
+
+
+{
+    "bootstrap": false,
+    "server": true,
+    "datacenter": "dc1",
+    "data_dir": "/var/consul",
+    "encrypt": "X4SYOinf2pTAcAHRhpj7dA==",
+    "log_level": "INFO",
+    "enable_syslog": true,
+    "start_join": ["192.0.2.1", "192.0.2.2"]
+}
+
+// save and exit
+
+
+ssh to consul-client-1 (192.0.2.4)
+
+nano /etc/consul.d/client/config.json
+
+{
+    "server": false,
+    "datacenter": "dc1",
+    "data_dir": "/var/consul",
+    "ui_dir": "/home/consul/dist",
+    "encrypt": "X4SYOinf2pTAcAHRhpj7dA==",
+    "log_level": "INFO",
+    "enable_syslog": true,
+    "start_join": ["192.0.2.1", "192.0.2.2", "192.0.2.3"]
+}
+
+su consul
+cd ~
+wget https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_web_ui.zip
+
+unzip *.zip
+rm *.zip
+
+
+Run consul all hosts by using undernoted command
+
+exec consul agent -config-dir /etc/consul.d/server
+
+
+
+
