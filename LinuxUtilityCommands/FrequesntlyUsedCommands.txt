@@ -1,0 +1,29 @@
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+
+sudo apt-get install oracle-java8-set-default
+
+
+
+sudo wget http://apache.cs.utah.edu/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+sudo tar -xvf apache-maven-3.3.9-bin.tar.gz 
+sudo ln -s ~/apps/testDockerCompose/oauthExample/apache-maven-3.3.9/bin/mvn /usr/local/bin/mvn
+sudo rm -rf apache-maven-3.3.9-bin.tar.gz 
+
+
+
+wget -qO- https://get.docker.com/ | sh
+
+
+
+zip -r oauthExample.zip oauthExample/
+
+scp java8Image.zip sonal@192.168.0.102:/tmp
+ssh sonal@192.168.0.102:/tmp
+
+cd ~/
+
+scp -i myKeyPair.pem myKeyPair.pem ubuntu@192.168.0.102:~/
+
+scp -i myKeyPair.pem ubuntu@192.168.0.102:~/
