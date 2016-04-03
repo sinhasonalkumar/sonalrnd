@@ -1,22 +1,25 @@
+version : '2'
 # current directory is : location from where docker-compose.yml file is placed.
-auth-server:  
- build : springOauth2AuthorisationServer
- volumes : 
-   - /var/data/authServer:/app/data
-   - /var/log/authServer:/app/log
-   - ~/.m2:/root/.m2
- ports : 
-   - 8081:8080
- command : bash -c " pwd && ls && cd /app/src && mvn clean package  &&  java -jar target/springOauth2AuthorisationServer-0.1.0.jar " 
+services :
+  auth-server:
+   build : springOauth2AuthorisationServer
+   volumes :
+     - /var/data/authServer:/app/data
+     - /var/log/authServer:/app/log
+     - ~/.m2:/root/.m2
+   ports :
+     - 8081:8080
+   command : bash -c " pwd && ls && cd /app/src && mvn clean package  &&  java -jar target/springOauth2AuthorisationServer-0.1.0.jar "
 
-resource-server: 
- build : SecuredRestServices
- volumes : 
-#  - ./SecuredRestServices/:/app/src
-   - /var/data/resourceServer:/app/data
-   - /var/log/resourceServer:/app/log
-   - ~/.m2:/root/.m2
- ports : 
-   - 8080:8080 
- command : bash -c " pwd && ls && cd /app/src && mvn clean package  &&  java -jar target/SecuredRestServices-0.1.0.jar "
-
+  resource-server:
+   build : SecuredRestServices
+   depends_on :
+     - auth-server
+   volumes :
+#    - ./SecuredRestServices/:/app/src
+     - /var/data/resourceServer:/app/data
+     - /var/log/resourceServer:/app/log
+     - ~/.m2:/root/.m2
+   ports :
+     - 8080:8080
+   command : bash -c " pwd && ls && cd /app/src && mvn clean package  &&  java -jar target/SecuredRestServices-0.1.0.jar "
