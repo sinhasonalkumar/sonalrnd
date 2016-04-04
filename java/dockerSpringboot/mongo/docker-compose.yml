@@ -1,0 +1,12 @@
+version : '2'
+# current directory is : location from where docker-compose.yml file is placed.
+services :
+ mongo-replset :
+  build : mongodConfig 
+  volumes :
+   - /var/data/mongo/db:/app/data/db
+   - /var/data/mongo/log:/app/data/log
+  ports :
+    - 27017:27017
+  command : bash -c "cat /app/mongodConfig/mongod.conf &&  mongod --config /app/mongodConfig/mongod.conf"
+
