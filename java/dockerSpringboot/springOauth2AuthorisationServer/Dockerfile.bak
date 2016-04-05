@@ -1,0 +1,15 @@
+root@ip-10-0-3-51:~/as/springOauth2AuthorisationServer# cat Dockerfile
+FROM sinhasonalkumar/java8:v1
+
+WORKDIR /app/workdir
+
+ADD ./target/springOauth2AuthorisationServer-0.1.0.jar /var/app/bin/as.jar
+
+EXPOSE 8080
+
+ENTRYPOINT java -jar  /var/app/bin/as.jar
+
+root@ip-10-0-3-51:~/as/springOauth2AuthorisationServer# ls
+apache-maven-3.3.9  Dockerfile  pom.xml  src  target
+root@ip-10-0-3-51:~/as/springOauth2AuthorisationServer# pwd
+/home/ubuntu/as/springOauth2AuthorisationServer
