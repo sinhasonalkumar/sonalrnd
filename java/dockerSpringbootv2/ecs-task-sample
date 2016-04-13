@@ -1,0 +1,73 @@
+root@ip-10-0-3-51:~/current/dockerSpringbootv2/as# ls
+Dockerfile  pom.xml  src  target
+root@ip-10-0-3-51:~/current/dockerSpringbootv2/as# pwd
+/home/ubuntu/current/dockerSpringbootv2/as
+root@ip-10-0-3-51:~/current/dockerSpringbootv2/as# cat Dockerfile 
+FROM sinhasonalkumar/java8:v1
+
+WORKDIR /app/workdir
+
+ADD ./target/springOauth2AuthorisationServer-0.1.0.jar /var/app/bin/as.jar
+
+EXPOSE 8080
+
+ENTRYPOINT java -jar  /var/app/bin/as.jar
+
+root@ip-10-0-3-51:~/current/dockerSpringbootv2/as# 
+
+{
+  "requiresAttributes": [],
+  "taskDefinitionArn": "arn:aws:ecs:us-west-2:524369662707:task-definition/rs-task:1",
+  "status": "ACTIVE",
+  "revision": 1,
+  "containerDefinitions": [
+    {
+      "volumesFrom": [],
+      "memory": 512,
+      "extraHosts": null,
+      "dnsServers": null,
+      "disableNetworking": null,
+      "dnsSearchDomains": null,
+      "portMappings": [
+        {
+          "hostPort": 8080,
+          "containerPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "hostname": null,
+      "essential": true,
+      "entryPoint": null,
+      "mountPoints": [
+        {
+          "containerPath": "/var/log",
+          "sourceVolume": "log",
+          "readOnly": null
+        }
+      ],
+      "name": "rs-container",
+      "ulimits": null,
+      "dockerSecurityOptions": null,
+      "environment": [],
+      "links": null,
+      "workingDirectory": null,
+      "readonlyRootFilesystem": null,
+      "image": "sinhasonalkumar/rs",
+      "command": null,
+      "user": null,
+      "dockerLabels": null,
+      "logConfiguration": null,
+      "cpu": 450,
+      "privileged": null
+    }
+  ],
+  "volumes": [
+    {
+      "host": {
+        "sourcePath": "/var/log/as/"
+      },
+      "name": "log"
+    }
+  ],
+  "family": "rs-task"
+}

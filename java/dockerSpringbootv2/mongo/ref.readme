@@ -1,0 +1,15 @@
+ubuntu@ip-10-0-3-51:~/current/dockerSpringbootv2/mongo$ cat Dockerfile 
+FROM sinhasonalkumar/mongodbdocker:v1
+
+ADD ./mongod.conf /var/mongo/config/mongod.conf
+
+RUN mkdir /var/mongo/log && mkdir /var/mongo/db
+
+ENTRYPOINT mongod --config /var/mongo/config/mongod.conf
+
+#RUN mongod --config /var/mongo/config/mongod.conf
+ubuntu@ip-10-0-3-51:~/current/dockerSpringbootv2/mongo$ ls
+Dockerfile  mongod.conf
+ubuntu@ip-10-0-3-51:~/current/dockerSpringbootv2/mongo$ pwd
+/home/ubuntu/current/dockerSpringbootv2/mongo
+ubuntu@ip-10-0-3-51:~/current/dockerSpringbootv2/mongo$ 
