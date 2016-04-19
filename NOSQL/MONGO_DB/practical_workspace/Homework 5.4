@@ -1,0 +1,91 @@
+
+db.posts.aggregate([
+			{
+				"$unwind":"$comments"
+			},
+			{
+               "$project" : {"comment" :"$comments"}
+			},
+			{
+				"$group" : { "_id" : "$comment.author","CommentsCount" : {"$sum":1}}
+			},
+			{
+				"$sort" : {"CommentsCount" : -1}
+			},
+			{
+				"$limit" :1
+			}
+
+		])
+
+
+db.zips.aggregate([
+			{
+				"$match" :{
+							"$or" :[
+										{"state":"CA"},
+										{"state":"NY"}
+								   ] ,
+
+							"pop" : {"$gt" :25000}	   
+						  }
+			},
+			{
+               "$group" : {"_id" :"$state","AvgPop" : {"$avg" : "$pop"}}
+			}
+])
+
+
+db.zips.aggregate([
+			
+			{
+				"$match" :{
+							"$or" :[
+										{"state":"CA","pop" :{"$gte" : 25000}},
+										{"state":"NY","pop" :{"$gte" : 25000}}
+								   ] 
+						  }
+			},
+
+			{
+               "$group" : {"_id" :{state :"$state"},"AvgPop" : {"$avg" : "$pop"}}
+			},
+			{
+				"$sort" : {"_id.state" : 1}
+			}
+])
+
+
+
+db.grades.aggregate([
+					{"$unwind" : "$scores"},
+					 {"$project" : {"class" : "$class_id","student":"$student_id","score_type" :"$scores"}},
+					 {"$match" : {"score_type.score_type" : {"$ne" : "quiz"}}},
+					 {"$group" : {"_id" : {"class" :"$class","student" : "$student"},"avg_score" : {"$avg":"$score_type.score"}}},
+					 {"$sort" : {"_id.class" :1}},
+					 {"$project" : {"_id" :0 ,"class" : "$_id.class" ,"student" :"$_id.student","avg_score":1}},
+					 {"$group" : { "_id" : "$class" , "avg" : {"$avg" : "$avg_score"}}},
+					 {"$sort" : {"avg" : -1}}
+					 ])
+
+
+
+db.zips.aggregate([
+    {$project: 
+     {
+		first_char: {$substr : ["$city",0,1]},pop:"$pop"
+     }	 
+   },
+   {$match : {"first_char" : {"$regex" : "^[0-9]"}}},
+   {$group : {"_id" : null,"total":{"$sum" :"$pop"}}}
+])
+
+
+
+
+
+
+
+
+
+

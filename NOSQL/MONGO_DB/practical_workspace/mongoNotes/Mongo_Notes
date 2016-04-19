@@ -1,0 +1,32 @@
+mongod --dbpath=/Users/sonal/sonal/training/mongoTraining/practical_workspace/mongodata
+
+mongorestore /Users/sonal/sonal/training/mongoTraining/materialDocs/week1/week_1_introduction.4502c8ab0e14/homework_1_1/hw1-1/dump
+
+mongo
+
+show databases;
+
+
+admin  (empty)
+local  0.078GB
+m101   0.078GB
+
+use m101
+
+show collections;
+
+funnynumbers
+hw1
+system.indexes
+
+db.funnynumbers.find();
+db.funnynumbers.find().pretty();
+
+
+----
+
+42
+
+1,2,5
+
+523258

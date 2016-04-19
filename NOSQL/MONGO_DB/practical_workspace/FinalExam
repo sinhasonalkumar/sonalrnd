@@ -1,0 +1,12 @@
+db.messages.aggregate([
+			{
+				"$unwind":"$headers.To"
+			},{
+				"$project" : {"from" : "$headers.From","to" : "$headers.To","messageId":"$headers.Message-ID","subject":"$headers.Subject"}
+			},{
+				"$group" : {"_id":{"from":"$from","to":"$to"},"messageCount": {"$sum":1}}
+			},{
+				"$sort" : {"messageCount" : -1}
+			}
+
+])
