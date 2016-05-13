@@ -1,0 +1,67 @@
+package nonblocking;
+
+package nonblocking;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiFunction;
+
+public class CompletableTestV2Main {
+
+    public static void main(String[] args) {
+
+
+	System.out.println("Main :: Thread ::" + Thread.currentThread().getId() + " :: " + Thread.currentThread().getName());
+	CompletableTestV2 completableTest = new CompletableTestV2();
+	
+	CompletableFuture<String> service1 = completableTest.service1();
+	
+	CompletableFuture<String> service2 = completableTest.service2();
+	
+	
+	BiFunction<String, String, String> combinedResult = (String service1Result, String service2Result) -> {
+	    System.out.println("BiFunction :: apply :: Thread ::" + Thread.currentThread().getId() + " :: " + Thread.currentThread().getName());
+	    String combinedResultAsString = "Combined Result of Service1 And Service 2 :: " + service1Result + " + " + service2Result;
+	    return combinedResultAsString;  
+	};
+
+	
+	service1.thenCombineAsync(service2, combinedResult)
+		.thenAcceptAsync((aggregationOfService1NService2Result)-> System.out.println(aggregationOfService1NService2Result))
+		.join();
+
+    
+    }
+}
+
+
+
+
+
+-------
+
+import java.util.concurrent.CompletableFuture;
+
+public class CompletableTestV2 {
+
+    
+    public CompletableFuture<String> service1() {
+	CompletableFuture<String> service1CompletableFutureResult = CompletableFuture.supplyAsync( () ->{
+	    System.out.println("Start Service 1");
+	    return  "Service1 Result"; 
+	});
+
+	return service1CompletableFutureResult;
+    }
+
+    public CompletableFuture<String> service2() {
+	CompletableFuture<String> service2CompletableFutureResult = CompletableFuture.supplyAsync( () -> {
+	    System.out.println("Start Service 2");
+	   return "Service2 Result";
+	});
+
+	return service2CompletableFutureResult;
+    }
+
+    
+
+}
