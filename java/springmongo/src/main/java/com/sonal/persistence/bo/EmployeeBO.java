@@ -1,5 +1,7 @@
 package com.sonal.persistence.bo;
 
+import java.util.List;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @EqualsAndHashCode(of = {"userName"})
 @Document
-public class Employee {
+public class EmployeeBO {
 
 	@Id
 	private String id;
@@ -29,5 +31,7 @@ public class Employee {
 	private int age;
 	
 	private int noOfHoldingTasks;
+	
+	private List<SubjectBO> subjects;
 
 }

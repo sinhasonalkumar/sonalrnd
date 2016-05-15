@@ -42,7 +42,7 @@ public class AppConfig {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String databaseName = "testdb";
+		String databaseName = "studentDB";
 		MongoTemplate mongoTemplate = new MongoTemplate(mongo, databaseName);
 		return mongoTemplate;
 	}

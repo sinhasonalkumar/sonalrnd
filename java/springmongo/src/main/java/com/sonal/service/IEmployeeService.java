@@ -2,18 +2,18 @@ package com.sonal.service;
 
 import java.util.List;
 
-import com.sonal.persistence.bo.Employee;
+import com.sonal.persistence.bo.EmployeeBO;
 
 public interface IEmployeeService {
 
-	List<Employee> getAllEmloyee();
+	List<EmployeeBO> getAllEmloyee();
 
-	void saveEmployeesInBulk(List<Employee> employees);
+	void saveEmployeesInBulk(List<EmployeeBO> employees);
 	
-	void saveOrUpdateEmployee(Employee employee);
+	void saveOrUpdateEmployee(EmployeeBO employee);
 	
-	Employee findEmployeeByUserName(String userName);
+	EmployeeBO findEmployeeByUserName(String userName);
 
-	void deleteEmployee(Employee employee);
+	void deleteEmployee(EmployeeBO employee);
 
 }

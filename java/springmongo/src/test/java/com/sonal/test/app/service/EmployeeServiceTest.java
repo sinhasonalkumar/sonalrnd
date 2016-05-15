@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import com.sonal.config.AppConfig;
-import com.sonal.persistence.bo.Employee;
+import com.sonal.persistence.bo.EmployeeBO;
 import com.sonal.service.IEmployeeService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,12 +30,12 @@ public class EmployeeServiceTest {
     public void init(){
 	
 	
-	Employee employee = employeeService.findEmployeeByUserName(userName);
+	EmployeeBO employee = employeeService.findEmployeeByUserName(userName);
 	if(employee != null){
 	    employeeService.deleteEmployee(employee);
 	}
 	
-	Employee employeeToSave = new Employee();
+	EmployeeBO employeeToSave = new EmployeeBO();
 	
 	
 	employeeToSave.setUserName("testuser");
@@ -61,8 +61,8 @@ public class EmployeeServiceTest {
 
 	
 
-	Employee employeeRead1 = employeeService.findEmployeeByUserName(userName);
-	Employee employeeRead2 = employeeService.findEmployeeByUserName(userName);
+	EmployeeBO employeeRead1 = employeeService.findEmployeeByUserName(userName);
+	EmployeeBO employeeRead2 = employeeService.findEmployeeByUserName(userName);
 	
 	Assert.assertEquals(employeeRead1.equals(employeeRead2), true);
 	
@@ -80,7 +80,7 @@ public class EmployeeServiceTest {
 	    employeeService.saveOrUpdateEmployee(employeeRead2);
 	}
 	
-	Employee employeeRead3 = employeeService.findEmployeeByUserName(userName);
+	EmployeeBO employeeRead3 = employeeService.findEmployeeByUserName(userName);
 	employeeRead3.getNoOfHoldingTasks();
 	
 	Assert.assertEquals((employeeRead1.equals(employeeRead3) && employeeRead2.equals(employeeRead3)), true);

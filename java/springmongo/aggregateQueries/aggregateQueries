@@ -1,0 +1,56 @@
+db.employeeBO.aggregate([
+  {
+    $unwind: "$subjects"
+  },
+  {
+  	$unwind: "$subjects.books"  
+  },
+  {
+   $group : {
+     _id : {userName:"$userName",subject:"$subjects.subjectName"},bookCount:{$sum:1}}
+   },
+  {
+   $sort:{"_id.userName":1,"_id.subject":1} 
+  },
+  {
+    $out : "report" 
+  }
+  
+])
+
+
+----
+
+db.employeeBO.aggregate([
+  {
+    $unwind: "$subjects"
+  },
+  {
+    $project: {"_id":0,"userName":1,"age":1,"subjects":1} 
+  },
+  {
+    $group: { _id: {userName:"$userName"},subjectCount:{$sum:1},subjects:{"$push":"$subjects.subjectName"}}
+  }
+  
+  
+])
+
+----
+
+
+db.employeeBO.aggregate([
+  {
+    $unwind: "$subjects"
+  },
+  {
+    $unwind: "$subjects.books"  
+  },
+  {
+   $group : {
+     _id : {userName:"$userName",subject:"$subjects.subjectName"},bookCount:{$sum:1}}
+   },
+  {
+   $sort:{bookCount:-1} 
+  }
+  
+])
