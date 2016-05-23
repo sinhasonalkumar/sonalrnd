@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -22,10 +23,10 @@ import com.braintreegateway.TransactionRequest;
 
 public class PaymentTRApp {
     private static BraintreeGateway gateway = new BraintreeGateway(
-            Environment.SANDBOX,
-            "",
-            "",
-            ""
+	    Environment.SANDBOX,
+	    "",
+	    "",
+	    ""
             );
 
     private static String renderHtml(String templateFname, HashMap<String, String> valuesMap) {
@@ -46,19 +47,20 @@ public class PaymentTRApp {
         get("/",new Route() {
             @Override
             public Object handle(spark.Request request, Response response) {
-                // set the response type
+                String customerId = "57290325";
+        	// set the response type
                 response.type("text/html");
 
                 String braintreeUrl = gateway.transparentRedirect().url();
                 TransactionRequest trParams = new TransactionRequest()
-                
+                	.orderId(customerId + UUID.randomUUID().toString())
                         .type(Transaction.Type.SALE)
                         .amount(new BigDecimal("1.00"))
                         .options()//.storeInVault(true)
                         .storeInVault(true)
                             .submitForSettlement(true) // this submits transaction request for settlement after doing authorisation 
                             .done();
-                trParams.customerId("57290325"); //for adding  existing customer but do not store cc
+                trParams.customerId(customerId); //for adding  existing customer but do not store cc
 
                 String trData = gateway.transparentRedirect().trData(trParams, "http://localhost:8081/braintree");
 
