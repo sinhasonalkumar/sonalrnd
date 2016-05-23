@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <style type='text/css'>label {display: block;} input {margin-bottom: 10px;}</style>
+  </head>
+  <body>
+    <h1>Braintree Credit Card Transaction Form</h1>
+    <form id='payment-form' action='${braintreeUrl}' method='POST'>
+      <input type='hidden' name='tr_data' value='${trData}' />
+      <div>
+        <h2>Credit Card</h2>
+        <label for='braintree_credit_card_number'>Credit Card Number</label>
+        <input type='text' name='transaction[credit_card][number]' id='braintree_credit_card_number' value='4111111111111111'></input>
+        <label for='braintree_credit_card_exp'>Credit Card Expiry (mm/yyyy)</label>
+        <input type='text' name='transaction[credit_card][expiration_date]' id='braintree_credit_card_exp' value='12/2015'></input>
+        
+         <label for='braintree_credit_postal_coder'>Credit Card Number</label>
+        <input type='text' name='transaction[billing][postal_code]' id='braintree_credit_postal_coder' value='91505'></input>
+        
+        
+      </div>
+      <input class='submit-button' type='submit' />
+    </form>
+  </body>
+</html>
