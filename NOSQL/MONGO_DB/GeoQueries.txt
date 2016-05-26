@@ -5,6 +5,8 @@ db.dealerships.find({loc: {$near:[51,-114]}}).limit(2)
 
 db.dealerships.find({loc: {$near:[51,-114]}, "affiliation":"Dodge"})
 
+db.dealerships.find({"loc" : {"$within" : {"$center" : [[ 34,-118], 12]}}})
+
 areaoftown = { a : { x : 51.12335082548444, y : -114.19052124023438 }, b : { x : 51.11904092252057, y : -114.05593872070312 }, c : { x : 51.02325750523972, y : -114.02435302734375 }, d : { x : 51.01634653617311, y : -114.1644287109375 } }
 
 db.dealerships.find({ "loc" : { "$within" : { "$polygon" : areaoftown } } })
