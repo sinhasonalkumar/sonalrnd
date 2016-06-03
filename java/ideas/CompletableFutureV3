@@ -47,14 +47,27 @@ public class CompletableTestV2 {
 package nonblocking;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 
 public class CompletableTestV2Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
 	System.out.println("Main :: Thread ::" + Thread.currentThread().getId() + " :: " + Thread.currentThread().getName());
 	
+	ForkJoinPool pool = new ForkJoinPool(50);
+
+	pool.submit(CompletableTestV2Main::executeWorkFlow);
+
+	pool.shutdown();	
+
+	pool.awaitTermination(1, TimeUnit.MINUTES);
+
+    }
+
+    private static void executeWorkFlow() {
 	CompletableTestV2 completableTest = new CompletableTestV2();
 
 	CompletableFuture<String> service1 = completableTest.service1();
@@ -66,7 +79,6 @@ public class CompletableTestV2Main {
 	service1.thenCombineAsync(service2, combinedResult)
 		.thenAcceptAsync(CompletableTestV2Main::performSomeActionOnCombinedResult)
 		.join();
-
     }
 
     private static void performSomeActionOnCombinedResult(String aggregationOfService1NService2Result) {
