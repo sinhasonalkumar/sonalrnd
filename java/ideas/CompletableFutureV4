@@ -1,0 +1,91 @@
+package nonblocking;
+
+import java.util.concurrent.CompletableFuture;
+
+public class CompletableTestV2 {
+
+    public CompletableFuture<String> service1() {
+	CompletableFuture<String> service1CompletableFutureResult = CompletableFuture.supplyAsync(this::service1BL);
+	return service1CompletableFutureResult;
+    }    
+
+    public CompletableFuture<String> service2() {
+	CompletableFuture<String> service2CompletableFutureResult = CompletableFuture.supplyAsync(this::sevice2BL);
+	return service2CompletableFutureResult;
+    }
+    
+    
+    private String service1BL() {
+	System.out.println("Start Service 1");
+	System.out.println("Start Service 1 :: Thread :: " + Thread.currentThread().getId() + " :: " + Thread.currentThread().getName());
+	sleep(5000);
+	System.out.println("End Service 1");
+	return "Service1 Result";
+    }
+
+    private String sevice2BL() {
+	System.out.println("Start Service 2");
+	System.out.println("Start Service 2 :: Thread :: " + Thread.currentThread().getId() + " :: " + Thread.currentThread().getName());
+	sleep(2000);
+	System.out.println("End Service 2");
+	return "Service2 Result";
+    }
+
+    private void sleep(long millis) {
+	try {
+	    Thread.sleep(millis);
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+    }
+
+}
+--------------------------
+
+
+package nonblocking;
+
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
+
+public class CompletableTestV2Main {
+
+    public static void main(String[] args) throws InterruptedException {
+
+	System.out.println("Main :: Thread ::" + Thread.currentThread().getId() + " :: " + Thread.currentThread().getName());
+	
+	ForkJoinPool pool = new ForkJoinPool(50);
+
+	pool.submit(CompletableTestV2Main::executeWorkFlow);
+
+	pool.shutdown();	
+
+	pool.awaitTermination(1, TimeUnit.MINUTES);
+
+    }
+
+    private static void executeWorkFlow() {
+	
+	CompletableTestV2 completableTest = new CompletableTestV2();
+	
+	completableTest.service1()
+		       .thenCombineAsync(completableTest.service2(), CompletableTestV2Main::combineServiceBL)
+		       .thenAcceptAsync(CompletableTestV2Main::performSomeActionOnCombinedResult)
+		       .join();
+    }
+
+    private static String performSomeActionOnCombinedResult(String aggregationOfService1NService2Result) {
+	System.out.println("thenCombineAsync  :: Thread ::" + Thread.currentThread().getId() + " :: " + Thread.currentThread().getName());
+	String finalResult = aggregationOfService1NService2Result + " :: Action Performed ";
+	System.out.println(finalResult);
+	return finalResult;
+    }
+
+    private static String combineServiceBL(String service1Result, String service2Result) {
+	System.out.println("BiFunction :: Thread ::" + Thread.currentThread().getId() + " :: " + Thread.currentThread().getName());
+	String combinedResultAsString = "Combined Result of Service1 And Service 2 :: " + service1Result + " + " + service2Result;
+	return combinedResultAsString;
+    }
+}
+;
