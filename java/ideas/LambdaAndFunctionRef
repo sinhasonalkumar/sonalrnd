@@ -1,0 +1,36 @@
+public class TestJavaStream {
+
+    public static void main(String[] args) {
+	
+	String[] names = {"sonal","abc","zux"};
+	
+	List<String> namsList = Arrays.asList(names);
+	
+	namsList.stream()
+		.forEach(new Consumer<String>() {
+
+		    @Override
+		    public void accept(String t) {
+			System.out.println( t);
+			
+		    }
+		    
+		});
+	
+	
+	namsList.stream()
+	.forEach((String s) -> {System.out.println(s);});
+	
+	
+	namsList.stream()
+	.forEach((s) -> {System.out.println(s);});
+	
+	namsList.stream()
+	.forEach(s -> System.out.println(s));
+	
+	namsList.stream()
+	.forEach(System.out :: println);
+	
+    }
+    
+}

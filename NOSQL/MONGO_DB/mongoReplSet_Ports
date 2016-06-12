@@ -1,0 +1,46 @@
+2016-05-27T01:14:29.321+0000 I REPL [ReplicationExecutor] transition to SECONDARY
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:29 UTC-7
+2016-05-27T01:14:29.331+0000 I NETWORK [conn1] end connection 172.17.0.1:40720 (0 connections now open)
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:29 UTC-7
+2016-05-27T01:14:29.358+0000 I ASIO [NetworkInterfaceASIO-Replication-0] Successfully connected to 172.31.40.50:27017
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:29 UTC-7
+2016-05-27T01:14:29.358+0000 I ASIO [NetworkInterfaceASIO-Replication-0] Successfully connected to 172.31.40.49:27017
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:29 UTC-7
+2016-05-27T01:14:29.358+0000 I ASIO [NetworkInterfaceASIO-Replication-0] Successfully connected to 172.31.44.70:27017
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:29 UTC-7
+2016-05-27T01:14:29.358+0000 I REPL [ReplicationExecutor] Member 172.31.40.49:27017 is now in state PRIMARY
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:29 UTC-7
+2016-05-27T01:14:29.359+0000 I REPL [ReplicationExecutor] Member 172.31.44.70:27017 is now in state SECONDARY
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:29 UTC-7
+2016-05-27T01:14:29.359+0000 I REPL [ReplicationExecutor] Member 172.31.40.50:27017 is now in state SECONDARY
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:30 UTC-7
+2016-05-27T01:14:30.295+0000 I NETWORK [initandlisten] connection accepted from 172.31.8.96:35895 #2 (1 connection now open)
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:30 UTC-7
+2016-05-27T01:14:30.297+0000 I NETWORK [initandlisten] connection accepted from 172.31.24.11:33783 #3 (2 connections now open)
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:30 UTC-7
+2016-05-27T01:14:30.298+0000 I NETWORK [initandlisten] connection accepted from 172.31.24.11:33784 #4 (3 connections now open)
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:30 UTC-7
+2016-05-27T01:14:30.370+0000 I NETWORK [initandlisten] connection accepted from 172.31.40.50:59080 #5 (4 connections now open)
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:30 UTC-7
+2016-05-27T01:14:30.373+0000 I NETWORK [initandlisten] connection accepted from 172.31.44.70:56312 #6 (5 connections now open)
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:30 UTC-7
+2016-05-27T01:14:30.385+0000 I ACCESS [conn5] Successfully authenticated as principal __system on local
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:30 UTC-7
+2016-05-27T01:14:30.387+0000 I ACCESS [conn6] Successfully authenticated as principal __system on local
+2016-05-26 18:14:32 UTC-7
+2016-05-26 18:14:30 UTC-7
+2016-05-27T01:14:30.387+0000 I NETWORK [initandlisten] connection accepted from 172.31.40.49:52126 #7 (6 connections now open)
