@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan("com.logback")
 @Configuration
-@PropertySource(value = "classpath:default.properties")
+@PropertySource(value = "classpath:application.properties")
 public class DockerLogbackApp {
 
 	public static void main(String[] args) {
