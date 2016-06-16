@@ -1,0 +1,52 @@
+package com.sonal.service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import rx.Observable;
+import rx.Subscription;
+
+public class NonBlockingService {
+
+    public static void main(String[] args) {
+	// testingRX();
+	Subscription subscribe = getStudentPassport().subscribe(System.out::println);
+	subscribe.unsubscribe();
+
+    }
+
+    public static Observable<String> getStudentPassport() {
+	return Observable.from(getAllStudentIds())
+			 .flatMap(sId -> mapStudentPassport(sId));
+    }
+
+    public static List<String> getAllStudentIds() {
+	return Arrays.asList("ABC", "XYZ", "UVW","ABC", "XYZ", "UVW","ABC", "XYZ", "UVW");
+    }
+
+    
+    public static Observable<String> mapStudentPassport(String studentId) {
+	return Observable.just(studentId + ":" + getPassportNumberFrom3rdparty(studentId));
+    }
+    
+    
+    public static String getPassportNumberFrom3rdparty(String studentId) {
+	try {
+	    Thread.sleep(500l);
+	} catch (InterruptedException e) {}
+	return UUID.randomUUID().toString();
+    }
+
+
+    private static void testingRX() {
+	Observable<Integer> observable = Observable.range(1, 10)
+		.filter(a -> a % 2 == 0);
+
+	observable.subscribe(System.out::println);
+
+	Observable.from(getAllStudentIds())
+		.flatMap(s -> Observable.just(s))
+		.subscribe(System.out::println);
+    }
+}
