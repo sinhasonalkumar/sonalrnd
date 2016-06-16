@@ -11,9 +11,9 @@ import rx.Subscriber;
 public class NonBlockingService {
 
     public static void main(String[] args) {
-	// testingRX();
-	chaining();
-	//CompletableFuture.runAsync(() -> getStudentPassport().subscribe(System.out::println)).join();
+	 //testingRX();
+	//chaining();
+	CompletableFuture.runAsync(() -> getStudentPassport().subscribe(System.out::println)).join();
 
     }
 
@@ -46,10 +46,7 @@ public class NonBlockingService {
     }
 
     public static String getPassportNumberFrom3rdparty(String studentId) {
-	try {
-	    Thread.sleep(500l);
-	} catch (InterruptedException e) {
-	}
+	sleep(500);
 	return UUID.randomUUID().toString();
     }
 
@@ -57,6 +54,10 @@ public class NonBlockingService {
 	Observable<Integer> observable = Observable.range(1, 10)
 						   .filter(a -> a % 2 == 0);
 
+	observable.subscribe(System.out::println);
+	
+	observable.subscribe(System.out::println);
+	
 	observable.subscribe(System.out::println);
 
 	Observable.from(getAllStudentIds())
@@ -69,9 +70,13 @@ public class NonBlockingService {
     public static void chaining() {
          
         Observable<String> helloStream = Observable.create((Subscriber<? super String> subscriber) -> {
+            					
                                                                   subscriber.onNext("Hello");
+                                                                  sleep(500);
                                                                   subscriber.onNext("World");
+                                                                  sleep(500);
                                                                   subscriber.onNext("!\n");
+                                                                  sleep(500);
                                                                   subscriber.onCompleted();
         						    });
          
@@ -84,5 +89,11 @@ public class NonBlockingService {
         		       	() -> System.out.println("Completed")
         		       ).unsubscribe();
          
+    }
+    
+    public static void sleep(long millisec){
+	try {
+	    Thread.sleep(millisec);
+	} catch (InterruptedException e) {}
     }
 }
