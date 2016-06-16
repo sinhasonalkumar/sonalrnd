@@ -12,8 +12,8 @@ public class NonBlockingService {
 
     public static void main(String[] args) {
 	 //testingRX();
-	//chaining();
-	CompletableFuture.runAsync(() -> getStudentPassport().subscribe(System.out::println)).join();
+	chaining();
+	//CompletableFuture.runAsync(() -> getStudentPassport().subscribe(System.out::println)).join();
 
     }
 
@@ -69,16 +69,7 @@ public class NonBlockingService {
     
     public static void chaining() {
          
-        Observable<String> helloStream = Observable.create((Subscriber<? super String> subscriber) -> {
-            					
-                                                                  subscriber.onNext("Hello");
-                                                                  sleep(500);
-                                                                  subscriber.onNext("World");
-                                                                  sleep(500);
-                                                                  subscriber.onNext("!\n");
-                                                                  sleep(500);
-                                                                  subscriber.onCompleted();
-        						    });
+        Observable<String> helloStream = Observable.create((Subscriber<? super String> subscriber) -> onSubscribeChaining(subscriber));
          
         Observable<Object> resultStream = Observable.range(0, 2)
         					    .map(x -> " : " + x)
@@ -89,6 +80,16 @@ public class NonBlockingService {
         		       	() -> System.out.println("Completed")
         		       ).unsubscribe();
          
+    }
+
+    private static void onSubscribeChaining(Subscriber<? super String> subscriber) {
+	subscriber.onNext("Hello");
+	  sleep(500);
+	  subscriber.onNext("World");
+	  sleep(500);
+	  subscriber.onNext("!\n");
+	  sleep(500);
+	  subscriber.onCompleted();
     }
     
     public static void sleep(long millisec){
