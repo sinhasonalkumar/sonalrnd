@@ -3,6 +3,7 @@ package com.sonal.service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import rx.Observable;
 import rx.Subscription;
@@ -11,8 +12,9 @@ public class NonBlockingService {
 
     public static void main(String[] args) {
 	// testingRX();
-	Subscription subscribe = getStudentPassport().subscribe(System.out::println);
-	subscribe.unsubscribe();
+	CompletableFuture.runAsync(() -> getStudentPassport().subscribe(System.out::println))
+			 .join(); 
+	
 
     }
 
