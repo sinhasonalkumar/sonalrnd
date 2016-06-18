@@ -1,0 +1,100 @@
+package com.sonal.service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+import rx.Observable;
+import rx.Subscriber;
+
+public class NonBlockingService {
+
+    public static void main(String[] args) {
+	 //testingRX();
+	chaining();
+	//CompletableFuture.runAsync(() -> getStudentPassport().subscribe(System.out::println)).join();
+
+    }
+
+    public Observable<String> valueObservableV2(final String value) {
+	return Observable.defer(() -> Observable.just(value));
+    }
+    
+    
+
+    public Observable<String> valueObservableV1(final String value) {
+	return Observable.create((Subscriber<? super String> subscriber) -> onSubscribe(value, subscriber));
+    }
+
+    private void onSubscribe(final String value, Subscriber<? super String> subscriber) {
+	subscriber.onNext(value);
+	subscriber.onCompleted();
+    }
+
+    public static Observable<String> getStudentPassport() {
+	return Observable.from(getAllStudentIds())
+		         .flatMap(sId -> mapStudentPassport(sId));
+    }
+
+    public static List<String> getAllStudentIds() {
+	return Arrays.asList("ABC", "XYZ", "UVW", "ABC", "XYZ", "UVW", "ABC", "XYZ", "UVW");
+    }
+
+    public static Observable<String> mapStudentPassport(String studentId) {
+	return Observable.just(studentId + ":" + getPassportNumberFrom3rdparty(studentId));
+    }
+
+    public static String getPassportNumberFrom3rdparty(String studentId) {
+	sleep(500);
+	return UUID.randomUUID().toString();
+    }
+
+    private static void testingRX() {
+	Observable<Integer> observable = Observable.range(1, 10)
+						   .filter(a -> a % 2 == 0);
+
+	observable.subscribe(System.out::println);
+	
+	observable.subscribe(System.out::println);
+	
+	observable.subscribe(System.out::println);
+
+	Observable.from(getAllStudentIds())
+		  .flatMap(s -> Observable.just(s))
+		  .subscribe(System.out::println);
+    }
+    
+    
+    
+    public static void chaining() {
+         
+        Observable<String> helloStream = Observable.create((Subscriber<? super String> subscriber) -> onSubscribeChaining(subscriber));
+         
+        Observable<Object> resultStream = Observable.range(0, 2)
+        					    .map(x -> " : " + x)
+        					    .flatMap( counter -> helloStream);
+         
+        resultStream.subscribe(	r -> System.out.println("Received: " + r),
+        		       	e -> System.out.println("Error: " + e),
+        		       	() -> System.out.println("Completed")
+        		       ).unsubscribe();
+         
+    }
+
+    private static void onSubscribeChaining(Subscriber<? super String> subscriber) {
+	subscriber.onNext("Hello");
+	  sleep(500);
+	  subscriber.onNext("World");
+	  sleep(500);
+	  subscriber.onNext("!\n");
+	  sleep(500);
+	  subscriber.onCompleted();
+    }
+    
+    public static void sleep(long millisec){
+	try {
+	    Thread.sleep(millisec);
+	} catch (InterruptedException e) {}
+    }
+}
