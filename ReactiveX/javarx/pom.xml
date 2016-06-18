@@ -133,6 +133,14 @@
 			<groupId>antlr</groupId>
 			<artifactId>antlr</artifactId>
 		</dependency>
+
+	<!-- http://mvnrepository.com/artifact/io.reactivex/rxjava -->
+	<dependency>
+		<groupId>io.reactivex</groupId>
+		<artifactId>rxjava</artifactId>
+		<version>1.1.6</version>
+	</dependency>
+		
 	</dependencies>
 
 
