@@ -29,13 +29,36 @@ public class RedisSpringApplication implements CommandLineRunner {
     public void run(String... arg0) throws Exception {
         List<Employee> employees = employeeService.findAllEmployees();
         
-        logger.info("Employees :: " + employees);
+        logger.info("All Employees :: " + employees);
         
         employees = null;
         
         employees = employeeService.findAllEmployees();
         
-        logger.info("Employees :: " + employees);
+        logger.info("All Employees :: " + employees);
+        
+        
+        employees = employeeService.findByName("Employee1");
+        
+        logger.info("Find Employee1  :: " + employees);
+        
+        
+        employees = employeeService.findByName("Employee1");
+        
+        logger.info("Find Employee1  :: " + employees);
+        
+        
+        
+        employees = employeeService.findByName("Employee2");
+        
+        logger.info("Find Employee2  :: " + employees);
+        
+        
+        employees = employeeService.findByName("Employee2");
+        
+        logger.info("Find Employee2  :: " + employees);
+        
+        
     }
 
     public static void main(String[] args) {

@@ -22,4 +22,13 @@ public class EmployeeService {
         
         return employees;
     }
+    
+    
+    @Cacheable(value="allEmployees",key = "#userName")
+    public List<Employee> findByName(String userName) {
+        
+        List<Employee> employees = employeeDAO.findByUserName(userName);
+        
+        return employees;
+    }
 }

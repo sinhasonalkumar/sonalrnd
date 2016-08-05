@@ -26,5 +26,20 @@ public class EmployeeDAO {
        List<Employee> employees = Arrays.asList(employee);
        return employees;
     }
+    
+    
+ public List<Employee> findByUserName(String userName){
+        
+        logger.info("Going to Fetch From DB");
+        
+        Employee employee =  new Employee();
+        if(userName.equals("Employee1"))
+            employee.setName("Employee1");
+        else
+            employee.setName("Employee2");
+        
+       List<Employee> employees = Arrays.asList(employee);
+       return employees;
+    }
    
 }
