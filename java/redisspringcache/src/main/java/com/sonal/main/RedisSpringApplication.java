@@ -1,6 +1,5 @@
 package com.sonal.main;
 
-
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -18,47 +17,48 @@ import com.sonal.vo.Employee;
 @SpringBootApplication
 @ComponentScan("com.sonal")
 public class RedisSpringApplication implements CommandLineRunner {
-    
+
     private final Logger logger = LoggerFactory.getLogger(RedisSpringApplication.class);
-    
+
     @Autowired
     private EmployeeService employeeService;
-    
-    
+
     @Override
     public void run(String... arg0) throws Exception {
-        List<Employee> employees = employeeService.findAllEmployees();
         
-        logger.info("All Employees :: " + employees);
+        logger.info("\n \n \n");
         
-        employees = null;
+        while(true){
+            
+            findAndprintAllEmployees();
+            logger.info("------------------------------------------------------");
+            findAndprintEmployee();
+            
+            Thread.sleep(3000);
+            
+            logger.info("\n \n");
+        }
         
+        
+
+
+    }
+
+    private void findAndprintEmployee() {
+        List<Employee> employees;
+        logger.info("Going To Find Employee");
+        employees = employeeService.findByName("Employee1");
+        logger.info("Found Employee1  :: " + employees);
+        
+        employees = employeeService.findByName("Employee2");
+        logger.info("Found Employee1  :: " + employees);
+    }
+
+    private void findAndprintAllEmployees() {
+        List<Employee> employees;
+        logger.info("Going To Find AllEmployees");
         employees = employeeService.findAllEmployees();
-        
-        logger.info("All Employees :: " + employees);
-        
-        
-        employees = employeeService.findByName("Employee1");
-        
-        logger.info("Find Employee1  :: " + employees);
-        
-        
-        employees = employeeService.findByName("Employee1");
-        
-        logger.info("Find Employee1  :: " + employees);
-        
-        
-        
-        employees = employeeService.findByName("Employee2");
-        
-        logger.info("Find Employee2  :: " + employees);
-        
-        
-        employees = employeeService.findByName("Employee2");
-        
-        logger.info("Find Employee2  :: " + employees);
-        
-        
+        logger.info("Found All Employees :: " + employees);
     }
 
     public static void main(String[] args) {

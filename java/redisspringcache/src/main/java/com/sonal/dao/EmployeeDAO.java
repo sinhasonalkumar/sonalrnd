@@ -18,7 +18,7 @@ public class EmployeeDAO {
     
     public List<Employee> findAll(){
         
-        logger.info("Going to Fetch From DB");
+        logger.info("************************************** Going to Fetch From DB :: AllEmployees ******************************************");
         
         Employee employee =  new Employee();
         employee.setName("Employee1");
@@ -30,7 +30,7 @@ public class EmployeeDAO {
     
  public List<Employee> findByUserName(String userName){
         
-        logger.info("Going to Fetch From DB");
+        logger.info("**************************************  Going to Fetch From DB :: User " + userName + "************************************** ");
         
         Employee employee =  new Employee();
         if(userName.equals("Employee1"))

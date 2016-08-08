@@ -24,7 +24,7 @@ public class EmployeeService {
     }
     
     
-    @Cacheable(value="allEmployees",key = "#userName")
+    @Cacheable(value="employee",key = "#userName")
     public List<Employee> findByName(String userName) {
         
         List<Employee> employees = employeeDAO.findByUserName(userName);
