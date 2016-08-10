@@ -8,6 +8,15 @@ zuul :
       core-service : /coreService/**
       notification-service : /notificationService/**
       
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 10000
+      
 eureka:  
   client:
     serviceUrl:
