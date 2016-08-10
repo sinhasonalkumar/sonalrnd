@@ -1,0 +1,21 @@
+spring:  
+  application:
+    name: zuul-proxy
+
+
+zuul :
+  routes :
+      core-service : /coreService/**
+      notification-service : /notificationService/**
+      
+eureka:  
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
+
+
+server :
+    port: 8000
+    
