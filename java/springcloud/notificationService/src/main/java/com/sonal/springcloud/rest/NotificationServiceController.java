@@ -24,7 +24,7 @@ public class NotificationServiceController {
     @Autowired
     private INotificationService notificationService;
     
-    @RequestMapping(value = "/healthCheck")
+    @RequestMapping(value = "/healthCheck",produces = "application/json")
     public DeferredResult<ResponseEntity<NotificationServiceResponseVO>> healthCheck(){
         
         DeferredResult<ResponseEntity<NotificationServiceResponseVO>> deferredResult = new DeferredResult<>();
@@ -35,7 +35,7 @@ public class NotificationServiceController {
     
     
     
-    @RequestMapping(value = "/sendNotification",method = RequestMethod.POST)
+    @RequestMapping(value = "/sendNotification",method = RequestMethod.POST,produces = "application/json",consumes = "application/json")
     public DeferredResult<ResponseEntity<NotificationServiceResponseVO>> findUser(@RequestBody CoreServiceRequestVO coreServiceRequestVO){
         
         DeferredResult<ResponseEntity<NotificationServiceResponseVO>> deferredResult = new DeferredResult<>();

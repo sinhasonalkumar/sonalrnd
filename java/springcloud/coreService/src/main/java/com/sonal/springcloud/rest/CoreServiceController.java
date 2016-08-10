@@ -24,7 +24,7 @@ public class CoreServiceController {
     @Autowired
     private ICoreService coreService;
     
-    @RequestMapping(value = "/healthCheck")
+    @RequestMapping(value = "/healthCheck",method = RequestMethod.GET,produces = "application/json")
     public DeferredResult<ResponseEntity<CoreServiceResponseVO>> healthCheck(){
         
         DeferredResult<ResponseEntity<CoreServiceResponseVO>> deferredResult = new DeferredResult<>();
@@ -34,7 +34,7 @@ public class CoreServiceController {
     }
     
     
-    @RequestMapping(value = "/findUser",method = RequestMethod.POST)
+    @RequestMapping(value = "/findUser",method = RequestMethod.POST,produces = "application/json",consumes = "application/json")
     public DeferredResult<ResponseEntity<CoreServiceResponseVO>> findUser(@RequestBody CoreServiceRequestVO coreServiceRequestVO){
         
         DeferredResult<ResponseEntity<CoreServiceResponseVO>> deferredResult = new DeferredResult<>();
