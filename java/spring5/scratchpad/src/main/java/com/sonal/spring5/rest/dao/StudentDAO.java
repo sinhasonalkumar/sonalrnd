@@ -36,9 +36,7 @@ public class StudentDAO implements IStudentDAO {
 	                      .subscribe();
 	
 	
-	StudentBO student = executeQuery(userName);
-	
-	studentBOMonoProcessor.onNext(student);
+	studentBOMonoProcessor.onNext(executeQuery(userName));
 	
 	return studentBOMonoProcessor;
     }
