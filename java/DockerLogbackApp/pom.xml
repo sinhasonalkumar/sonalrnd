@@ -60,6 +60,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+	<dependency>
+		<groupId>com.splunk.logging</groupId>
+		<artifactId>splunk-library-javalogging</artifactId>
+		<version>1.5.1</version>
+	</dependency>
+
 		
 	</dependencies>
 
@@ -84,6 +90,12 @@
 			<id>spring-releases</id>
 			<url>https://repo.spring.io/libs-release</url>
 		</repository>
+
+	<repository>
+		<id>splunk</id>
+		<name>splunk-releases</name>
+		<url>http://splunk.artifactoryonline.com/splunk/ext-releases-local</url>
+	</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
