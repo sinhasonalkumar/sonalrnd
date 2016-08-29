@@ -8,7 +8,7 @@ import com.logback.util.orikascratchpad.dao.ParentDao;
 
 public class MainObjectMapper {
     
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
 	
 	System.out.println("****************************Start**************************************");
 	
@@ -26,7 +26,7 @@ public class MainObjectMapper {
 	
 	System.out.println("****************************End**************************************");
 
-    }
+    }*/
 
    
     
