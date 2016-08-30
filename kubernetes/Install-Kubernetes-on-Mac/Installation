@@ -1,0 +1,31 @@
+sudo -s
+
+export KUBERNETES_PROVIDER=vagrant
+curl -sS https://get.k8s.io | bash
+
+—————————or————————
+
+sudo -s
+
+wget https://github.com/kubernetes/kubernetes/releases/download/v1.2.4/kubernetes.tar.gz
+
+cd kubernetes
+
+export KUBERNETES_PROVIDER=vagrant
+./cluster/kube-up.sh
+
+vagrant status
+
+vagrant ssh master
+
+vagrant ssh node-1
+
+https://10.245.1.2/ui
+
+userName/Password : vagrant/vagrant
+
+vagrant ssh master
+
+Single Node Installation
+
+http://kubernetes.io/docs/getting-started-guides/locally/

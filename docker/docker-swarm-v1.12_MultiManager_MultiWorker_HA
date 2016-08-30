@@ -1,0 +1,17 @@
+docker swarm init --advertise-addr 192.168.33.10:2377
+
+
+docker swarm join-token -q worker
+SWMTKN-1-36g52h7av3fwsa6ei5tci7795a976n08c8nd2gl9sjm4y7rrtx-b64k9oybcqq554xklej2v5sdj
+
+docker swarm join-token -q manager
+SWMTKN-1-36g52h7av3fwsa6ei5tci7795a976n08c8nd2gl9sjm4y7rrtx-1lvc8y5f9sarivs9vwcm20jbz
+
+
+// Join Node as Swarm Manager
+docker swarm join --token SWMTKN-1-36g52h7av3fwsa6ei5tci7795a976n08c8nd2gl9sjm4y7rrtx-1lvc8y5f9sarivs9vwcm20jbz 192.168.33.10:2377
+
+
+// Join Node as Swarm Node
+docker swarm join --token SWMTKN-1-36g52h7av3fwsa6ei5tci7795a976n08c8nd2gl9sjm4y7rrtx-b64k9oybcqq554xklej2v5sdj 192.168.33.10:2377
+
