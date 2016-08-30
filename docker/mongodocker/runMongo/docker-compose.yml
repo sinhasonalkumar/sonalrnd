@@ -1,0 +1,13 @@
+ mongo-replset :
+  build : docker
+  log_driver: "awslogs"
+  log_opt:
+    awslogs-region: "us-west-2"
+    awslogs-group: "Mongo-logs"
+    awslogs-stream: "MongoInstance1-logs"  
+  volumes :
+   - /var/mongo/data:/var/mongo/data
+   - /var/mongo/log:/var/mongo/log
+  ports :
+    - 27017:27017
+  command : bash -c "ls -la /var/mongo/config && ls -la /var/mongo/sharedKey &&  mongod --config /var/mongo/config/mongod.conf"
