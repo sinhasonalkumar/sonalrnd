@@ -42,3 +42,9 @@ spec:
       awsElasticBlockStore:
          volumeID: vol-7f824fcb
          fsType: ext4
+
+
+
+--------
+
+kubectl get services mongo-replset-svc | awk '{print $2}'|xargs | awk '{print $2}'

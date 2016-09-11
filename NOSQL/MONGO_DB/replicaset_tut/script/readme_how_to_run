@@ -1,0 +1,11 @@
+mongod --config=/Users/sonal/sonal/DataBase/mongo_rnd/replset1/mongo1/config/mongod.conf
+
+mongod --config=/Users/sonal/sonal/DataBase/mongo_rnd/replset1/mongo2/config/mongod.conf
+
+mongod --config=/Users/sonal/sonal/DataBase/mongo_rnd/replset1/mongo3/config/mongod.conf
+
+mongo replica-set-initializer.js
+
+mongo
+
+rs.status()
