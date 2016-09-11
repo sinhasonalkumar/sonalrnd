@@ -1,0 +1,44 @@
+aws ec2 create-volume --availability-zone us-west-2b --size 10 --volume-type gp2
+
+{
+    "AvailabilityZone": "us-west-2b",
+    "Encrypted": false,
+    "VolumeType": "gp2",
+    "VolumeId": "vol-7f824fcb",
+    "State": "creating",
+    "Iops": 100,
+    "SnapshotId": "",
+    "CreateTime": "2016-09-11T04:02:54.583Z",
+    "Size": 10
+}
+
+
+
+----
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mongo-replset
+  labels:
+    name: mongo-replset
+spec:
+  containers:
+    - name: mongo-replset
+      image: sinhasonalkumar/mongo-replset
+      ports:
+        - name: mongo-replset1
+          containerPort: 27017
+          hostPort : 27017
+
+      volumeMounts:
+        - name: ebsvol-inst1-replset1
+          mountPath: /var/mongo/db
+        - name: ebsvol-inst1-replset1
+          mountPath: /var/mongo/log/
+
+  volumes:
+    - name: ebsvol-inst1-replset1
+      awsElasticBlockStore:
+         volumeID: vol-7f824fcb
+         fsType: ext4

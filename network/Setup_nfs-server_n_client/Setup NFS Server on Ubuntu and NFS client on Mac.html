@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.8 (453748)"/><meta name="altitude" content="164.9159545898438"/><meta name="author" content="sinha.sonal.kumar@gmail.com"/><meta name="created" content="2016-09-10 19:52:08 +0000"/><meta name="latitude" content="34.16276924411637"/><meta name="longitude" content="-118.261126343313"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2016-09-10 19:52:37 +0000"/><title>Setup NFS Server on Ubuntu and NFS client on Mac</title></head><body>
+<div>#set up nfs server on Ubuntu (NFS server 192.168.0.108)</div>
+<div><br/></div>
+<div>sudo mkdir /nfs_shared_vol</div>
+<div><br/></div>
+<div>cd sudo chmod 777 /nfs_shared_vol</div>
+<div><br/></div>
+<div>cd /nfs_shared_vol</div>
+<div><br/></div>
+<div>cd sudo chmod 777 *</div>
+<div><br/></div>
+<div>sudo apt-get update</div>
+<div>sudo apt-get install nfs-kernel-server</div>
+<div>sudo nano /etc/exports</div>
+<div>        /nfs_shared_vol *(rw,sync,subtree_check,insecure)</div>
+<div><br/></div>
+<div>sudo vi /etc/hosts.allow</div>
+<div>#empty</div>
+<div><br/></div>
+<div>sudo vi /etc/hosts.deny</div>
+<div>#empty</div>
+<div><br/></div>
+<div>chown nobody:nogroup /nfs_shared_vol</div>
+<div><br/></div>
+<div>exportfs -a</div>
+<div>sudo /etc/init.d/nfs-kernel-server restart</div>
+<div>sudo /etc/init.d/portmap restart</div>
+<div><br/></div>
+<div>---------------</div>
+<div># NFS client (OSX machine)</div>
+<div><br/></div>
+<div>sudo mkdir /my_nfs_mount_vols/ubuntu_nfs_vol</div>
+<div><br/></div>
+<div>sudo mount -o rw -t nfs sudo mount -o rw -t nfs 192.168.0.108:/nfs_shared_vol /my_nfs_mount_vols/ubuntu_nfs_vol</div>
+<div><br/></div>
+<div><br/></div>
+<div>------------------</div>
+<div><br/></div>
+<div>From MacOS </div>
+<div><br/></div>
+<div>cd /my_nfs_mount_vols/ubuntu_nfs_vol</div>
+<div>sudo touch test_file_nfs</div>
+<div><br/></div>
+<div><br/></div>
+<div>Go To Ubuntu</div>
+<div><br/></div>
+<div>cd /nfs_shared_vol</div>
+<div><br/></div>
+<div>ls </div>
+<div><br/></div>
+<div># you should see  test_file_nfs</div>
+</body></html>

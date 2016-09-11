@@ -1,0 +1,64 @@
+Kubernetes master is running at https://54.68.158.238
+Elasticsearch is running at https://54.68.158.238/api/v1/proxy/namespaces/kube-system/services/elasticsearch-logging
+Heapster is running at https://54.68.158.238/api/v1/proxy/namespaces/kube-system/services/heapster
+Kibana is running at https://54.68.158.238/api/v1/proxy/namespaces/kube-system/services/kibana-logging
+KubeDNS is running at https://54.68.158.238/api/v1/proxy/namespaces/kube-system/services/kube-dns
+kubernetes-dashboard is running at https://54.68.158.238/api/v1/proxy/namespaces/kube-system/services/kubernetes-dashboard
+Grafana is running at https://54.68.158.238/api/v1/proxy/namespaces/kube-system/services/monitoring-grafana
+InfluxDB is running at https://54.68.158.238/api/v1/proxy/namespaces/kube-system/services/monitoring-influxdb
+
+
+
+
+
+
+aws ec2 attach-volume --volume-id vol-7f824fcb --instance-id i-088c70ec0ffce3666admin --device /dev/xvdb --region=us-west-2
+
+
+[ec2-user@ip-172-31-34-146 mongo-workspace]$ kubectl describe pods
+Name:  		mongo-replset
+Namespace:     	default
+Node:  		ip-172-20-0-171.us-west-2.compute.internal/172.20.0.171
+Start Time:    	Sun, 11 Sep 2016 05:41:29 +0000
+Labels:		name=mongo-replset
+Status:		Pending
+IP:
+Controllers:   	<none>
+Containers:
+  mongo-replset:
+    Container ID:
+    Image:     		sinhasonalkumar/mongo-replset
+    Image ID:
+    Port:      		27017/TCP
+    Requests:
+      cpu:     			100m
+    State:     			Waiting
+      Reason:  			ContainerCreating
+    Ready:     			False
+    Restart Count:     		0
+    Environment Variables:     	<none>
+Conditions:
+  Type 		Status
+  Initialized  	True
+  Ready        	False
+  PodScheduled 	True
+Volumes:
+  ebsvol-inst1-replset1:
+    Type:      	AWSElasticBlockStore (a Persistent Disk resource in AWS)
+    VolumeID:  	vol-7f824fcb
+    FSType:    	ext4
+    Partition: 	0
+    ReadOnly:  	false
+  default-token-lsm04:
+    Type:      	Secret (a volume populated by a Secret)
+    SecretName:	default-token-lsm04
+QoS Tier:      	Burstable
+Events:
+  FirstSeen    	LastSeen       	Count  	From   							SubobjectPath  	Type   		Reason 		Message
+  ---------    	--------       	-----  	----   							-------------  	--------       	------ 		-------
+  4m   		4m     		1      	{default-scheduler }   							Normal 		Scheduled      	Successfully assigned mongo-replset to ip-172-20-0-171.us-west-2.compute.internal
+  2m   		2m     		1      	{kubelet ip-172-20-0-171.us-west-2.compute.internal}   			Warning		FailedMount    	Unable to mount volumes for pod "mongo-replset_default(634cb054-77e2-11e6-91ce-060d1da7257b)": timeout expired waiting for volumes to attach/mount for pod "mongo-replset"/"default". list of unattached/unmounted volumes=[ebsvol-inst1-replset1]
+  2m   		2m     		1      	{kubelet ip-172-20-0-171.us-west-2.compute.internal}   			Warning		FailedSync     	Error syncing pod, skipping: timeout expired waiting for volumes to attach/mount for pod "mongo-replset"/"default". list of unattached/unmounted volumes=[ebsvol-inst1-replset1]
+
+
+
