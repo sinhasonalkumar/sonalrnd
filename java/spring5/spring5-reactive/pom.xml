@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.sonal.spring5</groupId>
-	<artifactId>scratchpad</artifactId>
+	<artifactId>spring5-reactive</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>scratchpad</name>
+	<name>spring5-reactive</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
