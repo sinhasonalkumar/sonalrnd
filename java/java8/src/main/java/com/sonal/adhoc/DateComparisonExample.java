@@ -24,6 +24,13 @@ public class DateComparisonExample {
 	LocalDateTime localDatetime1 = DateUtil.convertToLocalDateTime(newDateRange1.getStartTime());
 	LocalDateTime localDatetime2 = DateUtil.convertToLocalDateTime(newDateRange2.getStartTime());
 	
+	System.out.println(localDatetime1.compareTo(localDatetime2));
+	
+	
+	
+	
+	
+	
 	int startHr = localDatetime1.getHour();
 	System.out.println(startHr);
 	int startMin = localDatetime1.getMinute();

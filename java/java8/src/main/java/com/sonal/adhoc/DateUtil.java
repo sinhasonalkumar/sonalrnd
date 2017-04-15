@@ -30,6 +30,20 @@ public class DateUtil {
 	return localDate;
     }
     
+    public static Integer getHour(Date date) {
+   	Instant instant = date.toInstant();
+   	ZonedDateTime zdt = instant.atZone(ZoneId.of("America/Los_Angeles"));
+   	LocalDateTime localDate = zdt.toLocalDateTime();
+   	return localDate.getHour();
+       }
+    
+    public static Integer getMins(Date date) {
+   	Instant instant = date.toInstant();
+   	ZonedDateTime zdt = instant.atZone(ZoneId.of("America/Los_Angeles"));
+   	LocalDateTime localDate = zdt.toLocalDateTime();
+   	return localDate.getMinute();
+       }
+    
     public static LocalDateTime convertToLocalDateTime(Date date, Integer hour , Integer minute) {
    	Instant instant = date.toInstant();
    	ZonedDateTime zdt = instant.atZone(ZoneId.of("America/Los_Angeles"));
