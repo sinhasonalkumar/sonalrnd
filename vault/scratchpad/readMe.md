@@ -1,4 +1,4 @@
-consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -bind 127.0.0.1
+consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -bind 127.0.0.1 -ui
 
 vault server --config=vault.conf
 
