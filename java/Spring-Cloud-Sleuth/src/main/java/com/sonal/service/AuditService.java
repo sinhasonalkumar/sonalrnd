@@ -25,7 +25,7 @@ public class AuditService {
 
     private void sleepRandom() {
 	try {
-	    Thread.sleep(this.random.nextInt(1000));
+	    Thread.sleep(this.random.nextInt(5000));
 	} catch (InterruptedException e) {
 	    log.error("InterruptedException",e);
 	}

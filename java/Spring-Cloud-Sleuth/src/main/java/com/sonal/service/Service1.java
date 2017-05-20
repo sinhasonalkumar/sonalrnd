@@ -5,42 +5,38 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppService {
+public class Service1 {
 
-    private static Logger log = LoggerFactory.getLogger(AppService.class);
-
-    @Autowired
-    private Random random;
+    private static Logger log = LoggerFactory.getLogger(Service1.class);
     
     @Autowired
     private AuditService auditService;
     
     @Autowired
-    private Service1 service1;
+    private Service2 service2;
     
     @Autowired
-    private Service2 service2;
-
-    public void doSomething() {
-	log.info("Doing Something");
-	
+    private Random random;
+    
+    @Async
+    public void service1Method(){
+	log.info("Executing service2Method");
 	auditService.doAudit();
 	
 	sleepRandom();
 	
-	service1.service1Method();
-	
-	sleepRandom();
-	
 	service2.service2Method();
+	
     }
+    
     
     private void sleepRandom() {
 	try {
-	    Thread.sleep(this.random.nextInt(3000));
+	    Thread.sleep(this.random.nextInt(1000));
 	} catch (InterruptedException e) {
 	    log.error("InterruptedException",e);
 	}

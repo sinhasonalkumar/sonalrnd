@@ -1,5 +1,7 @@
 package com.sonal.controller;
 
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +18,26 @@ public class AppController  {
     @Autowired
     private AppService appService;
     
+    @Autowired
+    private Random random;
+    
     @RequestMapping("/")
     public String home() {
 	log.info("Handling home");
 	
+	sleepRandom();
+	
 	appService.doSomething();
 	
 	return "Hello World";
+    }
+    
+    private void sleepRandom() {
+	try {
+	    Thread.sleep(this.random.nextInt(1000));
+	} catch (InterruptedException e) {
+	    log.error("InterruptedException",e);
+	}
     }
 
 }
