@@ -1,0 +1,23 @@
+<configuration>
+    <appender name="jsonAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH:-/tmp/LogEncoderDemo.log}</File>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <maxIndex>1</maxIndex>
+            <fileNamePattern>${LOG_PATH :-/tmp/LogEncoderDemo.log}.%i</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>1MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+    <logger name="jsonLogger" additivity="false" level="DEBUG">
+        <appender-ref ref="consoleAppender"/>
+    </logger>
+    <root level="INFO">
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="jsonAppender"/>
+    </root>
+</configuration>
