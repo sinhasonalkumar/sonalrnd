@@ -50,7 +50,7 @@ public class WebsocketController {
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
     public WebResponseVO greeting(WebRequestVO webRequestVO) throws Exception {
-        Thread.sleep(1000); // simulated delay
+        Thread.sleep(5000); // simulated delay
         WebResponseVO webResponseVO = new WebResponseVO();
         webResponseVO.setMessage("Hello, " + webRequestVO.getUserName() + "!");
 	return webResponseVO;
