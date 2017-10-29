@@ -1,4 +1,4 @@
-package tmp.linkedlist;
+package com.sonal.ds.linkedlist;
 
 public class MyLinkedListDemo {
 
